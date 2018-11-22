@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using XeonComputers.Enums;
 
 namespace XeonComputers.Models
 {
@@ -8,13 +8,18 @@ namespace XeonComputers.Models
     {
         public int Id { get; set; }
 
-        public int MyProperty { get; set; }
-
-        public Status Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public DateTime OrderDate { get; set; }
 
+        public DateTime? EstimatedDeliveryDate { get; set; }
+
+        public DateTime? DeliveryDate { get; set; }
+
         public decimal TotalPrice { get; set; }
+
+        public int XeonUserId { get; set; }
+        public XeonUser XeonUser { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }

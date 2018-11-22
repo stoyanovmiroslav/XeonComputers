@@ -4,8 +4,7 @@
     {
         public int Id { get; set; }
 
-        public int ContryId { get; set; }
-        public virtual Country Country { get; set; }
+        public string Country { get; set; }
 
         public int CityId { get; set; }
         public virtual City City { get; set; }

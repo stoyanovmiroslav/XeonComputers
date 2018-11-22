@@ -14,6 +14,17 @@
   <ItemGroup>
     <ProjectReference Include="..\XeonComputers.Data\XeonComputers.Data.csproj" />
     <ProjectReference Include="..\XeonComputers.Models\XeonComputers.Models.csproj" />
+    <ProjectReference Include="..\XeonComputers.Services\XeonComputers.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_DefaultLayout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

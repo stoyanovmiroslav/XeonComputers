@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace XeonComputers.Models
 {
@@ -12,5 +13,7 @@ namespace XeonComputers.Models
         public virtual Address DeliveryAddress { get; set; }
 
         public virtual Company Company { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }
