@@ -14,6 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XeonComputers.Middlewares;
 using XeonComputers.Models;
+using System.Text;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Unicode;
+using System.Text.Encodings.Web;
 
 namespace XeonComputers
 {
@@ -45,6 +49,19 @@ namespace XeonComputers
                 .AddEntityFrameworkStores<XeonDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //services.AddWebEncoders(o => {
+            //    o.CodePointFilter = new CodePointFilter(UnicodeRanges.All);
+            //});
+
+            //services.Configure<WebEncoderOptions>(options =>
+            //{
+            //    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+            //});
+
+            services.Configure<WebEncoderOptions>(x => new TextEncoderSettings(UnicodeRanges.All));
+
+            // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
