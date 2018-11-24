@@ -1,20 +1,12 @@
-﻿@{ 
-    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+﻿@{
+    Layout = "/Areas/Identity/Pages/Account/_Layout.cshtml";
+    ViewData["Title"] = "Управление на профила";
 }
 
-<h2>Manage your account</h2>
+<partial name="_ManageNav" />
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
-    </div>
+<div class="mt-3">
+    @RenderBody()
 </div>
 
 @section Scripts {

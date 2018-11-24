@@ -43,25 +43,21 @@ namespace XeonComputers
             services.AddDbContext<XeonDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<XeonUser, IdentityRole>()
+
+            services.AddIdentity<XeonUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddDefaultTokenProviders()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            //services.AddWebEncoders(o => {
-            //    o.CodePointFilter = new CodePointFilter(UnicodeRanges.All);
-            //});
-
-            //services.Configure<WebEncoderOptions>(options =>
-            //{
-            //    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            //});
-
-            services.Configure<WebEncoderOptions>(x => new TextEncoderSettings(UnicodeRanges.All));
-
-            // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

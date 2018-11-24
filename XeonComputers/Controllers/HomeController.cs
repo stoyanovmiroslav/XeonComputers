@@ -13,6 +13,8 @@ namespace XeonComputers.Controllers
     {
         public IActionResult Index()
         {
+            var assa = DateTime.Now;
+
             return View();
         }
 

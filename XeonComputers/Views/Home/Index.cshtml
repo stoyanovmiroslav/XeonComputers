@@ -2,48 +2,28 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row mt-3">
-    <div class="col-md-3">
-        <ul class="nav flex-column" style="background-color: #e3f2fd;">
-            <li class="nav-item">
-                <a class="nav-link disabled font-weight-bold text-uppercase" href="#">Мобилни аксесоари</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Зарядни</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Калафи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Кабели</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled disabled font-weight-bold text-uppercase" href="#">Компютърни аксесоари</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Компоненти и мрежи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Компютърна периферия</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Кабели</a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-9">
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="~/images/shop.jpg" alt="First slide">
+
+        <div class="row">
+            @for (int i = 0; i < 10; i++)
+            {
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card" >
+                        <img class="card-img-top" src="~/items/14488-800x800.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
                 </div>
-                @*<div class="carousel-item">
-                        <img class="d-block w-100" src="~/images/shop.jpg" alt="Second slide">
-                    </div>*@
-                @*<div class="carousel-item">
-                        <img class="d-block w-100" src="..." alt="Third slide">
-                    </div>*@
-            </div>
+            }
+
         </div>
-    </div>
-</div>

@@ -2,13 +2,29 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills nav-stacked">
-    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">Profile</a></li>
-    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a id="external-login" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="@ManageNavPages.PersonalDataNavClass(ViewContext)"><a asp-page="./PersonalData">Personal data</a></li>
-</ul>
+
+<nav class="navbar navbar-expand-lg navbar-light ">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-item nav-link">
+                <a asp-page="./Index" class="nav-link">Профил</a>
+            </li>
+            <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-item nav-link">
+                <a id="change-password" asp-page="./ChangePassword" class="nav-link">Смяна на парола</a>
+            </li>
+            @if (hasExternalLogins)
+            {
+                <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext) nav-item nav-link">
+                    <a id="external-login" asp-page="./ExternalLogins" class="nav-link">Външен вход</a>
+                </li>
+            }
+            <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) nav-item nav-link">
+                <a asp-page="./TwoFactorAuthentication" class="nav-link">Двуфакторна идентификация</a>
+            </li>
+            <li class="@ManageNavPages.PersonalDataNavClass(ViewContext) nav-item nav-link">
+                <a asp-page="./PersonalData" class="nav-link">Лични данни</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<hr class="my-1 hr-xeon d-none d-lg-block" />
