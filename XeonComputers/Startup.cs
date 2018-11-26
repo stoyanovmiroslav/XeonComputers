@@ -64,6 +64,7 @@ namespace XeonComputers
             services.AddScoped<IChildCategoryService, ChildCategoryService>();
             services.AddScoped<IParentCategoryService, ParentCategoryService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -71,6 +72,12 @@ namespace XeonComputers
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
+                
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

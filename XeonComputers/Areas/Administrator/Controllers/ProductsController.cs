@@ -5,34 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using XeonComputers.Areas.Administrator.Services.Contracts;
 using XeonComputers.Areas.Administrator.ViewModels.Products;
 using XeonComputers.Data;
 using XeonComputers.Models;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
-    [Area("Administrator")]
-    public class ProductsController : Controller
+    public class ProductsController : AdministratorController
     {
-        private readonly XeonDbContext _context;
+        private IProductService productService;
 
-        public ProductsController(XeonDbContext context)
+        public ProductsController(IProductService productService)
         {
-            _context = context;
+            this.productService = productService;
         }
 
         public IActionResult All()
         {
-            var xeonDbContext = _context.Products.Include(p => p.ChildCategory).ToList();
+            var products = this.productService.GetProducts();
 
-            return View(xeonDbContext);
+            return View(products);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var product = await _context.Products
-                                .Include(p => p.ChildCategory)
-                                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = this.productService.GetProductById(id);
+
             if (product == null)
             {
                 return NotFound();
@@ -55,7 +54,9 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         public IActionResult Create()
         {
-            var categories = _context.ChildCategories.Select(x => new SelectListItem
+            var childCategories = this.productService.GetChildCategories();
+
+            var categories = childCategories.Select(x => new SelectListItem
                              {
                                 Value = x.Id.ToString(),
                                 Text = x.Name
@@ -68,41 +69,38 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ProductType,Description,Specification,Price,ParnersPrice,ChildCategoryId")] Product product)
+        public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                this.productService.AddProduct(product);
                 return RedirectToAction(nameof(All));
             }
-            ViewData["ChildCategoryId"] = new SelectList(_context.ChildCategories, "Id", "Id", product.ChildCategoryId);
+
+            var childCategories = this.productService.GetChildCategories();
+
+            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
             return View(product);
         }
 
-        // GET: Administrator/Product/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var product = this.productService.GetProductById(id);
 
-            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["ChildCategoryId"] = new SelectList(_context.ChildCategories, "Id", "Id", product.ChildCategoryId);
+
+            var childCategories = this.productService.GetChildCategories();
+
+            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
             return View(product);
         }
 
-        // POST: Administrator/Product/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ProductType,Description,Specification,Price,ParnersPrice,ChildCategoryId")] Product product)
+        public IActionResult Edit(int id, Product product)
         {
             if (id != product.Id)
             {
@@ -111,39 +109,21 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                this.productService.EditProduct(product);
+
                 return RedirectToAction(nameof(All));
             }
-            ViewData["ChildCategoryId"] = new SelectList(_context.ChildCategories, "Id", "Id", product.ChildCategoryId);
+
+            var childCategories = this.productService.GetChildCategories();
+
+            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
             return View(product);
         }
 
-        // GET: Administrator/Product/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var product = this.productService.GetProductById(id);
 
-            var product = await _context.Products
-                .Include(p => p.ChildCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -152,20 +132,13 @@ namespace XeonComputers.Areas.Administrator.Controllers
             return View(product);
         }
 
-        // POST: Administrator/Product/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(All));
-        }
+            this.productService.RemoveProduct(id);
 
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -38,6 +40,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -48,17 +52,27 @@ namespace XeonComputers.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Парола")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Повтори парола")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Име")]
+            public string FirsName { get; set; }
+
+            [Required]
+            [Display(Name = "Фамилия")]
+            public string LastName { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public async void OnGet(string returnUrl = null)
         {
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             ReturnUrl = returnUrl;
         }
 
@@ -67,7 +81,14 @@ namespace XeonComputers.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new XeonUser { UserName = Input.Email, Email = Input.Email };
+                var user = new XeonUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FirsName,
+                    LastName = Input.LastName
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

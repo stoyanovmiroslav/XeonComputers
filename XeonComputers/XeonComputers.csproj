@@ -52,6 +52,9 @@
     <Content Update="Areas\Identity\Pages\Account\_Layout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Identity\Pages\_ExternalLoginPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Shared\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

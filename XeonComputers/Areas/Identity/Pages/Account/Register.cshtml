@@ -4,31 +4,58 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<div class="row">
-    <div class="col-md-6">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Създаване на нов акаунт.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email">E-mail</label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<div class="mx-auto modal-dialog text-center">
+    <div class="modal-content">
+        <div class="modal-heading mt-3">
+            <div class="row d-flex justify-content-around">
+                <div class="col-sm-7 col-xs-7">
+                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl"><h4>Вход за потребители</h4></a>
+                </div>
+                <div class="col-sm-5 col-xs-5">
+                    <h4>Регистрация</h4>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Password">Парола</label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="container mb-2">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <hr class="hr-xeon" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="Input.Email" class="form-control" placeholder="E-mail" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.FirsName" class="form-control" placeholder="Име" />
+                    <span asp-validation-for="Input.FirsName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Фамилия" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Password" class="form-control" placeholder="Парола" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Повтори паролата" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+            <div class="checkbox">
+                <a asp-page="./ForgotPassword" class="pr-2">Искам да научавам за отстъпки и промоции</a>
+             Прочетох „Общи условия, Лични данни и Бисквитки“ и съм съгласен с тях.
+                <label asp-for="Input.RememberMe">
+                    <input asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword">Повтори паролата</label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>*@
+                <button type="submit" class="btn btn-primary">Регистрация</button>
+            </form>
+            <div class="mt-3">
+                <partial name="_ExternalLoginPartial" />
             </div>
-            <button type="submit" class="btn btn-default">Регистрация</button>
-        </form>
+        </div>
     </div>
 </div>
 
