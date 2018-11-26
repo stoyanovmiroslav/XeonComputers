@@ -18,6 +18,10 @@ using System.Text;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Areas.Administrator.Services;
+using XeonComputers.Services.Contracts;
+using XeonComputers.Services;
 
 namespace XeonComputers
 {
@@ -57,6 +61,16 @@ namespace XeonComputers
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
+            services.AddScoped<IChildCategoryService, ChildCategoryService>();
+            services.AddScoped<IParentCategoryService, ParentCategoryService>();
+            services.AddScoped<IImageService, ImageService>();
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -84,6 +98,10 @@ namespace XeonComputers
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

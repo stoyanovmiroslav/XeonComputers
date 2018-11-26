@@ -44,7 +44,7 @@ namespace XeonComputers.Middlewares
 
         private static async Task SeedUserInRoles(UserManager<XeonUser> userManager)
         {
-            if (userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
                 var user = new XeonUser
                 {

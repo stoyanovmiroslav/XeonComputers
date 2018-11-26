@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
+@model ParentCategory[]
+
 @inject SignInManager<XeonUser> SignInManager
 @inject UserManager<XeonUser> UserManager
 
@@ -27,7 +29,7 @@
         <div class="body-content">
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <partial name="_MenuImetsPartial.cshtml" />
+                    <partial name="_MenuImetsPartial.cshtml" model="Model"/>
                 </div>
                 <div class="col-md-9">
                     @RenderBody()

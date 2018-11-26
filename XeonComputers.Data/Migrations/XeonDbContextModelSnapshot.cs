@@ -173,15 +173,13 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("ImageUrlId");
+                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ParentCategoryId");
+                    b.Property<int>("ParentCategoryId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageUrlId");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -234,9 +232,9 @@ namespace XeonComputers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ImageUrl");
+                    b.Property<string>("ImageUrl");
 
-                    b.Property<int?>("ProductId");
+                    b.Property<int>("ProductId");
 
                     b.HasKey("Id");
 
@@ -254,8 +252,6 @@ namespace XeonComputers.Data.Migrations
                     b.Property<DateTime?>("DeliveryDate");
 
                     b.Property<DateTime?>("EstimatedDeliveryDate");
-
-                    b.Property<int>("MyProperty");
 
                     b.Property<DateTime>("OrderDate");
 
@@ -458,13 +454,10 @@ namespace XeonComputers.Data.Migrations
 
             modelBuilder.Entity("XeonComputers.Models.ChildCategory", b =>
                 {
-                    b.HasOne("XeonComputers.Models.Image", "ImageUrl")
-                        .WithMany()
-                        .HasForeignKey("ImageUrlId");
-
                     b.HasOne("XeonComputers.Models.ParentCategory", "ParentCategory")
                         .WithMany("ChildCategories")
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("XeonComputers.Models.Company", b =>
@@ -476,9 +469,10 @@ namespace XeonComputers.Data.Migrations
 
             modelBuilder.Entity("XeonComputers.Models.Image", b =>
                 {
-                    b.HasOne("XeonComputers.Models.Product")
+                    b.HasOne("XeonComputers.Models.Product", "Product")
                         .WithMany("ImageUrls")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("XeonComputers.Models.Order", b =>

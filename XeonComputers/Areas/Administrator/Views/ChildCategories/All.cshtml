@@ -1,0 +1,43 @@
+﻿@using XeonComputers.Areas.Administrator.ViewModels.ChildCategory
+
+@model AllChildParentCategoryViewModel
+
+@{
+    ViewData["Title"] = "Категории";
+}
+
+<div class="container">
+    <div class="text-center"><h2>@ViewData["Title"]</h2></div>
+    <div class="text-center"><h6>Може да изтриете категория само ако не съдържа продукти!</h6></div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th scope="col" class="col-lg-1 d-flex justify-content-center">#</th>
+                <th scope="col" class="col-lg-2 d-flex justify-content-center">Име</th>
+                <th scope="col" class="col-lg-2 d-flex justify-content-center">Описание</th>
+                <th scope="col" class="col-lg-3 d-flex justify-content-center">Основна категории</th>
+                <th scope="col" class="col-lg-1 d-flex justify-content-center">Брой продукти</th>
+                <th scope="col" class="col-lg-3 d-flex justify-content-center">Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{int count = 0; }
+            @foreach (var category in Model.ChildCategoryViewModel)
+            {
+                count++;
+            <tr class="row">
+                <td class="col-lg-1 d-flex justify-content-center">@count</td>
+                <td class="col-lg-2 d-flex justify-content-center">@category.Name</td>
+                <td class="col-lg-2 d-flex justify-content-center">@category.Description</td>
+                <td class="col-lg-3 d-flex justify-content-center">@category.ParentCategoryName</td>
+                <td class="col-lg-1 d-flex justify-content-center">@category.ProductsCount</td>
+                <td class="col-lg-3 d-flex justify-content-around">
+                    <a asp-controller="ChildCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Промени</a>
+                    <a asp-controller="ChildCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-primary">Изтрий</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

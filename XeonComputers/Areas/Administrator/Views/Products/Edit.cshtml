@@ -1,0 +1,59 @@
+﻿@model XeonComputers.Models.Product
+
+@{
+    ViewData["Title"] = "Промени продукт";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="ProductType" class="control-label"></label>
+                <select asp-for="ProductType" class="form-control"></select>
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Specification" class="control-label"></label>
+                <input asp-for="Specification" class="form-control" />
+                <span asp-validation-for="Specification" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParnersPrice" class="control-label"></label>
+                <input asp-for="ParnersPrice" class="form-control" />
+                <span asp-validation-for="ParnersPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChildCategoryId" class="control-label"></label>
+                <select asp-for="ChildCategoryId" class="form-control" asp-items="ViewBag.ChildCategoryId"></select>
+                <span asp-validation-for="ChildCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Промени" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

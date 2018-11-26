@@ -2,6 +2,7 @@
 {
     public enum ProductType
     {
-        //TODO:
+        Firs = 1,
+        Second = 2
     }
 }

@@ -1,26 +1,17 @@
-﻿<ul class="nav flex-column" style="background-color: #e3f2fd;">
+﻿@model ParentCategory[]
+
+
+@foreach (var parentCategory in Model)
+{
+<ul class="nav flex-column" style="background-color: #e3f2fd;">
     <li class="nav-item">
-        <a class="nav-link disabled font-weight-bold text-uppercase" href="#">Мобилни аксесоари</a>
+        <a class="nav-link disabled font-weight-bold text-uppercase" href="#">@parentCategory.Name</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="#">Зарядни</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Калафи</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Кабели</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled disabled font-weight-bold text-uppercase" href="#">Компютърни аксесоари</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="#">Компоненти и мрежи</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Компютърна периферия</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Кабели</a>
-    </li>
+    @foreach (var childCategory in parentCategory.ChildCategories)
+    {
+        <li class="nav-item">
+            <a class="nav-link active" href="#">@childCategory.Name</a>
+        </li>
+    }
 </ul>
+}

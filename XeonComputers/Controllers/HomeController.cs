@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using XeonComputers.Areas.Administrator.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
 
@@ -11,11 +12,20 @@ namespace XeonComputers.Controllers
 {
     public class HomeController : Controller
     {
+        private IChildCategoryService childCategoryService;
+        private IParentCategoryService parentCategoryService;
+
+        public HomeController(IChildCategoryService childCategoryService, IParentCategoryService parentCategoryService)
+        {
+            this.childCategoryService = childCategoryService;
+            this.parentCategoryService = parentCategoryService;
+        }
+
         public IActionResult Index()
         {
-            var assa = DateTime.Now;
+            var categories = this.parentCategoryService.GetParentCategories();
 
-            return View();
+            return View(categories);
         }
 
         public IActionResult About()

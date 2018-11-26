@@ -1,0 +1,25 @@
+﻿@model XeonComputers.Areas.Administrator.ViewModels.ParentCategory.ParentCategoryViewModel
+
+@{
+    ViewData["Title"] = "Добави основна категория";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <section>
+            <form method="post" asp-controller="ParentCategories" asp-action="Add">
+                <h4>@ViewData["Title"]</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.Name"></label>
+                    <input asp-for="@Model.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Добави</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model XeonComputers.Areas.Administrator.ViewModels.ChildCategory.EditChildCategoryViewModel
+
+@{
+    ViewData["Title"] = "Промени категория";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <section>
+            <form method="post" asp-controller="ChildCategories" asp-action="Edit" enctype="multipart/form-data">
+                <h4>@ViewData["Title"]</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.Name"></label>
+                    <input asp-for="@Model.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Description"></label>
+                    <input asp-for="@Model.Description" class="form-control" />
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.FormImage"></label>
+                    <input asp-for="@Model.FormImage" class="form-control" />
+                    <span asp-validation-for="@Model.FormImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <select class="select-width" name="ParentId">
+                        <option value="" disabled>-- Основна категория --</option>
+                        @if (Model.ParentCategories != null)
+                        {
+                            @foreach (var parentCategory in Model.ParentCategories)
+                            {
+                                @if (parentCategory.Id == Model.ParentId)
+                                {
+                                    <option value="@parentCategory.Id" selected>@parentCategory.Name</option>
+                                }
+                                <option value="@parentCategory.Id" @selected>@parentCategory.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Промени</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

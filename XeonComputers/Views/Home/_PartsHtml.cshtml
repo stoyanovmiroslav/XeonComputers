@@ -1,4 +1,19 @@
-﻿@*<div class="nav-bar">
+﻿@*<li class="nav-item">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link"><i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!</a>
+    </li>*@
+
+@*<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link"><i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link eventures-color-black"><i class="fas fa-sign-out-alt"></i> Изход</button>
+            </li>
+        </ul>
+    </form>*@
+
+@*<div class="nav-bar">
         <div class="container container-holder">
             <ul id="horizontal">
                 <li class="" style="">

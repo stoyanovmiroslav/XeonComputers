@@ -1,0 +1,58 @@
+﻿@model XeonComputers.Areas.Administrator.ViewModels.Products.DetailsProductViewModel
+
+@{
+    ViewData["Title"] = "Детайли за продукта";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Specification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Specification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParnersPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParnersPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ChildCategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChildCategoryName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Промени</a>
+</div>

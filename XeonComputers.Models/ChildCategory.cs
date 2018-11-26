@@ -13,10 +13,11 @@ namespace XeonComputers.Models
 
         public string Description { get; set; }
 
-        public Image ImageUrl { get; set; }
+        public virtual string ImageUrl { get; set; }
 
-        public ParentCategory ParentCategory { get; set; }
+        public int ParentCategoryId { get; set; }
+        public virtual ParentCategory ParentCategory { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
