@@ -14,7 +14,6 @@
     font-weight: bold;
 }
 
-
 .footer {
     position: fixed;
     left: 0;
@@ -24,35 +23,20 @@
 }
 
 .xeon-color {
-    background-color: #3b5998;
+    background-color: #e3f2fd;
 }
 
 .hr-xeon {
-    background-color: #3b5998;
-    height: 2px;
+    background-color: #e3f2fd;
+    height: 3px;
 }
-
-.hr-xeon-white {
-    background-color: white;
-    height: 1px;
-}
-
 
 .nav-item::after {
     content: '';
     display: block;
     width: 0px;
     height: 2px;
-    background: white;
-    transition: 0.2s;
-}
-
-nav-item-test {
-    content: '';
-    display: block;
-    width: 0px;
-    height: 2px;
-    background: #3b5998;
+    background: #000000;
     transition: 0.2s;
 }
 

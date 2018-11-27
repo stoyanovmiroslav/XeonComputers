@@ -3,9 +3,9 @@
 
 @foreach (var parentCategory in Model)
 {
-<ul class="nav flex-column" style="background-color: #e3f2fd;">
+<ul class="nav flex-column">
     <li class="nav-item">
-        <a class="nav-link disabled font-weight-bold text-uppercase" href="#">@parentCategory.Name</a>
+        <a class="nav-link text-white xeon-color disabled font-weight-bold" href="#">@parentCategory.Name</a>
     </li>
     @foreach (var childCategory in parentCategory.ChildCategories)
     {

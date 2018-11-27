@@ -1,68 +1,67 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light ">
+﻿<nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Основни Категории
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-controller="ParentCategories" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
-                    <a asp-controller="ParentCategories" asp-action="Add" class="dropdown-item nav-link">Добави категория</a>
+                    <a asp-controller="ParentCategories" asp-action="All" class="dropdown-item nav-link text-dark">Виж всички</a>
+                    <a asp-controller="ParentCategories" asp-action="Add" class="dropdown-item nav-link text-dark">Добави категория</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Категории
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-controller="ChildCategories" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
-                    <a asp-controller="ChildCategories" asp-action="Add" class="dropdown-item nav-link">Добави категория</a>
+                    <a asp-controller="ChildCategories" asp-action="All" class="dropdown-item nav-link text-dark">Виж всички</a>
+                    <a asp-controller="ChildCategories" asp-action="Add" class="dropdown-item nav-link text-dark">Добави категория</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a asp-controller="Products" asp-action="All" class="nav-link">Продукти</a>
+                <a asp-controller="Products" asp-action="All" class="nav-link text-dark">Продукти</a>
             </li>
             @*<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Продукти
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a asp-controller="Products" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
-                <a asp-controller="Products" asp-action="Create" class="dropdown-item nav-link">Добави</a>
-                <a asp-controller="Products" asp-action="Edit" class="dropdown-item nav-link">Промени</a>
-                <a asp-controller="Products" asp-action="Delete" class="dropdown-item nav-link">Изтрий</a>
-            </div>
-        </li>*@
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Продукти
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a asp-controller="Products" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
+                        <a asp-controller="Products" asp-action="Create" class="dropdown-item nav-link">Добави</a>
+                        <a asp-controller="Products" asp-action="Edit" class="dropdown-item nav-link">Промени</a>
+                        <a asp-controller="Products" asp-action="Delete" class="dropdown-item nav-link">Изтрий</a>
+                    </div>
+                </li>*@
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Партньори
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link">Заявки за партньорство</a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">Заявки за партньорство</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Поръчки
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link">Стаус</a>
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link">История</a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">Стаус</a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">История</a>
                 </div>
             </li>
-            <li class="nav-item">
-
-                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link">Промоции</a>
+            <li class="nav-item text-dark">
+                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Промоции</a>
             </li>
             <li class="nav-item">
-                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link">Съобщения <i class="fa fa-star" aria-hidden="true"> 1</i></a>
+                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Съобщения <i class="fa fa-star" aria-hidden="true"> 1</i></a>
             </li>
             <li class="nav-item">
                 <span class="fa-stack fa-1x has-badge" data-count="1">
                     <i class="fas fa-user-circle fa-stack-1x"></i>
                     @*<i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-bell fa-stack-1x fa-inverse"></i>*@
-                </span> 
+                        <i class="fa fa-bell fa-stack-1x fa-inverse"></i>*@
+                </span>
             </li>
         </ul>
     </div>
