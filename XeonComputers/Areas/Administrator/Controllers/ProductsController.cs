@@ -7,18 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using XeonComputers.Areas.Administrator.Services.Contracts;
 using XeonComputers.Areas.Administrator.ViewModels.Products;
+using XeonComputers.Common;
 using XeonComputers.Data;
 using XeonComputers.Models;
+using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ProductsController : AdministratorController
     {
         private IProductService productService;
+        private IImageService imageService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IImageService imageService)
         {
             this.productService = productService;
+            this.imageService = imageService;
         }
 
         public IActionResult All()
@@ -57,10 +61,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
             var childCategories = this.productService.GetChildCategories();
 
             var categories = childCategories.Select(x => new SelectListItem
-                             {
-                                Value = x.Id.ToString(),
-                                Text = x.Name
-                             }).ToList();
+                                                        {
+                                                           Value = x.Id.ToString(),
+                                                           Text = x.Name
+                                                        }).ToList();
 
             var model = new CreateProductViewModel { ChildCategories = categories };
 
@@ -69,18 +73,39 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(CreateProductViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                this.productService.AddProduct(product);
-                return RedirectToAction(nameof(All));
+                var childCategories = this.productService.GetChildCategories();
+
+                ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", model.ChildCategoryId);
+
+                return View(model);
             }
 
-            var childCategories = this.productService.GetChildCategories();
+            var product = new Product
+            {
+                Name = model.Name,
+                ParnersPrice = model.Price,
+                Price = model.Price,
+                Description = model.Description,
+                Specification = model.Specification,
+                ChildCategoryId = model.ChildCategoryId
+            };
 
-            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
-            return View(product);
+            this.productService.AddProduct(product);
+
+            if (model.FormImages != null)
+            {
+                int existingImages = 0;
+                var imageUrls = await this.imageService.UploadImages(model.FormImages.ToList(), existingImages,
+                                                                GlobalConstans.PRODUCT_PATH_TEMPLATE, product.Id);
+
+                this.productService.AddImageUrls(product.Id, imageUrls);
+            }
+
+            return RedirectToAction(nameof(All));
         }
 
         public IActionResult Edit(int id)
@@ -95,29 +120,56 @@ namespace XeonComputers.Areas.Administrator.Controllers
             var childCategories = this.productService.GetChildCategories();
 
             ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
-            return View(product);
+
+            var model = new EditProductViewModel
+            {
+                Name = product.Name,
+                ParnersPrice = product.Price,
+                Price = product.Price,
+                Description = product.Description,
+                Specification = product.Specification,
+                ChildCategoryId = product.ChildCategoryId
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Product product)
+        public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            if (id != product.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                var childCategories = this.productService.GetChildCategories();
+
+                ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", model.ChildCategoryId);
+
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            var product = new Product
             {
-                this.productService.EditProduct(product);
+                Id = model.Id,
+                Name = model.Name,
+                ParnersPrice = model.Price,
+                Price = model.Price,
+                Description = model.Description,
+                Specification = model.Specification,
+                ChildCategoryId = model.ChildCategoryId
+            };
 
-                return RedirectToAction(nameof(All));
+            this.productService.EditProduct(product);
+
+            if (model.FormImages != null)
+            {
+                int existingImages = productService.GetImages(product.Id).Count();
+                var imageUrls = await this.imageService.UploadImages(model.FormImages.ToList(), existingImages,
+                                                                GlobalConstans.PRODUCT_PATH_TEMPLATE, product.Id);
+
+                this.productService.AddImageUrls(product.Id, imageUrls);
             }
 
-            var childCategories = this.productService.GetChildCategories();
-
-            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
-            return View(product);
+            return RedirectToAction(nameof(All));
         }
 
         public IActionResult Delete(int id)

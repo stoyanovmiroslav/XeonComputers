@@ -23,7 +23,7 @@ namespace XeonComputers.Areas.Administrator.ViewModels.Products
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
-        [Display(Name = "Цена")]
+        [Display(Name = "Спецификация")]
         public string Specification { get; set; }
 
         [Display(Name = "Цена")]
@@ -37,9 +37,7 @@ namespace XeonComputers.Areas.Administrator.ViewModels.Products
 
         public ICollection<SelectListItem> ChildCategories { get; set; }
 
-        [Display(Name = "Снимка")]
+        [Display(Name = "Снимки")]
         public ICollection<IFormFile> FormImages { get; set; }
-
-        //public ICollection<Image> ImageUrls { get; set; }
     }
 }

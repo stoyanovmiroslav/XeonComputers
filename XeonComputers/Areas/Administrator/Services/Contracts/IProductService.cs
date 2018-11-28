@@ -21,5 +21,9 @@ namespace XeonComputers.Areas.Administrator.Services.Contracts
         bool ProductExists(int id);
 
         bool EditProduct(Product product);
+
+        void AddImageUrls(int id, IList<string> imageUrls);
+
+        IList<Image> GetImages(int id);
     }
 }

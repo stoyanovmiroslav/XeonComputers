@@ -1,4 +1,10 @@
-﻿@*<li class="nav-item">
+﻿@*<div class="form-group">
+        <label asp-for="ProductType" class="control-label"></label>
+        <select asp-for="ProductType" class="form-control"></select>
+        <span asp-validation-for="ProductType" class="text-danger"></span>
+    </div>*@
+
+@*<li class="nav-item">
         <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link"><i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!</a>
     </li>*@
 

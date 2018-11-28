@@ -24,6 +24,6 @@ namespace XeonComputers.Models
         public int ChildCategoryId { get; set; }
         public virtual ChildCategory ChildCategory { get; set; }
 
-        public ICollection<Image> ImageUrls { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

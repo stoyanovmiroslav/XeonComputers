@@ -31,7 +31,9 @@ namespace XeonComputers.Areas.Administrator.Services
 
         public Product GetProductById(int id)
         {
-            return this.db.Products.Include(p => p.ChildCategory).FirstOrDefault(m => m.Id == id);
+            return this.db.Products.Include(p => p.ChildCategory)
+                                   .Include(x => x.Images)
+                                   .FirstOrDefault(m => m.Id == id);
         }
 
         public ICollection<Product> GetProducts()
@@ -49,7 +51,7 @@ namespace XeonComputers.Areas.Administrator.Services
             }
 
             this.db.Products.Remove(product);
-            this.db.SaveChangesAsync();
+            this.db.SaveChanges();
 
             return true;
         }
@@ -77,6 +79,31 @@ namespace XeonComputers.Areas.Administrator.Services
             }
 
             return true;
+        }
+
+        public void AddImageUrls(int id, IList<string> imageUrls)
+        {
+            var product = this.GetProductById(id);
+
+            foreach (var imageUrl in imageUrls)
+            {
+                var image = new Image { ImageUrl = imageUrl };
+                product.Images.Add(image);
+            }
+
+            this.db.SaveChanges();
+        }
+
+        public bool EditProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Image> GetImages(int id)
+        {
+            var product = GetProductById(id);
+
+            return product.Images.ToList();
         }
     }
 }

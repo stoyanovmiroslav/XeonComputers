@@ -14,16 +14,22 @@ namespace XeonComputers.Controllers
     {
         private IChildCategoryService childCategoryService;
         private IParentCategoryService parentCategoryService;
+        private IProductService productService;
 
-        public HomeController(IChildCategoryService childCategoryService, IParentCategoryService parentCategoryService)
+        public HomeController(IChildCategoryService childCategoryService, 
+                              IParentCategoryService parentCategoryService,
+                              IProductService productService)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;
+            this.productService = productService;
         }
 
         public IActionResult Index()
         {
             var categories = this.parentCategoryService.GetParentCategories();
+
+            var products = this.productService.GetProducts();
 
             return View(categories);
         }

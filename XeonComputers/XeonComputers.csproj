@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="wwwroot\images\ChildCategory\" />
+    <Folder Include="wwwroot\images\ChildCategories\" />
   </ItemGroup>
 
   <ItemGroup>
