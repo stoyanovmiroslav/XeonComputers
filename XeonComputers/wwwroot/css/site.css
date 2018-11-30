@@ -1,4 +1,74 @@
-﻿.fa-stack[data-count]:after {
+﻿
+
+
+
+/*Zoom picture*/
+.zoom {
+    margin: 2%;
+    overflow: hidden;
+}
+
+    .zoom img {
+        max-width: 100%;
+        height: auto;
+        -moz-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    .zoom:hover img {
+        -moz-transform: scale(1.5);
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+
+/*Active hover dropdown*/
+.dropbtn {
+    background-color: #3b5998;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+}
+
+.border-none {
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #3b5998;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #47b7e9;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3b5998;
+}
+
+/*fa icons index*/
+.fa-stack[data-count]:after {
     position: absolute;
     right: 0%;
     top: 1%;
@@ -13,7 +83,6 @@
     min-width: 2em;
     font-weight: bold;
 }
-
 
 .footer {
     position: fixed;
@@ -36,7 +105,6 @@
     background-color: white;
     height: 1px;
 }
-
 
 .nav-item::after {
     content: '';

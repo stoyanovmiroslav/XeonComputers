@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 using XeonComputers.Areas.Administrator.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
+using XeonComputers.ViewModels.Home;
 
 namespace XeonComputers.Controllers
 {
@@ -25,13 +27,42 @@ namespace XeonComputers.Controllers
             this.productService = productService;
         }
 
-        public IActionResult Index()
+        public object Index(int? page)
         {
             var categories = this.parentCategoryService.GetParentCategories();
+            var categoriesViewModel = categories.Select(x => new IndexParentCategoriesViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                ChildCategories = x.ChildCategories.Select(c => new IndexChildCategoriesViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList()
+            }).ToList();
 
-            var products = this.productService.GetProducts();
+            var products = this.productService.GetProductsQuery().ToList();
+            var productsViewModel = products.Select(x => new IndexProductViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ParnersPrice = x.ParnersPrice,
+                Price = x.Price,
+                ImageUrl = x.Images.FirstOrDefault()?.ImageUrl
+            }).ToList();
 
-            return View(categories);
+            var pageNumber = page ?? 1;
+            int productsPerPage = 4;
+            var onePageOfProducts = productsViewModel.ToPagedList(pageNumber, productsPerPage); 
+
+            var indexViewModel = new IndexViewModel
+            {
+                ProductsViewModel = onePageOfProducts,
+                CategoriesViewModel = categoriesViewModel
+            };
+
+            return View(indexViewModel);
         }
 
         public IActionResult About()

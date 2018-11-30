@@ -65,6 +65,7 @@ namespace XeonComputers
             services.AddScoped<IParentCategoryService, ParentCategoryService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -101,7 +102,7 @@ namespace XeonComputers
 
             app.UseAuthentication();
 
-            app.UseSeedDataMiddleware();
+            //app.UseSeedDataMiddleware();
 
             app.UseMvc(routes =>
             {

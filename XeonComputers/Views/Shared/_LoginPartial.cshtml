@@ -6,20 +6,18 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-<ul class="navbar-nav navbar-right">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!
-        </a>
-        <div class="dropdown-menu xeon-color" aria-labelledby="navbarDropdown">
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="dropdown-item nav-link text-white">Настройки</a>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="dropdown-item nav-link text-white">Моите поръчки</a>
-        </div>
-    </li>
-    <li class="nav-item">
-        <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-white"><i class="fas fa-sign-out-alt"></i> Изход</a>
-    </li>
-</ul>
+    <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!
+            </a>
+            <div class="dropdown-menu xeon-color" aria-labelledby="navbarDropdown">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="dropdown-item nav-link text-white">Моите поръчки</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-white">Настройки</a>
+                <a asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item nav-link text-white"><i class="fas fa-sign-out-alt"></i> Изход</a>
+            </div>
+        </li>
+    </ul>
 }
 else
 {
@@ -29,3 +27,10 @@ else
         </li>
     </ul>
 }
+<div class="dropdown mb-1 mt-1">
+    <button class="dropbtn border-none"><i class="fas fa-shopping-cart"></i> Моята количка</button>
+    <div class="dropdown-content">
+        <p class="text-center pt-2 pb-2 mb-0" style="background-color:white";>Продукт</p>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-white">Виж количка</a>
+    </div>
+</div>

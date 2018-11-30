@@ -48,7 +48,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 Description = product.Description,
                 ChildCategoryName = product.ChildCategory.Name,
                 Price = product.Price,
-                ParnersPrice = product.Price,
+                ParnersPrice = product.ParnersPrice,
                 ProductType = product.ProductType,
                 Specification = product.Specification
             };
@@ -87,7 +87,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             var product = new Product
             {
                 Name = model.Name,
-                ParnersPrice = model.Price,
+                ParnersPrice = model.ParnersPrice,
                 Price = model.Price,
                 Description = model.Description,
                 Specification = model.Specification,
@@ -124,7 +124,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             var model = new EditProductViewModel
             {
                 Name = product.Name,
-                ParnersPrice = product.Price,
+                ParnersPrice = product.ParnersPrice,
                 Price = product.Price,
                 Description = product.Description,
                 Specification = product.Specification,
@@ -151,7 +151,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             {
                 Id = model.Id,
                 Name = model.Name,
-                ParnersPrice = model.Price,
+                ParnersPrice = model.ParnersPrice,
                 Price = model.Price,
                 Description = model.Description,
                 Specification = model.Specification,

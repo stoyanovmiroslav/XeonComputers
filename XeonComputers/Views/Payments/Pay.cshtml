@@ -1,0 +1,53 @@
+﻿@model PayViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form action="@Model.SubmitUrl" method=POST>
+    <div class="form-group">
+        <input type=hidden name=PAGE value="paylogin">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=ENCODED value="@Model.Encoded">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=CHECKSUM value="@Model.Chechsum">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=URL_OK value="SET_URL_OK_IF_NEEDED">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=URL_CANCEL value="SET_URL_CANCEL_IF_NEEDED">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Плащане Epay" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<form action="@Model.SubmitUrl" method=post>
+    <div class="form-group">
+        <input type=hidden name=PAGE value="credit_paydirect">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=LANG value="bg">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=ENCODED value="@Model.Encoded">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=CHECKSUM value="@Model.Chechsum">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=URL_OK value="http://...">
+    </div>
+    <div class="form-group">
+        <input type=hidden name=URL_CANCEL value="http://...">
+    </div>
+    <div class="form-group">
+        <input type=submit>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Плащане CreditCart" class="btn btn-primary" />
+    </div>
+</form>

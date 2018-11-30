@@ -1,17 +1,17 @@
-﻿@model ParentCategory[]
+﻿@model IndexViewModel
 
 
-@foreach (var parentCategory in Model)
+@foreach (var parentCategory in Model.CategoriesViewModel)
 {
-<ul class="nav flex-column">
-    <li class="nav-item">
-        <a class="nav-link text-white xeon-color disabled font-weight-bold" href="#">@parentCategory.Name</a>
-    </li>
-    @foreach (var childCategory in parentCategory.ChildCategories)
-    {
+    <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="#">@childCategory.Name</a>
+            <a class="nav-link text-white xeon-color disabled font-weight-bold" href="#">@parentCategory.Name</a>
         </li>
-    }
-</ul>
+        @foreach (var childCategory in parentCategory.ChildCategories)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" href="#">@childCategory.Name</a>
+            </li>
+        }
+    </ul>
 }

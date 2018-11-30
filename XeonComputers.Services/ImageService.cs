@@ -27,13 +27,15 @@ namespace XeonComputers.Services
                 var urlName = $"Id{id}_{existingImages + i}";
 
                 var imagePath = string.Format(template, urlName);
+                
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await formImages[i].CopyToAsync(stream);
                 }
 
-                imageUrls.Add(imagePath);
+                var imageRoot = imagePath.Replace("wwwroot", "");
+                imageUrls.Add(imageRoot);
             }
 
             return imageUrls;

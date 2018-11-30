@@ -38,7 +38,12 @@ namespace XeonComputers.Areas.Administrator.Services
 
         public ICollection<Product> GetProducts()
         {
-            return db.Products.Include(p => p.ChildCategory).ToList();
+            return db.Products.Include(p => p.ChildCategory).Include(x => x.Images).ToList();
+        }
+
+        public IQueryable<Product> GetProductsQuery()
+        {
+            return db.Products.Include(p => p.ChildCategory).Include(x => x.Images);
         }
 
         public bool RemoveProduct(int id)
@@ -94,10 +99,6 @@ namespace XeonComputers.Areas.Administrator.Services
             this.db.SaveChanges();
         }
 
-        public bool EditProduct(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public IList<Image> GetImages(int id)
         {

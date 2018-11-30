@@ -25,5 +25,7 @@ namespace XeonComputers.Areas.Administrator.Services.Contracts
         void AddImageUrls(int id, IList<string> imageUrls);
 
         IList<Image> GetImages(int id);
+
+        IQueryable<Product> GetProductsQuery();
     }
 }
