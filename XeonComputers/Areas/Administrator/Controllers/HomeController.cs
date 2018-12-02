@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
 

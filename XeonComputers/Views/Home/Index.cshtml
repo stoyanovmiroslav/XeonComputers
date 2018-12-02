@@ -46,7 +46,8 @@
 
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                     <button type="button" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></button>
-                    <button type="button" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</button>
+                    <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</a>
+                    @*<button type="button" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</button>*@
                 </div>
             </div>
         </div>

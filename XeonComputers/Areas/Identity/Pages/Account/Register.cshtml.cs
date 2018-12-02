@@ -86,7 +86,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirsName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    ShoppingCart = new ShoppingCart()
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

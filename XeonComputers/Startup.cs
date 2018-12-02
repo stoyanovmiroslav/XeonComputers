@@ -18,8 +18,8 @@ using System.Text;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
-using XeonComputers.Areas.Administrator.Services.Contracts;
-using XeonComputers.Areas.Administrator.Services;
+using XeonComputers.Services.Contracts;
+using XeonComputers.Services;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Services;
 
@@ -66,6 +66,7 @@ namespace XeonComputers
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -102,7 +103,7 @@ namespace XeonComputers
 
             app.UseAuthentication();
 
-            //app.UseSeedDataMiddleware();
+            app.UseSeedDataMiddleware();
 
             app.UseMvc(routes =>
             {

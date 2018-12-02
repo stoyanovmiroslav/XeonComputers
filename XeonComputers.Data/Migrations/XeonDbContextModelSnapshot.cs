@@ -323,6 +323,38 @@ namespace XeonComputers.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProducts", b =>
+                {
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("ShoppingCartId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("ProductId", "ShoppingCartId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("ShoppingCartProducts");
+                });
+
             modelBuilder.Entity("XeonComputers.Models.XeonUser", b =>
                 {
                     b.Property<string>("Id")
@@ -363,6 +395,8 @@ namespace XeonComputers.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<int>("ShoppingCartId");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -470,7 +504,7 @@ namespace XeonComputers.Data.Migrations
             modelBuilder.Entity("XeonComputers.Models.Image", b =>
                 {
                     b.HasOne("XeonComputers.Models.Product", "Product")
-                        .WithMany("ImageUrls")
+                        .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -501,6 +535,27 @@ namespace XeonComputers.Data.Migrations
                         .WithMany("Products")
                         .HasForeignKey("ChildCategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("XeonComputers.Models.XeonUser", "User")
+                        .WithOne("ShoppingCart")
+                        .HasForeignKey("XeonComputers.Models.ShoppingCart", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProducts", b =>
+                {
+                    b.HasOne("XeonComputers.Models.Product", "Product")
+                        .WithMany("ShoppingCartProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XeonComputers.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("ShoppingCartProducts")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("XeonComputers.Models.XeonUser", b =>

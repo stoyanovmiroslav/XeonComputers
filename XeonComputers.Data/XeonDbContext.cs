@@ -27,6 +27,10 @@ namespace XeonComputers.Data
 
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
 
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
+        public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+
         public XeonDbContext(DbContextOptions<XeonDbContext> options)
             : base(options)
         {
@@ -36,12 +40,20 @@ namespace XeonComputers.Data
         {
             builder.Entity<OrderProduct>().HasKey(x => new { x.OrderId, x.ProductId });
 
+            builder.Entity<ShoppingCartProduct>().HasKey(x => new { x.ProductId, x.ShoppingCartId });
+
             builder.Entity<CategoryProduct>().HasKey(x => new { x.ChildCategoryId, x.ProductId });
 
             builder.Entity<Product>()
                    .HasOne(x => x.ChildCategory)
                    .WithMany(x => x.Products)
                    .HasForeignKey(x => x.ChildCategoryId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ShoppingCart>()
+                   .HasOne(x => x.User)
+                   .WithOne(x => x.ShoppingCart)
+                   .HasForeignKey<ShoppingCart>(x => x.UserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

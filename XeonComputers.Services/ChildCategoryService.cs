@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XeonComputers.Areas.Administrator.Services.Contracts;
-using XeonComputers.Common;
+using XeonComputers.Services.Contracts;
+using XeonComputers.Services.Common;
 using XeonComputers.Data;
 using XeonComputers.Models;
 
-namespace XeonComputers.Areas.Administrator.Services
+namespace XeonComputers.Services
 {
     public class ChildCategoryService : IChildCategoryService
     {

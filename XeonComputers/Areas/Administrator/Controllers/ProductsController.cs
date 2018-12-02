@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Services.Contracts;
 using XeonComputers.Areas.Administrator.ViewModels.Products;
 using XeonComputers.Common;
 using XeonComputers.Data;
 using XeonComputers.Models;
-using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {

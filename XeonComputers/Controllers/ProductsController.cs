@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.Products;
 
 namespace XeonComputers.Controllers

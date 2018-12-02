@@ -5,13 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Services.Contracts;
 using XeonComputers.Areas.Administrator.ViewModels;
 using XeonComputers.Areas.Administrator.ViewModels.ChildCategory;
 using XeonComputers.Areas.Administrator.ViewModels.ParentCategory;
 using XeonComputers.Common;
 using XeonComputers.Models;
-using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {

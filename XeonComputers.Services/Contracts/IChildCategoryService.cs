@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using XeonComputers.Models;
 
-namespace XeonComputers.Areas.Administrator.Services.Contracts
+namespace XeonComputers.Services.Contracts
 {
     public interface IChildCategoryService
     {

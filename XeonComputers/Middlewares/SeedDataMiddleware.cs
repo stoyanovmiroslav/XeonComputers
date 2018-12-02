@@ -51,7 +51,8 @@ namespace XeonComputers.Middlewares
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
                     FirstName = "AdminFirstName",
-                    LastName = "AdminLastName"
+                    LastName = "AdminLastName",
+                    ShoppingCart = new ShoppingCart()
                 };
 
                 var password = "123456";

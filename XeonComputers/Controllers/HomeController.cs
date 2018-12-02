@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
-using XeonComputers.Areas.Administrator.Services.Contracts;
+using XeonComputers.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
 using XeonComputers.ViewModels.Home;

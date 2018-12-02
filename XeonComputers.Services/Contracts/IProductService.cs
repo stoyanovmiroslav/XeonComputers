@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using XeonComputers.Models;
 
-namespace XeonComputers.Areas.Administrator.Services.Contracts
+namespace XeonComputers.Services.Contracts
 {
     public interface IProductService
     {
