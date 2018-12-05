@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XeonComputers.Services.Contracts
 {
-    public interface IImageService
+    public interface IImagesService
     {
         void UploadImage(IFormFile formImage, string path);
 

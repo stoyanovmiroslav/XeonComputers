@@ -10,8 +10,8 @@ using XeonComputers.Data;
 namespace XeonComputers.Data.Migrations
 {
     [DbContext(typeof(XeonDbContext))]
-    [Migration("20181201080746_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20181203211531_AddPaymentType")]
+    partial class AddPaymentType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,9 +147,13 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<string>("Street");
 
+                    b.Property<string>("XeonUserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("XeonUserId");
 
                     b.ToTable("Addresses");
                 });
@@ -251,23 +255,31 @@ namespace XeonComputers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AddressId");
+
                     b.Property<DateTime?>("DeliveryDate");
 
                     b.Property<DateTime?>("EstimatedDeliveryDate");
 
-                    b.Property<DateTime>("OrderDate");
+                    b.Property<DateTime?>("OrderDate");
+
+                    b.Property<int>("PaymentType");
+
+                    b.Property<string>("Recipient");
+
+                    b.Property<string>("RecipientPhoneNumber");
 
                     b.Property<int>("Status");
 
                     b.Property<decimal>("TotalPrice");
 
-                    b.Property<int>("XeonUserId");
-
-                    b.Property<string>("XeonUserId1");
+                    b.Property<string>("XeonUserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("XeonUserId1");
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("XeonUserId");
 
                     b.ToTable("Orders");
                 });
@@ -331,18 +343,12 @@ namespace XeonComputers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProducts", b =>
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProduct", b =>
                 {
                     b.Property<int>("ProductId");
 
@@ -368,8 +374,6 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<int?>("DeliveryAddressId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -409,8 +413,6 @@ namespace XeonComputers.Data.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("DeliveryAddressId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -418,6 +420,9 @@ namespace XeonComputers.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ShoppingCartId")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers");
                 });
@@ -473,6 +478,10 @@ namespace XeonComputers.Data.Migrations
                         .WithMany("Addresses")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
+                        .WithMany("Addresses")
+                        .HasForeignKey("XeonUserId");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.CategoryProduct", b =>
@@ -513,9 +522,13 @@ namespace XeonComputers.Data.Migrations
 
             modelBuilder.Entity("XeonComputers.Models.Order", b =>
                 {
+                    b.HasOne("XeonComputers.Models.Address", "DeliveryAddress")
+                        .WithMany("Addresses")
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
                         .WithMany("Orders")
-                        .HasForeignKey("XeonUserId1");
+                        .HasForeignKey("XeonUserId");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.OrderProduct", b =>
@@ -539,15 +552,7 @@ namespace XeonComputers.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("XeonComputers.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("XeonComputers.Models.XeonUser", "User")
-                        .WithOne("ShoppingCart")
-                        .HasForeignKey("XeonComputers.Models.ShoppingCart", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProducts", b =>
+            modelBuilder.Entity("XeonComputers.Models.ShoppingCartProduct", b =>
                 {
                     b.HasOne("XeonComputers.Models.Product", "Product")
                         .WithMany("ShoppingCartProducts")
@@ -566,9 +571,10 @@ namespace XeonComputers.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("XeonComputers.Models.Address", "DeliveryAddress")
-                        .WithMany()
-                        .HasForeignKey("DeliveryAddressId");
+                    b.HasOne("XeonComputers.Models.ShoppingCart", "ShoppingCart")
+                        .WithOne("User")
+                        .HasForeignKey("XeonComputers.Models.XeonUser", "ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

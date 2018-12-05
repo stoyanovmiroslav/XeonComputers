@@ -15,10 +15,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ProductsController : AdministratorController
     {
-        private IProductService productService;
-        private IImageService imageService;
+        private IProductsService productService;
+        private IImagesService imageService;
 
-        public ProductsController(IProductService productService, IImageService imageService)
+        public ProductsController(IProductsService productService, IImagesService imageService)
         {
             this.productService = productService;
             this.imageService = imageService;

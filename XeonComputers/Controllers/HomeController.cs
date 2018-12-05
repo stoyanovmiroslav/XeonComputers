@@ -14,13 +14,13 @@ namespace XeonComputers.Controllers
 {
     public class HomeController : Controller
     {
-        private IChildCategoryService childCategoryService;
-        private IParentCategoryService parentCategoryService;
-        private IProductService productService;
+        private IChildCategoriesService childCategoryService;
+        private IParentCategoriesService parentCategoryService;
+        private IProductsService productService;
 
-        public HomeController(IChildCategoryService childCategoryService, 
-                              IParentCategoryService parentCategoryService,
-                              IProductService productService)
+        public HomeController(IChildCategoriesService childCategoryService, 
+                              IParentCategoriesService parentCategoryService,
+                              IProductsService productService)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;
@@ -53,7 +53,7 @@ namespace XeonComputers.Controllers
             }).ToList();
 
             var pageNumber = page ?? 1;
-            int productsPerPage = 4;
+            int productsPerPage = 8;
             var onePageOfProducts = productsViewModel.ToPagedList(pageNumber, productsPerPage); 
 
             var indexViewModel = new IndexViewModel

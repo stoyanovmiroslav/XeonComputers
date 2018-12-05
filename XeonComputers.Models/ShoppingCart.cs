@@ -8,7 +8,6 @@ namespace XeonComputers.Models
     {
         public int Id { get; set; }
 
-        public string UserId { get; set; }
         public virtual XeonUser User { get; set; }
 
         public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }

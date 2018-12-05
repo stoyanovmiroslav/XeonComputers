@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@model CreateAddressOrderViewModel
+
+@{
+    ViewData["Title"] = "Данни за поръчката";
+    Layout = "_LayoutClean";
+
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+
+@*<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+    </nav>*@
+
+<div class="h3 text-center mb-3">@ViewData["Title"]</div>
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">33%</div>
+</div>
+<div class="h3 mt-3 mb-2">Адрес за доставка</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.OrderAddressesViewModel.Count == 0)
+        {
+            <p>Все още нямате добавени адреси във вашия профил.</p>
+        }
+        <form method="post" asp-controller="Orders" asp-action="CreateAddress">
+            <ul class="list-group">
+                @foreach (var address in Model.OrderAddressesViewModel)
+                {
+                    <li class="list-group-item">
+                        <div class="form-group border-primary mb-0">
+                            <label>
+                                <input asp-for="DeliveryAddressId" type="radio" value="@address.Id" />
+                                @address.DeliveryAddress @address.AdditionТoАddress, @address.City,  @address.Postcode
+                            </label>
+                        </div>
+                    </li>
+                }
+            </ul>
+            <div class="d-flex justify-content-around mt-3">
+                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Добави нов адрес</a>
+                <button type="submit" class="form-group btn btn-success mb-0">Продължи с поръчката</button>
+            </div>
+        </form>
+
+    </div>
+    <div class="col-md-6">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body py-0">
+                @{var addressModel = Model.OrderAdressViewModel; }
+                <form method="post" asp-controller="Addresses" asp-action="Add">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@Model.OrderAdressViewModel.DeliveryAddress"></label>
+                        <input asp-for="@Model.OrderAdressViewModel.DeliveryAddress" name="DeliveryAddress" class="form-control" placeholder="Адрес" />
+                        <span asp-validation-for="@Model.OrderAdressViewModel.DeliveryAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.OrderAdressViewModel.AdditionТoАddress"></label>
+                        <input asp-for="@Model.OrderAdressViewModel.AdditionТoАddress" name="AdditionТoАddress" class="form-control" placeholder="Допълнение към адреса" />
+                        <span asp-validation-for="@Model.OrderAdressViewModel.AdditionТoАddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.OrderAdressViewModel.City"></label>
+                        <input asp-for="@Model.OrderAdressViewModel.City" name="City" class="form-control" placeholder="Град" />
+                        <span asp-validation-for="@Model.OrderAdressViewModel.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.OrderAdressViewModel.Postcode"></label>
+                        <input asp-for="@Model.OrderAdressViewModel.Postcode" name="Postcode" class="form-control" placeholder="Пощенски код" />
+                        <span asp-validation-for="@Model.OrderAdressViewModel.Postcode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn xeon-color text-white">Добави адрес</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

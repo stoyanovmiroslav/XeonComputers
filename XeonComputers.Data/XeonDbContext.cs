@@ -53,8 +53,14 @@ namespace XeonComputers.Data
             builder.Entity<ShoppingCart>()
                    .HasOne(x => x.User)
                    .WithOne(x => x.ShoppingCart)
-                   .HasForeignKey<ShoppingCart>(x => x.UserId)
+                   .HasForeignKey<XeonUser>(x => x.ShoppingCartId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<XeonUser>()
+            //   .HasOne(x => x.ShoppingCart)
+            //   .WithOne(x => x.User)
+            //   .HasForeignKey<ShoppingCart>(x => x.UserId)
+            //   .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

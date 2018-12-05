@@ -8,7 +8,7 @@ using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Services
 {
-    public class ImageService : IImageService
+    public class ImagesService : IImagesService
     {
         public async void UploadImage(IFormFile formImage, string path)
         {

@@ -11,6 +11,6 @@ namespace XeonComputers.ViewModels.Payments
 
         public string SubmitUrl { get; set; }
 
-        public string Chechsum { get; set; }
+        public string ChechSum { get; set; }
     }
 }

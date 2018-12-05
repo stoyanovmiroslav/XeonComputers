@@ -11,9 +11,9 @@ namespace XeonComputers.Controllers
 {
     public class ProductsController : BaseController
     {
-        private IProductService productService;
+        private IProductsService productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductsService productService)
         {
             this.productService = productService;
         }

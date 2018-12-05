@@ -9,11 +9,11 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services
 {
-    public class ParentCategoryService : IParentCategoryService
+    public class ParentCategoriesService : IParentCategoriesService
     {
         private XeonDbContext db;
 
-        public ParentCategoryService(XeonDbContext db)
+        public ParentCategoriesService(XeonDbContext db)
         {
             this.db = db;
         }

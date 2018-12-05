@@ -5,23 +5,22 @@
 
 @model List<IndexShoppingCartProductsViewModel>
 
-<div class="fondsize-20 h2">@ViewData["Title"]</div>
+<div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
 <div class="row">
     <div class="col-lg-8">
-        <div class="container fondsize-11">
+        <div class="container mobile-fondsize-11">
             <table class="table table-hover">
                 <thead>
                     <tr class="row">
                         <th scope="col" class="col-2 d-flex justify-content-center">Продукт</th>
                         <th scope="col" class="col-4 d-flex justify-content-center"></th>
                         <th scope="col" class="col-1 d-flex justify-content-center"></th>
-                        <th scope="col" class="col-2 d-flex justify-content-center">Ед. цена</th>
+                        <th scope="col" class="col-2 d-flex justify-content-center">Цена</th>
                         <th scope="col" class="col-1 d-flex justify-content-center">Брой</th>
                         <th scope="col" class="col-2 d-flex justify-content-center">Общо</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     @foreach (var product in Model)
                     {
                         <tr class="row">
@@ -48,14 +47,14 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="fondsize-20 h2">Информация за поръчката</div>
+        <div class="mobile-fondsize-20 h4">Информация за поръчката:</div>
         <div class="mt-4">
-            <p class="font-weight-bold text-danger h5 ">СУМА ЗА ПЛАЩАНЕ: @(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
-            <div class="mb-2">
-                <button type="button" class="btn btn-success btn-lg btn-block"><i class="far fa-credit-card"></i> Продължи</button>
+            <p class="h6 ">Общо за продуктите: @(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
+            <p class="h6 ">Цена за доставка: 5.00 лв.</p>
+            <p class="font-weight-bold text-danger h5 mt-3">Сума за плащане: @(Model.Sum(x => x.Price * x.Quantity) + 5) лв.</p>
+            <div class="mb-2 ">
+                <a class="btn btn-success btn-lg btn-block" asp-controller="Orders" asp-action="Create" asp-route-id=""><i class="far fa-credit-card"></i> Продължи</a>
             </div>
         </div>
-
     </div>
-
 </div>

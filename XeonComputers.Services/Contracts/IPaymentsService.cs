@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XeonComputers.Services.Contracts
 {
-    public interface IPaymentService
+    public interface IPaymentsService
     {
         string Encoded { get; set; }
 

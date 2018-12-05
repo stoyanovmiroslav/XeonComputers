@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@model OrderAdressViewModel
+
+@{
+    ViewData["Title"] = "Данни за поръчката";
+    Layout = "_LayoutClean";
+
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+<div class="h2">@ViewData["Title"]</div>
+
+<div id="addNewAddress">
+    <button type="button" class="btn xeon-color text-white" data-address-string="@cookieString">Добави адрес</button>
+</div>
+<div class="row">
+    <div id="newDeliveryAddress" class="col-lg-8 d-none">
+        <form method="post">
+            <hr class="hr-xeon" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.DeliveryAddress"></label>
+                <input asp-for="@Model.DeliveryAddress" class="form-control" placeholder="Адрес" />
+                <span asp-validation-for="@Model.DeliveryAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AdditionТoАddress"></label>
+                <input asp-for="@Model.AdditionТoАddress" class="form-control" placeholder="Допълнение към адреса" />
+                <span asp-validation-for="@Model.AdditionТoАddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.City"></label>
+                <input asp-for="@Model.City" class="form-control" placeholder="Град" />
+                <span asp-validation-for="@Model.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Postcode"></label>
+                <input asp-for="@Model.Postcode" class="form-control" placeholder="Пощенски код" />
+                <span asp-validation-for="@Model.Postcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn xeon-color text-white">Продължи</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4">
+
+    </div>
+</div>
+
+<script>
+    (function () {
+        document.querySelector("#addNewAddress button[data-address-string]").addEventListener("click", function (el) {
+            document.cookie = el.target.dataset.cookieString;
+            document.querySelector("#newDeliveryAddress").classList.remove("d-none");
+        }, false);
+    })();
+</script>
+
+
+@*<div id="addNewAddress">
+    <button type="button" class="btn xeon-color text-white" data-address-string="@cookieString">Добави нов адрес</button>
+</div>
+<div id="newDeliveryAddress" class="d-none">
+    @{var addressModel = Model.OrderAdressViewModel; }
+    <form method="post" asp-controller="Addresses" asp-action="Add">
+        <hr class="hr-xeon" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.OrderAdressViewModel.DeliveryAddress"></label>
+            <input asp-for="@Model.OrderAdressViewModel.DeliveryAddress" name="DeliveryAddress" class="form-control" placeholder="Адрес" />
+            <span asp-validation-for="@Model.OrderAdressViewModel.DeliveryAddress" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.OrderAdressViewModel.AdditionТoАddress"></label>
+            <input asp-for="@Model.OrderAdressViewModel.AdditionТoАddress" name="AdditionТoАddress" class="form-control" placeholder="Допълнение към адреса" />
+            <span asp-validation-for="@Model.OrderAdressViewModel.AdditionТoАddress" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.OrderAdressViewModel.City"></label>
+            <input asp-for="@Model.OrderAdressViewModel.City" name="City" class="form-control" placeholder="Град" />
+            <span asp-validation-for="@Model.OrderAdressViewModel.City" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.OrderAdressViewModel.Postcode"></label>
+            <input asp-for="@Model.OrderAdressViewModel.Postcode" name="Postcode" class="form-control" placeholder="Пощенски код" />
+            <span asp-validation-for="@Model.OrderAdressViewModel.Postcode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn xeon-color text-white">Продължи</button>
+        </div>
+    </form>
+</div>*@
+

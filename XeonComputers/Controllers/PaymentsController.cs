@@ -19,9 +19,9 @@ namespace XeonComputers.Controllers
         public const string SUBMIT_URL = "https://www.epay.bg/";
 
         
-        private IPaymentService paymentService;
+        private IPaymentsService paymentService;
 
-        public PaymentsController(IPaymentService paymentService)
+        public PaymentsController(IPaymentsService paymentService)
         {
             this.paymentService = paymentService;
         }
@@ -34,7 +34,7 @@ namespace XeonComputers.Controllers
             {
                 Encoded = this.paymentService.Encoded,
                 SubmitUrl = SUBMIT_URL_DEMO,
-                Chechsum = encoded
+                ChechSum = encoded
             };
 
             return View(payViewModel);

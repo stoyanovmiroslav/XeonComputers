@@ -3,7 +3,7 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services.Contracts
 {
-    public interface IParentCategoryService
+    public interface IParentCategoriesService
     {
         void AddMainCategory(string name);
 

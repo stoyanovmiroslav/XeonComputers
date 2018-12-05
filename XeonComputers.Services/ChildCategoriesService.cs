@@ -10,11 +10,11 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services
 {
-    public class ChildCategoryService : IChildCategoryService
+    public class ChildCategoriesService : IChildCategoriesService
     {
         private XeonDbContext db;
 
-        public ChildCategoryService(XeonDbContext db)
+        public ChildCategoriesService(XeonDbContext db)
         {
             this.db = db;
         }

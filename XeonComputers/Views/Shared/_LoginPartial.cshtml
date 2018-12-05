@@ -27,10 +27,14 @@ else
         </li>
     </ul>
 }
+
+@await Component.InvokeAsync(typeof(ShoppingCartComponent))
+@*
 <div class="dropdown mb-1 mt-1">
-    <button class="dropbtn border-none"><i class="fas fa-shopping-cart"></i> Моята количка</button>
-    <div class="dropdown-content">
-        <p class="text-center pt-2 pb-2 mb-0" style="background-color:white";>Продукт</p>
-        <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" class="dropdown-item nav-link text-white">Виж количка</a>
-    </div>
+        <button class="dropbtn border-none"><i class="fas fa-shopping-cart"></i> Моята количка</button>
+        <div class="dropdown-content">
+            <p class="text-center pt-2 pb-2 mb-0" style="background-color:white";>Продукт</p>
+            <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" class="dropdown-item nav-link text-white">Виж количка</a>
+        </div>
 </div>
+*@

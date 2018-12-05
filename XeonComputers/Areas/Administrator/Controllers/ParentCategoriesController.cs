@@ -12,9 +12,9 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ParentCategoriesController : AdministratorController
     {
-        private IParentCategoryService parentCategoryService;
+        private IParentCategoriesService parentCategoryService;
 
-        public ParentCategoriesController(IParentCategoryService parentCategoryService)
+        public ParentCategoriesController(IParentCategoriesService parentCategoryService)
         {
             this.parentCategoryService = parentCategoryService;
         }

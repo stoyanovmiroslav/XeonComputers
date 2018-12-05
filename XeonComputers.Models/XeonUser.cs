@@ -6,11 +6,16 @@ namespace XeonComputers.Models
 {
     public class XeonUser : IdentityUser
     {
+        public XeonUser()
+        {
+            this.Addresses = new HashSet<Address>();
+        }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public virtual Address DeliveryAddress { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
         public virtual Company Company { get; set; }
 

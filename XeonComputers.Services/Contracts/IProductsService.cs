@@ -6,7 +6,7 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services.Contracts
 {
-    public interface IProductService
+    public interface IProductsService
     {
         ICollection<Product> GetProducts();
 

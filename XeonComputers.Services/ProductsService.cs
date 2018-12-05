@@ -9,11 +9,11 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services
 {
-    public class ProductService : IProductService
+    public class ProductsService : IProductsService
     {
         private readonly XeonDbContext db;
 
-        public ProductService(XeonDbContext db)
+        public ProductsService(XeonDbContext db)
         {
             this.db = db;
         }

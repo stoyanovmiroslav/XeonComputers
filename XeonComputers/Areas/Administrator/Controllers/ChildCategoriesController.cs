@@ -16,13 +16,13 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ChildCategoriesController : AdministratorController
     {
-        private IChildCategoryService childCategoryService;
-        private IParentCategoryService parentCategoryService;
-        private IImageService imageService;
+        private IChildCategoriesService childCategoryService;
+        private IParentCategoriesService parentCategoryService;
+        private IImagesService imageService;
 
-        public ChildCategoriesController(IChildCategoryService childCategoryService,
-                                         IParentCategoryService parentCategoryService,
-                                         IImageService imageService)
+        public ChildCategoriesController(IChildCategoriesService childCategoryService,
+                                         IParentCategoriesService parentCategoryService,
+                                         IImagesService imageService)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;

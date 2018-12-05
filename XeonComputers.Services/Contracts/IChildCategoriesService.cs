@@ -3,7 +3,7 @@ using XeonComputers.Models;
 
 namespace XeonComputers.Services.Contracts
 {
-    public interface IChildCategoryService
+    public interface IChildCategoriesService
     {
         ICollection<ChildCategory> GetChildCategories();
 

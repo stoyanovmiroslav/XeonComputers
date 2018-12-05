@@ -1,19 +1,14 @@
 ﻿/*Responsive text size*/
 
-/*@media screen and (min-width: 601px) {
-    div.example {
-        font-size: 80px;
-    }
-}*/
 
 @media screen and (max-width: 460px) {
-    div.fondsize-11 {
+    div.mobile-fondsize-11 {
         font-size: 11px;
     }
 }
 
 @media screen and (max-width: 460px) {
-    div.fondsize-20 {
+    div.mobile-fondsize-20 {
         font-size: 20px;
     }
 }
@@ -24,19 +19,19 @@
     overflow: hidden;
 }
 
-    .zoom img {
-        max-width: 100%;
-        height: auto;
-        -moz-transition: all 0.3s;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-    }
+.zoom img {
+    max-width: 100%;
+    height: auto;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
 
-    .zoom:hover img {
-        -moz-transform: scale(1.5);
-        -webkit-transform: scale(1.5);
-        transform: scale(1.5);
-    }
+.zoom:hover img {
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
 
 /*Active hover dropdown*/
 .dropbtn {
@@ -59,21 +54,20 @@
     display: none;
     position: absolute;
     background-color: #3b5998;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 300px;
     z-index: 1;
 }
 
-    .dropdown-content a {
-        color: white;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
 
-        .dropdown-content a:hover {
-            background-color: #47b7e9;
-        }
+.dropdown-content a:hover {
+    background-color: #47b7e9;
+}
 
 .dropdown:hover .dropdown-content {
     display: block;

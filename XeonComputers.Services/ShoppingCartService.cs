@@ -15,22 +15,22 @@ namespace XeonComputers.Services
         private const int DEFAULT_PRODUCT_QUANTITY = 1;
 
         private readonly XeonDbContext db;
-        private readonly IProductService productService;
-        private readonly UserManager<XeonUser> userManager;
+        private readonly IProductsService productService;
+        private readonly IUsersService userService;
 
         public ShoppingCartService(XeonDbContext db, 
-                                  IProductService productService,
-                                  UserManager<XeonUser> userManager)
+                                  IProductsService productService,
+                                  IUsersService userService)
         {
             this.db = db;
             this.productService = productService;
-            this.userManager = userManager;
+            this.userService = userService;
         }
 
         public void AddProductInShoppingCart(int productId, string username)
         {
             var product = this.productService.GetProductById(productId);
-            var user = this.userManager.FindByNameAsync(username).GetAwaiter().GetResult();
+            var user = this.userService.GetUserByUsername(username);
 
             if (product == null || user == null)
             {
@@ -55,10 +55,10 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public void DeleteProductFromShoppingCart(int id, string name)
+        public void DeleteProductFromShoppingCart(int id, string username)
         {
             var product = this.productService.GetProductById(id);
-            var user = this.userManager.FindByNameAsync(name).GetAwaiter().GetResult();
+            var user = this.userService.GetUserByUsername(username);
 
             if (product == null || user == null)
             {
@@ -74,7 +74,7 @@ namespace XeonComputers.Services
         public void EditProductInShoppingCart(int productId, string username, int quantity)
         {
             var product = this.productService.GetProductById(productId);
-            var user = this.userManager.FindByNameAsync(username).GetAwaiter().GetResult();
+            var user = this.userService.GetUserByUsername(username);
 
             if (product == null || user == null || quantity <= 0)
             {
@@ -95,7 +95,12 @@ namespace XeonComputers.Services
 
         public List<ShoppingCartProduct> GetAllShoppingCartProducts(string username)
         {
-            var user = this.userManager.FindByNameAsync(username).GetAwaiter().GetResult();
+            var user = this.userService.GetUserByUsername(username);
+
+            if (user == null)
+            {
+                return null;
+            }
 
             return this.db.ShoppingCartProducts.Include(x => x.Product)
                                                .ThenInclude(x => x.Images)

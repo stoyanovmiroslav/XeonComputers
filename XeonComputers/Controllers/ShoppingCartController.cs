@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,24 @@ namespace XeonComputers.Controllers
 
         public IActionResult Index()
         {
-            var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
 
+                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new IndexShoppingCartProductsViewModel
+                {
+                    Id = x.ProductId,
+                    ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
+                    Name = x.Product.Name,
+                    Price = x.Product.Price,
+                    Quantity = x.Quantity,
+                    TotalPrice = x.Quantity * x.Product.Price
+                }).ToList();
 
-            var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new IndexShoppingCartProductsViewModel
-                                                                    {
-                                                                         Id = x.ProductId,
-                                                                         ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
-                                                                         Name = x.Product.Name,
-                                                                         Price = x.Product.Price,
-                                                                         Quantity = x.Quantity,
-                                                                         TotalPrice = x.Quantity * x.Product.Price
-                                                                    }).ToList();
+                return this.View(shoppingCartProductsViewModel);
+            }
 
-            return this.View(shoppingCartProductsViewModel);
+            return this.View(new List<IndexShoppingCartProductsViewModel>());
         }
 
 

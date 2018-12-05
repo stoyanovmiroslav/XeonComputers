@@ -1,0 +1,30 @@
+﻿@model ConfirmOrderViewModel
+
+@{
+    ViewData["Title"] = "Потвърди поръчката";
+    Layout = "_LayoutClean";
+}
+
+<div class="h3 text-center mb-3">@ViewData["Title"]</div>
+<div class="progress mb-3">
+    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <div><span class="font-weight-bold">Име:</span> @Model.Recipient</div>
+            <hr />
+            <div><span class="font-weight-bold">Телефонен номер:</span> @Model.RecipientPhoneNumber</div>
+            <hr />
+            <div><span class="font-weight-bold">Град:</span> @Model.City, @Model.PostCode</div>
+            <hr />
+            <div><span class="font-weight-bold">Адрес:</span> @Model.Street @Model.Description</div>
+            <hr />
+            <div><span class="font-weight-bold">Метод на плащане:</span> @Model.PaymentType</div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
+    </div>
+</div>

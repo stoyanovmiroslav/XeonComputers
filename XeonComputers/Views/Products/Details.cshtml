@@ -5,6 +5,16 @@
     Layout = "_LayoutClean";
 }
 
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v3.2&appId=573350956442278&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
 <p class="h3">@Model.Name</p>
 <p class="text-muted h6">Номер на продукта: @Model.Id</p>
 <div class="row">
@@ -12,6 +22,7 @@
         <div class="zoom">
             <img src="@Model.ImageUrls.FirstOrDefault()" alt="@Model.Name">
         </div>
+        <div class="fb-like mb-3" data-href="https://www.diffchecker.com" data-layout="button_count" data-action="recommend" data-size="large" data-show-faces="true" data-share="true"></div>
         @if (this.User.IsInRole("Admin"))
         {
             <div class="pb-2">
@@ -69,6 +80,13 @@
             <div class="mt-5 mb-2">
                 <button type="button" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-heart text-left"></i> Добави в Лубими</button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div>
+            <div class="fb-comments" data-href="https://localhost:5001/Products/Details/@Model.Id" data-numposts="5" data-width="100%"></div>
         </div>
     </div>
 </div>

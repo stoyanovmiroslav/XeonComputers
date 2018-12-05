@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace XeonComputers.Services
 {
-    public class PaymentService : IPaymentService
+    public class PaymentsService : IPaymentsService
     {
-        public PaymentService(IConfiguration Configuration)
+        public PaymentsService(IConfiguration Configuration)
         {
             this.SecretKey = Configuration["Authentication:Epay:Secret"];
             this.Min = Configuration["Authentication:Epay:Min"];

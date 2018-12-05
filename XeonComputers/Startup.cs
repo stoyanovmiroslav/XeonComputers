@@ -20,8 +20,7 @@ using System.Text.Unicode;
 using System.Text.Encodings.Web;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Services;
-using XeonComputers.Services.Contracts;
-using XeonComputers.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace XeonComputers
 {
@@ -61,12 +60,17 @@ namespace XeonComputers
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
-            services.AddScoped<IChildCategoryService, ChildCategoryService>();
-            services.AddScoped<IParentCategoryService, ParentCategoryService>();
-            services.AddScoped<IImageService, ImageService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IPaymentService, PaymentService>();
+            services.TryAddScoped<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IChildCategoriesService, ChildCategoriesService>();
+            services.AddScoped<IParentCategoriesService, ParentCategoriesService>();
+            services.AddScoped<IImagesService, ImagesService>();
+            services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IPaymentsService, PaymentsService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IAdressesService, AddressesService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -79,7 +83,7 @@ namespace XeonComputers
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
-                
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using XeonComputers.Enums;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Models
 {
@@ -10,7 +11,7 @@ namespace XeonComputers.Models
 
         public OrderStatus Status { get; set; }
 
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         public DateTime? EstimatedDeliveryDate { get; set; }
 
@@ -18,9 +19,20 @@ namespace XeonComputers.Models
 
         public decimal TotalPrice { get; set; }
 
-        public int XeonUserId { get; set; }
+        public decimal DeliveryPrice { get; set; }
+
+        public string Recipient { get; set; }
+
+        public string RecipientPhoneNumber { get; set; }
+
+        public PaymentType PaymentType { get; set; }
+
+        public string XeonUserId { get; set; }
         public XeonUser XeonUser { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+
+        public int? DeliveryAddressId { get; set; }
+        public virtual Address DeliveryAddress { get; set; }
     }
 }

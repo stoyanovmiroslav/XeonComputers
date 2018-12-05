@@ -12,11 +12,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class HomeController : AdministratorController
     {
-        private IChildCategoryService childCategoryService;
-        private IParentCategoryService parentCategoryService;
+        private IChildCategoriesService childCategoryService;
+        private IParentCategoriesService parentCategoryService;
 
-        public HomeController(IChildCategoryService childCategoryService,
-                                         IParentCategoryService parentCategoryService)
+        public HomeController(IChildCategoriesService childCategoryService,
+                                         IParentCategoriesService parentCategoryService)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;

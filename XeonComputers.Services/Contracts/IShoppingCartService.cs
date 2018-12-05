@@ -13,6 +13,6 @@ namespace XeonComputers.Services.Contracts
 
         List<ShoppingCartProduct> GetAllShoppingCartProducts(string username);
 
-        void DeleteProductFromShoppingCart(int id, string name);
+        void DeleteProductFromShoppingCart(int id, string username);
     }
 }
