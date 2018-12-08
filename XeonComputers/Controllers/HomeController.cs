@@ -12,7 +12,7 @@ using XeonComputers.ViewModels.Home;
 
 namespace XeonComputers.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private IChildCategoriesService childCategoryService;
         private IParentCategoriesService parentCategoryService;
@@ -27,7 +27,7 @@ namespace XeonComputers.Controllers
             this.productService = productService;
         }
 
-        public object Index(int? page)
+        public IActionResult Index(int? page)
         {
             var categories = this.parentCategoryService.GetParentCategories();
             var categoriesViewModel = categories.Select(x => new IndexParentCategoriesViewModel

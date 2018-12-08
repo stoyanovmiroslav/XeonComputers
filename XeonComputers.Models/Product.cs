@@ -27,5 +27,7 @@ namespace XeonComputers.Models
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+
+        public virtual ICollection<XeonUserFavoriteProduct> FavoriteProducts { get; set; }
     }
 }

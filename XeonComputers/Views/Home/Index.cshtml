@@ -36,15 +36,15 @@
                         }
                         else
                         {
-                            <li class="list-group-item text-center bg-danger">
+                            <li class="list-group-item text-center font-weight-bold text-danger h5 ">@product.Price лв.</li>
+                            @*<li class="list-group-item text-center bg-danger">
                                 <a asp-area="Identity" asp-page="/Account/Login" class="nav-link text-white pb-0 pt-0"><i class="fas fa-sign-in-alt"></i> Вход</a>
-                            </li>
+                            </li>*@
                         }
                     </ul>
                 </div>
-
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-                    <button type="button" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></button>
+                    <a asp-controller="Favorites" asp-action="Add" asp-route-id="@product.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
                     <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</a>
                 </div>
             </div>

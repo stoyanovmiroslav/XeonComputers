@@ -22,7 +22,7 @@ namespace XeonComputers.Components
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new IndexShoppingCartProductsViewModel
+                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
@@ -35,7 +35,7 @@ namespace XeonComputers.Components
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            return this.View(new List<IndexShoppingCartProductsViewModel>());
+            return this.View(new List<AllFavoriteViewModel>());
         }
     }
 }

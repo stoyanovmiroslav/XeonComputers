@@ -10,8 +10,8 @@ using XeonComputers.Data;
 namespace XeonComputers.Data.Migrations
 {
     [DbContext(typeof(XeonDbContext))]
-    [Migration("20181202173123_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20181207080946_UpdateCompanyIdNullable")]
+    partial class UpdateCompanyIdNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -255,13 +255,21 @@ namespace XeonComputers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("DeliveryAddressId");
 
                     b.Property<DateTime?>("DeliveryDate");
 
+                    b.Property<decimal>("DeliveryPrice");
+
                     b.Property<DateTime?>("EstimatedDeliveryDate");
 
-                    b.Property<DateTime>("OrderDate");
+                    b.Property<DateTime?>("OrderDate");
+
+                    b.Property<int>("PaymentType");
+
+                    b.Property<string>("Recipient");
+
+                    b.Property<string>("RecipientPhoneNumber");
 
                     b.Property<int>("Status");
 
@@ -271,7 +279,7 @@ namespace XeonComputers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("DeliveryAddressId");
 
                     b.HasIndex("XeonUserId");
 
@@ -405,7 +413,9 @@ namespace XeonComputers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId")
+                        .IsUnique()
+                        .HasFilter("[CompanyId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -419,6 +429,19 @@ namespace XeonComputers.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+                {
+                    b.Property<int>("ProductId");
+
+                    b.Property<string>("XeonUserId");
+
+                    b.HasKey("ProductId", "XeonUserId");
+
+                    b.HasIndex("XeonUserId");
+
+                    b.ToTable("XeonUserFavoriteProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -518,8 +541,7 @@ namespace XeonComputers.Data.Migrations
                 {
                     b.HasOne("XeonComputers.Models.Address", "DeliveryAddress")
                         .WithMany("Addresses")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DeliveryAddressId");
 
                     b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
                         .WithMany("Orders")
@@ -563,13 +585,27 @@ namespace XeonComputers.Data.Migrations
             modelBuilder.Entity("XeonComputers.Models.XeonUser", b =>
                 {
                     b.HasOne("XeonComputers.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .WithOne("XeonUser")
+                        .HasForeignKey("XeonComputers.Models.XeonUser", "CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("XeonComputers.Models.ShoppingCart", "ShoppingCart")
                         .WithOne("User")
                         .HasForeignKey("XeonComputers.Models.XeonUser", "ShoppingCartId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+                {
+                    b.HasOne("XeonComputers.Models.Product", "Product")
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("XeonUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

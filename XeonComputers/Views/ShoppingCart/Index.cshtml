@@ -3,7 +3,7 @@
     Layout = "_LayoutClean";
 }
 
-@model List<IndexShoppingCartProductsViewModel>
+@model List<AllFavoriteViewModel>
 
 <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
 <div class="row">
@@ -53,7 +53,7 @@
             <p class="h6 ">Цена за доставка: 5.00 лв.</p>
             <p class="font-weight-bold text-danger h5 mt-3">Сума за плащане: @(Model.Sum(x => x.Price * x.Quantity) + 5) лв.</p>
             <div class="mb-2 ">
-                <a class="btn btn-success btn-lg btn-block" asp-controller="Orders" asp-action="Create" asp-route-id=""><i class="far fa-credit-card"></i> Продължи</a>
+                <a class="btn btn-success btn-lg btn-block" asp-controller="Orders" asp-action="Create" asp-route-id=""> Продължи</a>
             </div>
         </div>
     </div>

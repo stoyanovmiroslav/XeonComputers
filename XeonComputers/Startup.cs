@@ -60,6 +60,20 @@ namespace XeonComputers
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
+            services.AddDistributedMemoryCache();
+            //services.AddDistributedSqlServerCache(options =>
+            //{
+            //    options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
+            //    options.SchemaName = "dbo";
+            //    options.TableName = "CacheData";
+            //});
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.IdleTimeout = new TimeSpan(0, 4, 0, 0);
+            });
+
             services.TryAddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IChildCategoriesService, ChildCategoriesService>();
@@ -71,6 +85,7 @@ namespace XeonComputers
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IAdressesService, AddressesService>();
             services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<IFavoritesService, FavoritesService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -104,6 +119,8 @@ namespace XeonComputers
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseAuthentication();
 

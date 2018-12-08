@@ -14,8 +14,10 @@ namespace XeonComputers.Models
 
         public string Owner { get; set; }
 
+        public DateTime RegistrationDate { get; set; }
+
         public virtual Address Address { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        public virtual XeonUser XeonUser { get; set; }
     }
 }

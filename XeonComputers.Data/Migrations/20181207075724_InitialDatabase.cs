@@ -208,8 +208,8 @@ namespace XeonComputers.Data.Migrations
                     UniqueIdentifier = table.Column<string>(nullable: true),
                     Manager = table.Column<string>(nullable: true),
                     Owner = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: true),
-                    RegistrationDate = table.Column<DateTime>(nullable: false)
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    AddressId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,7 +237,7 @@ namespace XeonComputers.Data.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    CompanyId = table.Column<int>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: false),
                     ShoppingCartId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -373,28 +373,56 @@ namespace XeonComputers.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "XeonUserFavoriteProducts",
+                columns: table => new
+                {
+                    XeonUserId = table.Column<string>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_XeonUserFavoriteProducts", x => new { x.ProductId, x.XeonUserId });
+                    table.ForeignKey(
+                        name: "FK_XeonUserFavoriteProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_XeonUserFavoriteProducts_AspNetUsers_XeonUserId",
+                        column: x => x.XeonUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Status = table.Column<int>(nullable: false),
-                    OrderDate = table.Column<DateTime>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: true),
                     EstimatedDeliveryDate = table.Column<DateTime>(nullable: true),
                     DeliveryDate = table.Column<DateTime>(nullable: true),
                     TotalPrice = table.Column<decimal>(nullable: false),
+                    DeliveryPrice = table.Column<decimal>(nullable: false),
+                    Recipient = table.Column<string>(nullable: true),
+                    RecipientPhoneNumber = table.Column<string>(nullable: true),
+                    PaymentType = table.Column<int>(nullable: false),
                     XeonUserId = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: false)
+                    DeliveryAddressId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Addresses_AddressId",
-                        column: x => x.AddressId,
+                        name: "FK_Orders_Addresses_DeliveryAddressId",
+                        column: x => x.DeliveryAddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_XeonUserId",
                         column: x => x.XeonUserId,
@@ -467,7 +495,8 @@ namespace XeonComputers.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CompanyId",
                 table: "AspNetUsers",
-                column: "CompanyId");
+                column: "CompanyId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -513,9 +542,9 @@ namespace XeonComputers.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_AddressId",
+                name: "IX_Orders_DeliveryAddressId",
                 table: "Orders",
-                column: "AddressId");
+                column: "DeliveryAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_XeonUserId",
@@ -531,6 +560,11 @@ namespace XeonComputers.Data.Migrations
                 name: "IX_ShoppingCartProducts_ShoppingCartId",
                 table: "ShoppingCartProducts",
                 column: "ShoppingCartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_XeonUserFavoriteProducts_XeonUserId",
+                table: "XeonUserFavoriteProducts",
+                column: "XeonUserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Companies_Addresses_AddressId",
@@ -577,6 +611,9 @@ namespace XeonComputers.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartProducts");
+
+            migrationBuilder.DropTable(
+                name: "XeonUserFavoriteProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

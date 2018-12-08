@@ -25,7 +25,7 @@ namespace XeonComputers.Controllers
 
             this.addressesService.AddAddressesToUser(this.User.Identity.Name, address);
 
-            return this.RedirectToAction("Index", "Orders");
+            return this.RedirectToAction("CreateAddress", "Orders");
         }
     }
 }

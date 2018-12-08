@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using XeonComputers.Models;
+using XeonComputers.Services.Contracts;
+using XeonComputers.ViewModels.ShoppingCart;
 
 namespace XeonComputers.Areas.Identity.Pages.Account
 {
@@ -22,17 +24,23 @@ namespace XeonComputers.Areas.Identity.Pages.Account
         private readonly UserManager<XeonUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUsersService _userService;
+        private readonly IShoppingCartService _shoppingCartService;
 
         public RegisterModel(
             UserManager<XeonUser> userManager,
             SignInManager<XeonUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUsersService userService,
+            IShoppingCartService shoppingCartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userService = userService;
+            _shoppingCartService = shoppingCartService;
         }
 
         [BindProperty]
@@ -106,6 +114,18 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+                    if (cart != null)
+                    {
+                        foreach (var product in cart)
+                        {
+                            _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
+                        }
+
+                        HttpContext.Session.Clear();
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

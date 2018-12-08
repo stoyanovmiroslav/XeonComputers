@@ -1,6 +1,6 @@
 ﻿namespace XeonComputers.ViewModels.ShoppingCart
 {
-    public class IndexShoppingCartProductsViewModel
+    public class AllFavoriteViewModel
     {
         public int Id { get; set; }
 

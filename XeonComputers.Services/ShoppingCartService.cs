@@ -27,7 +27,7 @@ namespace XeonComputers.Services
             this.userService = userService;
         }
 
-        public void AddProductInShoppingCart(int productId, string username)
+        public void AddProductInShoppingCart(int productId, string username, int? quntity = null)
         {
             var product = this.productService.GetProductById(productId);
             var user = this.userService.GetUserByUsername(username);
@@ -47,7 +47,7 @@ namespace XeonComputers.Services
             shoppingCartProduct = new ShoppingCartProduct
             {
                 Product = product,
-                Quantity = DEFAULT_PRODUCT_QUANTITY,
+                Quantity = quntity == null ? DEFAULT_PRODUCT_QUANTITY : quntity.Value,
                 ShoppingCartId = user.ShoppingCartId
             };
 

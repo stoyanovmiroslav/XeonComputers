@@ -7,7 +7,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IShoppingCartService
     {
-        void AddProductInShoppingCart(int productId, string username);
+        void AddProductInShoppingCart(int productId, string username, int? quntity = null);
 
         void EditProductInShoppingCart(int productId, string username, int quantity);
 

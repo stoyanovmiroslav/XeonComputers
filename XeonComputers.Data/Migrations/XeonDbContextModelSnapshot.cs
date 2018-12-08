@@ -411,7 +411,9 @@ namespace XeonComputers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId")
+                        .IsUnique()
+                        .HasFilter("[CompanyId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -425,6 +427,19 @@ namespace XeonComputers.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+                {
+                    b.Property<int>("ProductId");
+
+                    b.Property<string>("XeonUserId");
+
+                    b.HasKey("ProductId", "XeonUserId");
+
+                    b.HasIndex("XeonUserId");
+
+                    b.ToTable("XeonUserFavoriteProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -568,13 +583,27 @@ namespace XeonComputers.Data.Migrations
             modelBuilder.Entity("XeonComputers.Models.XeonUser", b =>
                 {
                     b.HasOne("XeonComputers.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .WithOne("XeonUser")
+                        .HasForeignKey("XeonComputers.Models.XeonUser", "CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("XeonComputers.Models.ShoppingCart", "ShoppingCart")
                         .WithOne("User")
                         .HasForeignKey("XeonComputers.Models.XeonUser", "ShoppingCartId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+                {
+                    b.HasOne("XeonComputers.Models.Product", "Product")
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("XeonUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

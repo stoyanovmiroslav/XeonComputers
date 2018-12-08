@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using XeonComputers.Models;
+using XeonComputers.ViewModels.ShoppingCart;
+using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Areas.Identity.Pages.Account
 {
@@ -17,12 +19,17 @@ namespace XeonComputers.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<XeonUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<LoginModel> _logger; 
+        private readonly IUsersService _userService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public LoginModel(SignInManager<XeonUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<XeonUser> signInManager, ILogger<LoginModel> logger, 
+                          IUsersService userService, IShoppingCartService shoppingCartService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userService = userService;
+            _shoppingCartService = shoppingCartService;
         }
 
         [BindProperty]
@@ -77,6 +84,17 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+                    if (cart != null)
+                    {
+                        foreach (var product in cart)
+                        {
+                            _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
+                        }
+
+                        HttpContext.Session.Clear();
+                    }
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

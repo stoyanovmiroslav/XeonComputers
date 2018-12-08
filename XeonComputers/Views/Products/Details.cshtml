@@ -72,13 +72,13 @@
         }
         <div class="mt-4">
             <div class="mb-2">
-                <button type="button" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</button>
+                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</a>
             </div>
             <div class="mb-2">
-                <button type="button" class="btn xeon-color text-white btn-lg btn-block"><i class="fas fa-shopping-cart"></i> Добави в количката</button>
+                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn xeon-color text-white btn-lg btn-block"><i class="fas fa-shopping-cart"></i>  Добави в количката</a>
             </div>
             <div class="mt-5 mb-2">
-                <button type="button" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-heart text-left"></i> Добави в Лубими</button>
+                <a asp-controller="Favorites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-heart text-left"></i> Добави в Лубими</a>
             </div>
         </div>
     </div>
