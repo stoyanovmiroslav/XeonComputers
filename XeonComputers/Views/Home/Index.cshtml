@@ -2,16 +2,42 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model IndexViewModel
+
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Common;
 @using X.PagedList;
+
+<div class="row mb-2">
+    <div class="col-md-12 col-lg-6">
+        @if (Model.SearchString != null)
+        {
+            <strong>Търсене на: </strong>@Model.SearchString
+        }
+    </div>
+    <div class="col-md-12 col-lg-6 text-right">
+        <span class="text-muted">Покажи:</span>
+        <select>
+            <option value="volvo">8</option>
+            <option value="saab">16</option>
+            <option value="opel">24</option>
+            <option value="audi">32</option>
+        </select>
+        <span class="text-muted">Сортирай:</span>
+        <select>
+            <option value="audi">Най-нови</option>
+            <option value="saab">Цена (низх.)</option>
+            <option value="opel">Цена (възх.)</option>
+        </select>
+    </div>
+</div>
 
 <div class="row">
     @foreach (var product in Model.ProductsViewModel)
     {
         <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
             <div class="card h-100">
-                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.Id">
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
                     <div class="card-img-top zoom">
                         <img src="@product.ImageUrl" alt="@product.Name">
                     </div>
@@ -21,26 +47,11 @@
                         <img src="~/images/Rating/stars-5.png" width="90">
                         <a class="h6 font-italic text-info" asp-action="">1 ревю</a>
                     </div>
-                    <a asp-action="Details" asp-controller="Products" asp-route-id="@product.Id"><h6 class="card-title font-weight-bold">@product.Name</h6></a>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id"><h6 class="card-title font-weight-bold">@product.Name</h6></a>
                 </div>
                 <div class="mb-1">
                     <ul class="list-group list-group-flush mb-0">
-                        @if (User.IsInRole("Partner"))
-                        {
-                            <li class="list-group-item text-center font-weight-bold text-danger">@product.ParnersPrice лв.</li>
-                        }
-                        else if (User.IsInRole("Admin"))
-                        {
-                            <li class="list-group-item text-center font-weight-bold text-danger h5 ">@product.Price лв.</li>
-                            <li class="list-group-item text-center font-weight-bold text-danger h5">@product.ParnersPrice лв.</li>
-                        }
-                        else
-                        {
-                            <li class="list-group-item text-center font-weight-bold text-danger h5 ">@product.Price лв.</li>
-                            @*<li class="list-group-item text-center bg-danger">
-                                <a asp-area="Identity" asp-page="/Account/Login" class="nav-link text-white pb-0 pt-0"><i class="fas fa-sign-in-alt"></i> Вход</a>
-                            </li>*@
-                        }
+                        <partial name="~/Views/Shared/Partials/_ProductPricePartial.cshtml" , model="@product" />
                     </ul>
                 </div>
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
@@ -53,10 +64,15 @@
 </div>
 
 <div class="mt-3 d-flex justify-content-around">
-    @Html.PagedListPager((IPagedList)(IPagedList)Model.ProductsViewModel, page => Url.Action("Index",
-                                            new { page = page }),
+    @Html.PagedListPager((IPagedList)Model.ProductsViewModel, page => Url.Action("Index",
+                                            new {
+                                                page = page,
+                                                childCategoryId = Model.ChildCategoryId,
+                                                searchString = Model.SearchString
+                                            }),
                                             new PagedListRenderOptions
                                             {
+                                                MaximumPageNumbersToDisplay = 5,
                                                 LiElementClasses = new string[] { "page-item" },
                                                 PageClasses = new string[] { "page-link" }
                                             })

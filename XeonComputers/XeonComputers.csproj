@@ -50,9 +50,6 @@
     <Content Update="Areas\Administrator\Views\Shared\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Identity\Pages\Account\_Layout.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Areas\Identity\Pages\_ExternalLoginPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -68,13 +65,10 @@
     <Content Update="Views\Orders\Confirm.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Orders\CreateRecipient.cshtml">
+    <Content Update="Views\Orders\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Orders\Index - Copy.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Orders\CreateAddress.cshtml">
+    <Content Update="Views\Orders\My.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Products\Details.cshtml">
@@ -89,34 +83,34 @@
     <Content Update="Views\Shared\Components\ShoppingCartComponent\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\Privacy.cshtml">
+    <Content Update="Views\Shared\Layouts\_DefaultLayout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_DefaultLayout.cshtml">
+    <Content Update="Views\Shared\Partials\_FacebookPagePartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_FooterPartial.cshtml">
+    <Content Update="Views\Shared\Partials\_ErrorMessagePartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_LayoutClean.cshtml">
+    <Content Update="Views\Shared\Partials\_FooterPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_Layout.cshtml">
+    <Content Update="Views\Shared\Layouts\_LayoutMiddle.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_RightIndexPartial.cshtml">
+    <Content Update="Views\Shared\Layouts\_Layout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_NavbarPartial.cshtml">
+    <Content Update="Views\Shared\Partials\_ProductPricePartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_ManageNav.cshtml">
+    <Content Update="Views\Shared\Partials\_NavbarPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_MiddleXeonSectionPartial.cshtml">
+    <Content Update="Views\Shared\Partials\_MiddleXeonSectionPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_MenuImetsPartial.cshtml">
+    <Content Update="Views\Shared\Partials\_MenuCategoriesPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Payments\Pay.cshtml">

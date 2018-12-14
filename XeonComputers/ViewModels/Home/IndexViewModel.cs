@@ -11,5 +11,9 @@ namespace XeonComputers.ViewModels.Home
         public IPagedList<IndexProductViewModel> ProductsViewModel { get; set; }
 
         public IList<IndexParentCategoriesViewModel> CategoriesViewModel { get; set; }
+
+        public int? ChildCategoryId { get; set; }
+
+        public string SearchString { get; set; }
     }
 }

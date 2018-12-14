@@ -11,6 +11,8 @@ namespace XeonComputers.Models
 
         public OrderStatus Status { get; set; }
 
+        public PaymentStatus PaymentStatus { get; set; }
+
         public DateTime? OrderDate { get; set; }
 
         public DateTime? EstimatedDeliveryDate { get; set; }

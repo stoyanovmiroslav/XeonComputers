@@ -14,5 +14,9 @@ namespace XeonComputers.Services.Contracts
         List<ShoppingCartProduct> GetAllShoppingCartProducts(string username);
 
         void DeleteProductFromShoppingCart(int id, string username);
+
+        void DeleteAllProductFromsShoppingCart(string username);
+
+        bool AnyProducts(string username);
     }
 }

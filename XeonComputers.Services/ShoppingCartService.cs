@@ -55,6 +55,26 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
+        public bool AnyProducts(string username)
+        {
+            return this.db.ShoppingCartProducts.Any(x => x.ShoppingCart.User.UserName == username);
+        }
+
+        public void DeleteAllProductFromsShoppingCart(string username)
+        {
+            var user = this.userService.GetUserByUsername(username);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var shoppingCartProducts = this.db.ShoppingCartProducts.Where(x => x.ShoppingCartId == user.ShoppingCartId);
+
+            this.db.ShoppingCartProducts.RemoveRange(shoppingCartProducts);
+            this.db.SaveChanges();
+        }
+
         public void DeleteProductFromShoppingCart(int id, string username)
         {
             var product = this.productService.GetProductById(id);
@@ -81,7 +101,7 @@ namespace XeonComputers.Services
                 return;
             }
 
-            var shoppingCartProduct = GetShoppingCartProduct(productId, user.ShoppingCartId);
+            var shoppingCartProduct = this.GetShoppingCartProduct(productId, user.ShoppingCartId);
             if (shoppingCartProduct == null)
             {
                 return;

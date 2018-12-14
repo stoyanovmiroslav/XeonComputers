@@ -31,30 +31,6 @@ namespace XeonComputers.Areas.Administrator.Controllers
             return View(products);
         }
 
-        public IActionResult Details(int id)
-        {
-            var product = this.productService.GetProductById(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            var productViewModel = new DetailsProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ChildCategoryName = product.ChildCategory.Name,
-                Price = product.Price,
-                ParnersPrice = product.ParnersPrice,
-                ProductType = product.ProductType,
-                Specification = product.Specification
-            };
-
-            return View(productViewModel);
-        }
-
         public IActionResult Create()
         {
             var childCategories = this.productService.GetChildCategories();
@@ -71,14 +47,17 @@ namespace XeonComputers.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 var childCategories = this.productService.GetChildCategories();
 
-                ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", model.ChildCategoryId);
+                ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
+                                                             {
+                                                                 Value = x.Id.ToString(),
+                                                                 Text = x.Name
+                                                             }).ToList();
 
                 return View(model);
             }
@@ -118,7 +97,12 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             var childCategories = this.productService.GetChildCategories();
 
-            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", product.ChildCategoryId);
+            ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
+                                                         {
+                                                             Value = x.Id.ToString(),
+                                                             Text = x.Name
+                                                         }).ToList();
+           
 
             var model = new EditProductViewModel
             {
@@ -134,14 +118,17 @@ namespace XeonComputers.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 var childCategories = this.productService.GetChildCategories();
 
-                ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Id", model.ChildCategoryId);
+                ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                }).ToList();
 
                 return View(model);
             }
@@ -184,7 +171,6 @@ namespace XeonComputers.Areas.Administrator.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             this.productService.RemoveProduct(id);

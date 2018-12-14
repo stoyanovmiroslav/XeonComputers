@@ -1,0 +1,19 @@
+﻿@model IndexProductViewModel
+
+@if (User.IsInRole("Partner"))
+{
+    <li class="list-group-item text-center font-weight-bold text-danger">@Model.ParnersPrice лв.</li>
+}
+else if (User.IsInRole("Admin"))
+{
+    <li class="list-group-item text-center font-weight-bold text-danger h5 ">@Model.Price лв.</li>
+    <li class="list-group-item text-center font-weight-bold text-danger h5">@Model.ParnersPrice лв.</li>
+}
+else
+{
+    <li class="list-group-item text-center font-weight-bold text-danger h5 ">@Model.Price лв.</li>
+    @*<li class="list-group-item text-center bg-danger">
+            <a asp-area="Identity" asp-page="/Account/Login" class="nav-link text-white pb-0 pt-0"><i class="fas fa-sign-in-alt"></i> Вход</a>
+        </li>
+    *@
+}

@@ -12,7 +12,7 @@
                 <i class="fas fa-user-circle"></i> Здравей, @UserManager.GetUserName(User)!
             </a>
             <div class="dropdown-menu xeon-color" aria-labelledby="navbarDropdown">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="dropdown-item nav-link text-white"><i class="fas fa-history"></i> Моите поръчки</a>
+                <a asp-area="" asp-controller="Orders" asp-action="My" class="dropdown-item nav-link text-white"><i class="fas fa-history"></i> Моите поръчки</a>
                 <a asp-area="" asp-controller="Favorites" asp-action="All" class="dropdown-item nav-link text-white"><i class="fas fa-heart"></i> Любими</a>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-white"><i class="fas fa-cog"></i> Настройки</a>
                 <a asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item nav-link text-white"><i class="fas fa-sign-out-alt"></i> Изход</a>
@@ -30,6 +30,7 @@ else
 }
 
 @await Component.InvokeAsync(typeof(ShoppingCartComponent))
+
 @*
 <div class="dropdown mb-1 mt-1">
         <button class="dropbtn border-none"><i class="fas fa-shopping-cart"></i> Моята количка</button>

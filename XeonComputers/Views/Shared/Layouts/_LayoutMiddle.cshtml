@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using XeonComputers.Models
 
 @inject SignInManager<XeonUser> SignInManager
 @inject UserManager<XeonUser> UserManager
@@ -19,17 +18,19 @@
 <body>
 
     <div class="container">
-        <partial name="~/Views/Shared/_NavbarPartial.cshtml" />
-        <hr class="my-1 hr-xeon" />
-        <partial name="_CookieConsentPartial" />
-
+        <partial name="~/Views/Shared/Partials/_NavbarPartial.cshtml" />
+        <partial name="~/Views/Shared/Partials/_CookieConsentPartial.cshtml" />
+        <hr class="my-1 hr-xeon"/>
+        <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />
+        <partial name="~/Views/Shared/Partials/_MiddleXeonSectionPartial.cshtml" />
+        <hr class="mb-1 mt-1 hr-xeon" />
         <div class="body-content">
             @RenderBody()
             <hr class="my-1 hr-xeon mt-3" />
-            <partial name="~/Views/Shared/_FooterPartial.cshtml" />
+            <partial name="~/Views/Shared/Partials/_FooterPartial.cshtml" />
         </div>
     </div>
-
+  
     <script src="~/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="~/js/popper.min.js" type="text/javascript"></script>
     <script src="~/js/bootstrap.min.js" type="text/javascript"></script>

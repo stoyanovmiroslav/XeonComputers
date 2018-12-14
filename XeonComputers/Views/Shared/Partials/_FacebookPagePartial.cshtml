@@ -1,21 +1,4 @@
-﻿@model IndexViewModel
-
-@foreach (var parentCategory in Model.CategoriesViewModel)
-{
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link text-white xeon-color disabled font-weight-bold" href="#">@parentCategory.Name</a>
-        </li>
-        @foreach (var childCategory in parentCategory.ChildCategories)
-        {
-            <li class="nav-item">
-                <a class="nav-link active" href="#">@childCategory.Name</a>
-            </li>
-        }
-    </ul>
-}
-
-<div id="fb-root mb-0 mt-0"></div>
+﻿<div id="fb-root mb-0 mt-0"></div>
 <script>
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -25,5 +8,4 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
-
 <div class="fb-page d-none d-none d-xl-block" data-href="https://www.facebook.com/Експресен-Сервиз-Компютри-1354420641314592/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>

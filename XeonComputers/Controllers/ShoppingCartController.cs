@@ -5,9 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XeonComputers.Enums;
 using XeonComputers.Models;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.ShoppingCart;
+using System.ComponentModel;
+
 
 namespace XeonComputers.Controllers
 {
@@ -33,15 +36,16 @@ namespace XeonComputers.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
+                bool isPartnerPrice = this.User.IsInRole("Partner") || this.User.IsInRole("Admin");
 
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
                     Name = x.Product.Name,
-                    Price = x.Product.Price,
+                    Price = isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price,
                     Quantity = x.Quantity,
-                    TotalPrice = x.Quantity * x.Product.Price
+                    TotalPrice = x.Quantity * (isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
                 return this.View(shoppingCartProductsViewModel);

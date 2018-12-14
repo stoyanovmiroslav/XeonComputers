@@ -263,6 +263,8 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<DateTime?>("OrderDate");
 
+                    b.Property<int>("PaymentStatus");
+
                     b.Property<int>("PaymentType");
 
                     b.Property<string>("Recipient");
@@ -289,6 +291,8 @@ namespace XeonComputers.Data.Migrations
                     b.Property<int>("OrderId");
 
                     b.Property<int>("ProductId");
+
+                    b.Property<int>("Quantity");
 
                     b.HasKey("OrderId", "ProductId");
 
@@ -429,7 +433,7 @@ namespace XeonComputers.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProduct", b =>
                 {
                     b.Property<int>("ProductId");
 
@@ -593,7 +597,7 @@ namespace XeonComputers.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProducts", b =>
+            modelBuilder.Entity("XeonComputers.Models.XeonUserFavoriteProduct", b =>
                 {
                     b.HasOne("XeonComputers.Models.Product", "Product")
                         .WithMany("FavoriteProducts")

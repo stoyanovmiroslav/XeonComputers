@@ -1,11 +1,19 @@
-﻿namespace XeonComputers.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace XeonComputers.Enums
 {
     public enum OrderStatus
     {
+        [Display(Name = "Обработва се...")]
         Processing = 1,
-        Pending = 2,
-        Shipped = 3,
-        Delivered = 4,
-        Acquired = 5
+
+        [Display(Name = "Обработена")]
+        Processed = 2,
+
+        [Display(Name = "Изпратена")]
+        Sent = 3,
+
+        [Display(Name = "Доставена")]
+        Delivered = 4
     }
 }

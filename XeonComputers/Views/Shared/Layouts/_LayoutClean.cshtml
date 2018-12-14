@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
+@using XeonComputers.Models
 
 @inject SignInManager<XeonUser> SignInManager
 @inject UserManager<XeonUser> UserManager
@@ -19,16 +19,21 @@
 <body>
 
     <div class="container">
-        <partial name="_NavbarPartial.cshtml" />
-        <partial name="_CookieConsentPartial" />
+        <partial name="~/Views/Shared/Partials/_NavbarPartial.cshtml" />
         <hr class="my-1 hr-xeon" />
+        <partial name="~/Views/Shared/Partials/_CookieConsentPartial.cshtml" />
 
-        <partial name="_MiddleXeonSectionPartial.cshtml" />
-        <hr class="hr-xeon" />
+        <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />
+
+        @if (this.User.IsInRole("Admin"))
+        {
+            <partial name="~/Areas/Administrator/Views/Shared/_NavbarAdminPartial.cshtml" />
+        }
+
         <div class="body-content">
             @RenderBody()
             <hr class="my-1 hr-xeon mt-3" />
-            <partial name="_FooterPartial.cshtml" />
+            <partial name="~/Views/Shared/Partials/_FooterPartial.cshtml" />
         </div>
     </div>
 

@@ -21,11 +21,16 @@ namespace XeonComputers.Controllers
 
         public IActionResult Add(AddAddressesViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.RedirectToAction("Create", "Orders");
+            }
+
             var address = this.addressesService.CreateAddress(model.DeliveryAddress, model.AdditionТoАddress, model.City, model.Postcode);
 
             this.addressesService.AddAddressesToUser(this.User.Identity.Name, address);
 
-            return this.RedirectToAction("CreateAddress", "Orders");
+            return this.RedirectToAction("Create", "Orders");
         }
     }
 }

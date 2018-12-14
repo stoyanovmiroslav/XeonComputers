@@ -2,12 +2,12 @@
 
 @{
     ViewData["Title"] = "Потвърди поръчката";
-    Layout = "_LayoutClean";
+    Layout = "Layouts/_LayoutMiddle";
 }
 
 <div class="h3 text-center mb-3">@ViewData["Title"]</div>
 <div class="progress mb-3">
-    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+    <div class="progress-bar" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="66">66%</div>
 </div>
 
 <div class="row">
@@ -26,5 +26,8 @@
     </div>
     <div class="col-md-6">
         @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
+            <div class="text-center mt-4">
+                <a asp-area="" asp-controller="Orders" asp-action="Complete" class="btn btn-danger btn-lg"><i class="fas fa-check"></i> Потвърди поръчката</a>
+            </div>
     </div>
 </div>

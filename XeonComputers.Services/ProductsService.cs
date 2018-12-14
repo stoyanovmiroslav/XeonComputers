@@ -38,7 +38,10 @@ namespace XeonComputers.Services
 
         public ICollection<Product> GetProducts()
         {
-            return db.Products.Include(p => p.ChildCategory).Include(x => x.Images).ToList();
+            return db.Products.Include(p => p.ChildCategory)
+                              .ThenInclude(x => x.ParentCategory)
+                              .Include(x => x.Images)
+                              .ToList();
         }
 
         public IQueryable<Product> GetProductsQuery()
@@ -105,6 +108,23 @@ namespace XeonComputers.Services
             var product = GetProductById(id);
 
             return product.Images.ToList();
+        }
+
+        public IQueryable<Product> GetProductsByCategory(int childCategoryId)
+        {
+            return db.Products.Where(x => x.ChildCategory.Id == childCategoryId)
+                       .Include(p => p.ChildCategory).Include(x => x.Images);
+        }
+
+        public IList<Product> GetProductsBySearch(string searchString)
+        {
+            var searchStringClean = searchString.Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            List<Product> products = this.db.Products.Include(p => p.ChildCategory)
+                                                     .ThenInclude(x => x.ParentCategory)
+                                                     .Include(x => x.Images)
+                                                     .Where(x => searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower()))).ToList();
+            return products;
         }
     }
 }

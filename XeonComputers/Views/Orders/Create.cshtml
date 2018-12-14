@@ -1,23 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
 
-@model CreateAddressOrderViewModel
+@model CreateOrderViewModel
 
 @{
     ViewData["Title"] = "Данни за поръчката";
-    Layout = "_LayoutClean";
-
-    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = consentFeature?.CreateConsentCookie();
+    Layout = "Layouts/_LayoutMiddle";
 }
-
-
-@*<nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Library</li>
-        </ol>
-    </nav>*@
 
 <div class="h3 text-center mb-3">@ViewData["Title"]</div>
 <div class="progress">
@@ -31,7 +19,7 @@
         {
             <p>Все още нямате добавени адреси във вашия профил.</p>
         }
-        <form method="post" asp-controller="Orders" asp-action="CreateAddress">
+        <form method="post" asp-controller="Orders" asp-action="Create">
             <ul class="list-group">
                 @foreach (var address in Model.OrderAddressesViewModel)
                 {
@@ -45,19 +33,49 @@
                     </li>
                 }
             </ul>
-            <div class="d-flex justify-content-around mt-3">
+            <span asp-validation-for="DeliveryAddressId" class="text-danger"></span>
+            <div class="text-right mt-3">
                 <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Добави нов адрес</a>
-                <button type="submit" class="form-group btn btn-success mb-0">Продължи с поръчката</button>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Име и фамилия" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="GSM номер" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="h6 font-weight-bold">Метод на плащане:</div>
+                <div>
+                    <input asp-for="PaymentType" type="radio" id="EasyPay" value="EasyPay" checked>
+                    <label for="EasyPay">В брой (Изипей)</label>
+                </div>
+                <div>
+                    <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
+                    <label for="CashОnDelivery">Наложен платеж</label>
+                </div>
+                <div>
+                    <input asp-for="PaymentType" type="radio" id="Card" value="Card">
+                    <label for="Card">Visa, MasterCard и др.</label>
+                </div>
+                <div>
+                    <input asp-for="PaymentType" type="radio" id="Epay" value="Epay">
+                    <label for="Epay">ePay.bg</label>
+                </div>
+            </div>
+            <div class="text-right mt-3 mb-3">
+                <button type="submit" class="form-group btn btn-success btn-lg mb-0">Продължи с поръчката</button>
             </div>
         </form>
-
     </div>
     <div class="col-md-6">
         <div class="collapse multi-collapse" id="multiCollapseExample1">
             <div class="card card-body py-0">
-                @{var addressModel = Model.OrderAdressViewModel; }
                 <form method="post" asp-controller="Addresses" asp-action="Add">
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger mt-3"></div>
                     <div class="form-group">
                         <label asp-for="@Model.OrderAdressViewModel.DeliveryAddress"></label>
                         <input asp-for="@Model.OrderAdressViewModel.DeliveryAddress" name="DeliveryAddress" class="form-control" placeholder="Адрес" />
@@ -84,5 +102,10 @@
                 </form>
             </div>
         </div>
+        @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
     </div>
 </div>
+
+@section Scripts {
+    <partial name="~/Views/Shared/Partials/_ValidationScriptsPartial.cshtml" />
+}

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Детайли за продукта";
-    Layout = "_LayoutClean";
+    Layout = "Layouts/_LayoutMiddle";
 }
 
 <div id="fb-root"></div>
@@ -62,13 +62,9 @@
             <p class="font-weight-bold text-danger h5 ">Цена за клиенти: @Model.Price лв.</p>
             <p class="font-weight-bold text-danger h5">Цена за партньори: @Model.ParnersPrice лв.</p>
         }
-        else if (this.User.Identity.IsAuthenticated)
-        {
-            <p class="font-weight-bold text-danger h5 ">Цена: @Model.Price лв.</p>
-        }
         else
         {
-            <a asp-area="Identity" asp-page="/Account/Login" class="text-white pb-0 pt-0"><i class="fas fa-sign-in-alt"></i> Вход</a>
+            <p class="font-weight-bold text-danger h5 ">Цена: @Model.Price лв.</p>
         }
         <div class="mt-4">
             <div class="mb-2">
@@ -78,7 +74,7 @@
                 <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn xeon-color text-white btn-lg btn-block"><i class="fas fa-shopping-cart"></i>  Добави в количката</a>
             </div>
             <div class="mt-5 mb-2">
-                <a asp-controller="Favorites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-heart text-left"></i> Добави в Лубими</a>
+                <a asp-controller="Favorites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-heart text-left"></i> Добави в Любими</a>
             </div>
         </div>
     </div>

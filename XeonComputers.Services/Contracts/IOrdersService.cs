@@ -8,12 +8,16 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IOrdersService
     {
-        Order CreateOrder(string name);
+        Order CreateOrder(string username);
 
-        Order GetProcessingOrder(string name);
+        Order GetProcessingOrder(string username);
 
-        void SetAddress(Order order, int deliveryAddressId);
+        void CompleteProcessingOrder(string username, bool isPartnerOrAdmin);
 
-        void SetRecipientDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType);
+        Order GetOrderById(int orderId);
+
+        void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId);
+
+        IEnumerable<Order> GetUserOrders(string name);
     }
 }

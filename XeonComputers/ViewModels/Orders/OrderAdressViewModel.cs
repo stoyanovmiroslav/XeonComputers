@@ -11,15 +11,18 @@ namespace XeonComputers.ViewModels.Orders
         public int Id { get; set; }
 
         [Display(Name = "Адрес за доставка")]
+        [Required(ErrorMessage = "Моля въведете \"{0}\".")]
         public string DeliveryAddress { get; set; }
 
         [Display(Name = "Допълнение към адреса")]
         public string AdditionТoАddress { get; set; }
 
         [Display(Name = "Град")]
+        [Required(ErrorMessage = "Моля въведете \"{0}\".")]
         public string City { get; set; }
 
         [Display(Name = "Пощенски код")]
+        [Required(ErrorMessage = "Моля въведете \"{0}\".")]
         public string Postcode { get; set; }
     }
 }

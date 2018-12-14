@@ -22,9 +22,9 @@ namespace XeonComputers.Services
 
         public string Encoded { get; set; }
 
-        public string Invoice { get; set; } = "123456788"; // TODO:
+        public string Invoice { get; set; } = "123456778"; // TODO:
 
-        public string ExpDate { get; set; } = "01.08.2020"; // TODO:
+        public string ExpDate { get; set; } = "30.12.2018"; // TODO:
 
 
         public string EPay(decimal sum, string description)

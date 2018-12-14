@@ -1,0 +1,17 @@
+﻿@model IndexViewModel
+
+@foreach (var parentCategory in Model.CategoriesViewModel)
+{
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <p class="nav-link text-white xeon-color disabled font-weight-bold mb-0">@parentCategory.Name</p>
+        </li>
+        @foreach (var childCategory in parentCategory.ChildCategories)
+        {
+            <li class="nav-item">
+                <a asp-controller="Home" asp-action="Index" asp-route-childCategoryId="@childCategory.Id" class="nav-link active">@childCategory.Name</a>
+            </li>
+        }
+    </ul>
+}
+<partial name="_FacebookPagePartial.cshtml" />

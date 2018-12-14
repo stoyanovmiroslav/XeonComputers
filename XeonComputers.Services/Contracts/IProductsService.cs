@@ -27,5 +27,9 @@ namespace XeonComputers.Services.Contracts
         IList<Image> GetImages(int id);
 
         IQueryable<Product> GetProductsQuery();
+
+        IQueryable<Product> GetProductsByCategory(int childCategoryId);
+
+        IList<Product> GetProductsBySearch(string searchString);
     }
 }

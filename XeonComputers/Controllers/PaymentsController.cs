@@ -10,24 +10,34 @@ using XeonComputers.Models;
 using XeonComputers.ViewModels;
 using XeonComputers.ViewModels.Home;
 using XeonComputers.ViewModels.Payments;
+using Microsoft.AspNetCore.Authorization;
 
 namespace XeonComputers.Controllers
 {
+    [Authorize]
     public class PaymentsController : BaseController
     {
         public const string SUBMIT_URL_DEMO = "https://devep2.datamax.bg/ep2/epay2_demo/";
         public const string SUBMIT_URL = "https://www.epay.bg/";
 
-        
-        private IPaymentsService paymentService;
+        private readonly IOrdersService ordersService;
+        private readonly IPaymentsService paymentService;
 
-        public PaymentsController(IPaymentsService paymentService)
+        public PaymentsController(IPaymentsService paymentService, IOrdersService ordersService)
         {
             this.paymentService = paymentService;
+            this.ordersService = ordersService;
         }
 
-        public IActionResult Pay()
+        public IActionResult Pay(int orderId)
         {
+            var order = this.ordersService.GetOrderById(orderId);
+
+            if (order == null)
+            {
+                this.RedirectToAction("Index", "Home");
+            }
+
             var encoded = this.paymentService.EPay(22.33M, "this is description");
 
             var payViewModel = new PayViewModel

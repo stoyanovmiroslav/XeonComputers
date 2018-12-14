@@ -21,15 +21,17 @@ namespace XeonComputers.Components
         {
             if (this.User.Identity.IsAuthenticated)
             {
+                bool isPartnerPrice = this.User.IsInRole("Partner") || this.User.IsInRole("Admin");
+
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
                     Name = x.Product.Name,
-                    Price = x.Product.Price,
+                    Price = isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price,
                     Quantity = x.Quantity,
-                    TotalPrice = x.Quantity * x.Product.Price
+                    TotalPrice = x.Quantity * (isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
                 return this.View(shoppingCartProductsViewModel);

@@ -1,6 +1,25 @@
-﻿/*Responsive text size*/
+﻿/*Query Autocomplete*/
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
+/*Search box*/
+.search-xeon {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 7px 20px 7px 40px;
+}
 
+/*Responsive text size*/
 @media screen and (max-width: 460px) {
     div.mobile-fondsize-11 {
         font-size: 11px;
