@@ -85,7 +85,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+                    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
                     if (cart != null)
                     {
                         foreach (var product in cart)

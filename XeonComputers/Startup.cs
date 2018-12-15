@@ -21,6 +21,8 @@ using System.Text.Encodings.Web;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using AutoMapper;
+using XeonComputers.MappingConfiguration;
 
 namespace XeonComputers
 {
@@ -60,7 +62,7 @@ namespace XeonComputers
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
             //services.AddDistributedSqlServerCache(options =>
             //{
             //    options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
@@ -74,8 +76,10 @@ namespace XeonComputers
                 options.IdleTimeout = new TimeSpan(0, 4, 0, 0);
             });
 
-            services.TryAddScoped<IHttpContextAccessor, HttpContextAccessor>();
-
+            services.AddAutoMapper(cfg => {
+                cfg.AddProfile<XeonComputersProfile>();
+            });
+            
             services.AddScoped<IChildCategoriesService, ChildCategoriesService>();
             services.AddScoped<IParentCategoriesService, ParentCategoriesService>();
             services.AddScoped<IImagesService, ImagesService>();

@@ -25,7 +25,9 @@ namespace XeonComputers.Components
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
+               
+                //TODO: AutoMapping
+                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
@@ -38,7 +40,7 @@ namespace XeonComputers.Components
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            return this.View(new List<AllFavoriteViewModel>());
+            return this.View(new List<ShoppingCartProductsViewModel>());
         }
     }
 }

@@ -10,6 +10,7 @@ using XeonComputers.Models;
 using XeonComputers.ViewModels;
 using XeonComputers.ViewModels.Home;
 using XeonComputers.Models.Enums;
+using AutoMapper;
 
 namespace XeonComputers.Controllers
 {
@@ -18,45 +19,30 @@ namespace XeonComputers.Controllers
         private const int DEFAULT_PAGE_SIZE = 8;
         private const int DEFAULT_PAGE_NUMBER = 1;
 
-        private IChildCategoriesService childCategoryService;
-        private IParentCategoriesService parentCategoryService;
-        private IProductsService productService;
+        private readonly IChildCategoriesService childCategoryService;
+        private readonly IParentCategoriesService parentCategoryService;
+        private readonly IProductsService productService;
+        private readonly IMapper mapper;
 
         public HomeController(IChildCategoriesService childCategoryService,
                               IParentCategoriesService parentCategoryService,
-                              IProductsService productService)
+                              IProductsService productService,
+                              IMapper mapper)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;
             this.productService = productService;
+            this.mapper = mapper;
         }
 
         public IActionResult Index(IndexViewModel model)
         {
             var categories = this.parentCategoryService.GetParentCategories();
-            var categoriesViewModel = categories.Select(x => new IndexParentCategoriesViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ChildCategories = x.ChildCategories.Select(c => new IndexChildCategoriesViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList()
-            }).ToList();
-
             var products = this.productService.GetProductsFilter(model.SearchString, model.ChildCategoryId);
             products = this.productService.OrderBy(products, model.SortBy).ToList();
 
-            var productsViewModel = products.Select(x => new IndexProductViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                ParnersPrice = x.ParnersPrice,
-                Price = x.Price,
-                ImageUrl = x.Images.FirstOrDefault()?.ImageUrl
-            }).ToList();
+            var categoriesViewModel = mapper.Map<IList<IndexParentCategoriesViewModel>>(categories);
+            var productsViewModel = mapper.Map<IList<IndexProductViewModel>>(products);
 
             int pageNumber = model.PageNumber ?? DEFAULT_PAGE_NUMBER;
             int pageSize = model.PageSize ?? DEFAULT_PAGE_SIZE;

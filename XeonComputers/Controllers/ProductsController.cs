@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,34 +12,24 @@ namespace XeonComputers.Controllers
 {
     public class ProductsController : BaseController
     {
-        private IProductsService productService;
+        private readonly IProductsService productService;
+        private readonly IMapper mapper;
 
-        public ProductsController(IProductsService productService)
+        public ProductsController(IProductsService productService, IMapper mapper)
         {
             this.productService = productService;
+            this.mapper = mapper;
         }
 
         public IActionResult Details(int id)
         {
             var product = this.productService.GetProductById(id);
-
             if (product == null)
             {
                 return NotFound();
             }
 
-            var productViewModel = new DetailsProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ChildCategoryName = product.ChildCategory.Name,
-                Price = product.Price,
-                ParnersPrice = product.ParnersPrice,
-                Specification = product.Specification,
-                ImageUrls = product.Images.Select(x => x.ImageUrl).ToList()
-            };
-
+            var productViewModel = mapper.Map<DetailsProductViewModel>(product);
 
             return View(productViewModel);
         }

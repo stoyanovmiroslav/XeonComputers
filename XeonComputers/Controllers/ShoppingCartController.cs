@@ -12,6 +12,7 @@ using XeonComputers.ViewModels.ShoppingCart;
 using System.ComponentModel;
 using XeonComputers.Common;
 using XeonComputers.Models.Enums;
+using AutoMapper;
 
 namespace XeonComputers.Controllers
 {
@@ -22,14 +23,18 @@ namespace XeonComputers.Controllers
         private readonly IShoppingCartService shoppingCartService;
         private readonly IMemoryCache cache;
         private readonly IProductsService productSevice;
+        private readonly IMapper mapper;
 
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService, IMemoryCache cache,
-                                      IProductsService productSevice)
+        public ShoppingCartController(IShoppingCartService shoppingCartService, 
+                                      IMemoryCache cache,
+                                      IProductsService productSevice,
+                                      IMapper mapper)
         {
             this.shoppingCartService = shoppingCartService;
             this.cache = cache;
             this.productSevice = productSevice;
+            this.mapper = mapper;
         }
 
         public IActionResult Index()
@@ -39,7 +44,8 @@ namespace XeonComputers.Controllers
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
-                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
+                //TODO: AutoMapping
+                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
@@ -52,10 +58,10 @@ namespace XeonComputers.Controllers
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<AllFavoriteViewModel>();
+                cart = new List<ShoppingCartProductsViewModel>();
             }
 
             return this.View(cart);
@@ -67,32 +73,29 @@ namespace XeonComputers.Controllers
             {
                 this.shoppingCartService.AddProductInShoppingCart(id, this.User.Identity.Name);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(Index));
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<AllFavoriteViewModel>();
+                cart = new List<ShoppingCartProductsViewModel>();
             }
 
             if (!cart.Any(x => x.Id == id))
             {
-                var productViewModel = this.productSevice.GetProductById(id);
-                cart.Add(new AllFavoriteViewModel
-                {
-                    Id = id,
-                    ImageUrl = productViewModel.Images.FirstOrDefault()?.ImageUrl,
-                    Name = productViewModel.Name,
-                    Price = productViewModel.Price,
-                    Quantity = DEFAULT_PRODUCT_QUANTITY,
-                    TotalPrice = DEFAULT_PRODUCT_QUANTITY * productViewModel.Price
-                });
+                var product = this.productSevice.GetProductById(id);
+
+                var shoppingCart = mapper.Map<ShoppingCartProductsViewModel>(product);
+                shoppingCart.Quantity = DEFAULT_PRODUCT_QUANTITY;
+                shoppingCart.TotalPrice = shoppingCart.Quantity * shoppingCart.Price;
+
+                cart.Add(shoppingCart);
 
                 SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
@@ -101,13 +104,13 @@ namespace XeonComputers.Controllers
             {
                 this.shoppingCartService.DeleteProductFromShoppingCart(id, this.User.Identity.Name);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(Index));
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<AllFavoriteViewModel>();
+                cart = new List<ShoppingCartProductsViewModel>();
             }
 
             if (cart.Any(x => x.Id == id))
@@ -118,7 +121,7 @@ namespace XeonComputers.Controllers
                 SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(int id, int quantity)
@@ -127,13 +130,13 @@ namespace XeonComputers.Controllers
             {
                 this.shoppingCartService.EditProductInShoppingCart(id, this.User.Identity.Name, quantity);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(Index));
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<AllFavoriteViewModel>();
+                cart = new List<ShoppingCartProductsViewModel>();
             }
 
             if (cart.Any(x => x.Id == id) && quantity >= 0)
@@ -145,7 +148,7 @@ namespace XeonComputers.Controllers
                 SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(Index));
         }
     }
 }

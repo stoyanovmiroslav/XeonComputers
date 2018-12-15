@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,16 @@ namespace XeonComputers.Controllers
         private readonly IUsersService userService;
         private readonly IOrdersService orderService;
         private readonly IShoppingCartService shoppingCartService;
+        private readonly IMapper mapper;
 
         public OrdersController(IAdressesService adressesService, IUsersService userService,
-                                IOrdersService orderService, IShoppingCartService shoppingCartService)
+                                IOrdersService orderService, IShoppingCartService shoppingCartService, IMapper mapper)
         {
             this.userService = userService;
             this.adressesService = adressesService;
             this.orderService = orderService;
             this.shoppingCartService = shoppingCartService;
+            this.mapper = mapper;
         }
 
         public IActionResult Create()
@@ -42,21 +45,14 @@ namespace XeonComputers.Controllers
             var order = this.orderService.CreateOrder(this.User.Identity.Name);
             var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
 
-            var addressesViewModel = addresses.Select(x => new OrderAdressViewModel
-            {
-                Id = x.Id,
-                City = x.City.Name,
-                Postcode = x.City.Postcode,
-                DeliveryAddress = x.Street,
-                AdditionТoАddress = x.Description
-            }).ToList();
+            var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
 
             var user = this.userService.GetUserByUsername(this.User.Identity.Name);
             var fullName = $"{user.FirstName} {user.LastName}";
 
             var createOrderViewModel = new CreateOrderViewModel
             {
-                OrderAddressesViewModel = addressesViewModel,
+                OrderAddressesViewModel = addressesViewModel.ToList(),
                 FullName = fullName,
                 PhoneNumber = user.PhoneNumber
             };
@@ -76,16 +72,9 @@ namespace XeonComputers.Controllers
             if (!ModelState.IsValid)
             {
                 var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
-                var addressesViewModel = addresses.Select(x => new OrderAdressViewModel
-                {
-                    Id = x.Id,
-                    City = x.City.Name,
-                    Postcode = x.City.Postcode,
-                    DeliveryAddress = x.Street,
-                    AdditionТoАddress = x.Description
-                }).ToList();
+                var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
 
-                model.OrderAddressesViewModel = addressesViewModel;
+                model.OrderAddressesViewModel = addressesViewModel.ToList();
                 return this.View(model);
             }
 
@@ -109,17 +98,7 @@ namespace XeonComputers.Controllers
             }
 
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
-
-            var orderViewModel = new ConfirmOrderViewModel
-            {
-                Recipient = order.Recipient,
-                RecipientPhoneNumber = order.RecipientPhoneNumber,
-                City = order.DeliveryAddress.City.Name,
-                Street = order.DeliveryAddress.Street,
-                Description = order.DeliveryAddress.Description,
-                PostCode = order.DeliveryAddress.City.Postcode,
-                PaymentType = order.PaymentType,
-            };
+            var orderViewModel = mapper.Map<ConfirmOrderViewModel>(order);
 
             return this.View(orderViewModel);
         }
@@ -137,6 +116,7 @@ namespace XeonComputers.Controllers
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
            
+            //TODO:
             return this.RedirectToAction("Pay", "Payments", new { orderId = order.Id });
         }
 
@@ -145,16 +125,7 @@ namespace XeonComputers.Controllers
         {
             IEnumerable<Order> orders = this.orderService.GetUserOrders(this.User.Identity.Name);
 
-            var myOrdersViewModel = orders.Select(x => new MyOrderViewModel
-                                                  {
-                                                     TotalPrice = x.TotalPrice,
-                                                     PaymentStatus = x.PaymentStatus.GetDisplayName(),
-                                                     PaymentType = x.PaymentType.GetDisplayName(),
-                                                     Status = x.Status.GetDisplayName(),
-                                                     Id = x.Id,
-                                                  })
-                                                  .OrderByDescending(x => x.Id)
-                                                  .ToList();
+            var myOrdersViewModel = mapper.Map<IList<MyOrderViewModel>>(orders);
 
             return this.View(myOrdersViewModel);
         }

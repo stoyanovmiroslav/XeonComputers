@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,23 +15,19 @@ namespace XeonComputers.Controllers
     public class FavoritesController : BaseController
     {
         private readonly IFavoritesService favoritesService;
+        private readonly IMapper mapper;
 
-        public FavoritesController(IFavoritesService favoritesService)
+        public FavoritesController(IFavoritesService favoritesService, IMapper mapper)
         {
             this.favoritesService = favoritesService;
+            this.mapper = mapper;
         }
 
         public IActionResult All()
         {
             IEnumerable<XeonUserFavoriteProduct> xeonUserFavoriteProducts = this.favoritesService.All(this.User.Identity.Name);
 
-            var favoriteProductsViewModel = xeonUserFavoriteProducts.Select(x => new AllFavoriteViewModel
-            {
-                Id = x.ProductId,
-                Name = x.Product.Name,
-                ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
-                Price = x.Product.Price
-            }).ToList();
+            var favoriteProductsViewModel = this.mapper.Map<IList<AllFavoriteViewModel>>(xeonUserFavoriteProducts);
 
             return View(favoriteProductsViewModel);
         }

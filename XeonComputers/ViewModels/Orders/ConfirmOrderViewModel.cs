@@ -18,12 +18,12 @@ namespace XeonComputers.ViewModels.Orders
 
         public PaymentType PaymentType { get; set; }
 
-        public string Description { get; set; }
+        public string DeliveryAddressDescription { get; set; }
 
-        public string Street { get; set; }
+        public string DeliveryAddressStreet { get; set; }
 
-        public string City { get; set; }
+        public string DeliveryAddressCityName { get; set; }
 
-        public string PostCode { get; set; }
+        public string DeliveryAddressCityPostCode { get; set; }
     }
 }

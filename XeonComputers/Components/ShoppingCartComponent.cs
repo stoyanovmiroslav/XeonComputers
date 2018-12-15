@@ -26,7 +26,9 @@ namespace XeonComputers.Components
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
+
+                //TODO: AutoMapping
+                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
@@ -39,10 +41,10 @@ namespace XeonComputers.Components
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<AllFavoriteViewModel>();
+                cart = new List<ShoppingCartProductsViewModel>();
             }
 
             return this.View(cart);

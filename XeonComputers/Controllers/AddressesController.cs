@@ -25,7 +25,7 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Create", "Orders");
             }
 
-            var address = this.addressesService.CreateAddress(model.DeliveryAddress, model.AdditionТoАddress, model.City, model.Postcode);
+            var address = this.addressesService.CreateAddress(model.Street, model.Description, model.CityName, model.CityPostcode);
             this.addressesService.AddAddressesToUser(this.User.Identity.Name, address);
 
             return this.RedirectToAction("Create", "Orders");
