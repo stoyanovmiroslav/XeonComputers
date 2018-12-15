@@ -7,7 +7,7 @@ namespace XeonComputers.Services.Contracts
     {
         void AddMainCategory(string name);
 
-        ICollection<ParentCategory> GetParentCategories();
+        IEnumerable<ParentCategory> GetParentCategories();
 
         ParentCategory GetParentCategoryById(int id);
 

@@ -1,10 +1,10 @@
 ﻿@model IndexProductViewModel
 
-@if (User.IsInRole("Partner"))
+@if (User.IsInRole(Role.Partner.ToString()))
 {
     <li class="list-group-item text-center font-weight-bold text-danger">@Model.ParnersPrice лв.</li>
 }
-else if (User.IsInRole("Admin"))
+else if (User.IsInRole(Role.Admin.ToString()))
 {
     <li class="list-group-item text-center font-weight-bold text-danger h5 ">@Model.Price лв.</li>
     <li class="list-group-item text-center font-weight-bold text-danger h5">@Model.ParnersPrice лв.</li>

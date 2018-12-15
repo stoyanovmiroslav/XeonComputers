@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XeonComputers.Models;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Services.Contracts
 {
     public interface IProductsService
     {
-        ICollection<Product> GetProducts();
+        IEnumerable<Product> GetProducts();
 
         Product GetProductById(int id);
 
-        ICollection<ChildCategory> GetChildCategories();
+        IEnumerable<ChildCategory> GetChildCategories();
 
         void AddProduct(Product product);
 
@@ -22,14 +23,16 @@ namespace XeonComputers.Services.Contracts
 
         bool EditProduct(Product product);
 
-        void AddImageUrls(int id, IList<string> imageUrls);
+        void AddImageUrls(int id, IEnumerable<string> imageUrls);
 
-        IList<Image> GetImages(int id);
+        IEnumerable<Image> GetImages(int id);
 
-        IQueryable<Product> GetProductsQuery();
+        IEnumerable<Product> GetProductsByCategory(int childCategoryId);
 
-        IQueryable<Product> GetProductsByCategory(int childCategoryId);
+        IEnumerable<Product> GetProductsBySearch(string searchString);
 
-        IList<Product> GetProductsBySearch(string searchString);
+        IEnumerable<Product> GetProductsFilter(string searchString, int? childCategoryId);
+
+        IEnumerable<Product> OrderBy(IEnumerable<Product> products, ProductsSort sortBy);
     }
 }

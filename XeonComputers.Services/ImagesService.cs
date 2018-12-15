@@ -18,7 +18,7 @@ namespace XeonComputers.Services
             }
         }
 
-        public async Task<IList<string>> UploadImages(IList<IFormFile> formImages, int existingImages, string template, int id)
+        public async Task<IEnumerable<string>> UploadImages(IList<IFormFile> formImages, int existingImages, string template, int id)
         {
             var imageUrls = new List<string>();
 

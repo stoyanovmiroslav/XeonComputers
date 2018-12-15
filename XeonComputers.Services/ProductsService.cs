@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Data;
 using XeonComputers.Models;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Services
 {
@@ -24,7 +25,7 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public ICollection<ChildCategory> GetChildCategories()
+        public IEnumerable<ChildCategory> GetChildCategories()
         {
             return this.db.ChildCategories.ToArray();
         }
@@ -36,17 +37,12 @@ namespace XeonComputers.Services
                                    .FirstOrDefault(m => m.Id == id);
         }
 
-        public ICollection<Product> GetProducts()
+        public IEnumerable<Product> GetProducts()
         {
             return db.Products.Include(p => p.ChildCategory)
                               .ThenInclude(x => x.ParentCategory)
                               .Include(x => x.Images)
                               .ToList();
-        }
-
-        public IQueryable<Product> GetProductsQuery()
-        {
-            return db.Products.Include(p => p.ChildCategory).Include(x => x.Images);
         }
 
         public bool RemoveProduct(int id)
@@ -89,7 +85,7 @@ namespace XeonComputers.Services
             return true;
         }
 
-        public void AddImageUrls(int id, IList<string> imageUrls)
+        public void AddImageUrls(int id, IEnumerable<string> imageUrls)
         {
             var product = this.GetProductById(id);
 
@@ -102,29 +98,63 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-
-        public IList<Image> GetImages(int id)
+        public IEnumerable<Image> GetImages(int id)
         {
             var product = GetProductById(id);
 
             return product.Images.ToList();
         }
 
-        public IQueryable<Product> GetProductsByCategory(int childCategoryId)
+        public IEnumerable<Product> GetProductsByCategory(int childCategoryId)
         {
             return db.Products.Where(x => x.ChildCategory.Id == childCategoryId)
-                       .Include(p => p.ChildCategory).Include(x => x.Images);
+                              .Include(p => p.ChildCategory)
+                              .Include(x => x.Images);
         }
 
-        public IList<Product> GetProductsBySearch(string searchString)
+        public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
             var searchStringClean = searchString.Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
 
-            List<Product> products = this.db.Products.Include(p => p.ChildCategory)
-                                                     .ThenInclude(x => x.ParentCategory)
-                                                     .Include(x => x.Images)
-                                                     .Where(x => searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower()))).ToList();
+            IQueryable<Product> products = this.db.Products.Include(p => p.ChildCategory)
+                                                           .ThenInclude(x => x.ParentCategory)
+                                                           .Include(x => x.Images)
+                                                           .Where(x => searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower())));
             return products;
+        }
+
+        public IEnumerable<Product> GetProductsFilter(string searchString, int? childCategoryId)
+        {
+            if (searchString != null)
+            {
+                return this.GetProductsBySearch(searchString);
+            }
+            else if (childCategoryId != null)
+            {
+                return this.GetProductsByCategory(childCategoryId.Value);
+            }
+
+            return this.GetProducts();
+        }
+
+        public IEnumerable<Product> OrderBy(IEnumerable<Product> products, ProductsSort sortBy)
+        {
+            if (ProductsSort.PriceDescending == sortBy)
+            {
+                return products.OrderByDescending(x => x.Price).ToList();
+            }
+            else if (ProductsSort.PriceAscending == sortBy)
+            {
+                return products.OrderBy(x => x.Price).ToList();
+            }
+            else if (ProductsSort.Oldest == sortBy)
+            {
+                //Default sorting behavior
+                return products;
+            }
+
+            //ProductsSortType.Newest
+            return products.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

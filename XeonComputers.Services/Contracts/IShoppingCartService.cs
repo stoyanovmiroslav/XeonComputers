@@ -11,7 +11,7 @@ namespace XeonComputers.Services.Contracts
 
         void EditProductInShoppingCart(int productId, string username, int quantity);
 
-        List<ShoppingCartProduct> GetAllShoppingCartProducts(string username);
+        IEnumerable<ShoppingCartProduct> GetAllShoppingCartProducts(string username);
 
         void DeleteProductFromShoppingCart(int id, string username);
 

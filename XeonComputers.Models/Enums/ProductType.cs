@@ -2,7 +2,7 @@
 {
     public enum ProductType
     {
-        Firs = 1,
-        Second = 2
+        New = 1,
+        Old = 2
     }
 }

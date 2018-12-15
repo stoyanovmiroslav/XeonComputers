@@ -23,7 +23,7 @@
             <img src="@Model.ImageUrls.FirstOrDefault()" alt="@Model.Name">
         </div>
         <div class="fb-like mb-3" data-href="https://www.diffchecker.com" data-layout="button_count" data-action="recommend" data-size="large" data-show-faces="true" data-share="true"></div>
-        @if (this.User.IsInRole("Admin"))
+        @if (this.User.IsInRole(Role.Admin.ToString()))
         {
             <div class="pb-2">
                 <a asp-area="Administrator" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg btn-block">
@@ -53,11 +53,11 @@
         </div>
     </div>
     <div class="col-md-4">
-        @if (this.User.IsInRole("Partner"))
+        @if (this.User.IsInRole(Role.Partner.ToString()))
         {
             <p class="font-weight-bold text-danger h2">Цена: @Model.ParnersPrice лв.</p>
         }
-        else if (this.User.IsInRole("Admin"))
+        else if (this.User.IsInRole(Role.Admin.ToString()))
         {
             <p class="font-weight-bold text-danger h5 ">Цена за клиенти: @Model.Price лв.</p>
             <p class="font-weight-bold text-danger h5">Цена за партньори: @Model.ParnersPrice лв.</p>

@@ -18,7 +18,6 @@ namespace XeonComputers.Controllers
             this.productService = productService;
         }
 
-
         public IActionResult Details(int id)
         {
             var product = this.productService.GetProductById(id);

@@ -113,7 +113,7 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public List<ShoppingCartProduct> GetAllShoppingCartProducts(string username)
+        public IEnumerable<ShoppingCartProduct> GetAllShoppingCartProducts(string username)
         {
             var user = this.userService.GetUserByUsername(username);
 

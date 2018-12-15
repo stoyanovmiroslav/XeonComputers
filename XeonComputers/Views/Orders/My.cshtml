@@ -1,9 +1,9 @@
-﻿@{
+﻿@model List<MyOrderViewModel>
+
+@{
     ViewData["Title"] = "Моите поръчки";
     Layout = "Layouts/_LayoutMiddle";
 }
-
-@model List<MyOrderViewModel>
 
 <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
 <div class="container mobile-fondsize-11">
@@ -21,28 +21,28 @@
         <tbody>
             @foreach (var order in Model)
             {
-            <tr class="row">
-                <td class="col-2 d-flex justify-content-center">
-                    @order.Id
-                </td>
-                <td class="col-2 d-flex justify-content-center">
-                    @order.Status
-                </td>
-                <td class="col-2 d-flex justify-content-center">
-                    @order.PaymentType
-                </td>
-                <td class="col-2 d-flex justify-content-center">
-                    @order.TotalPrice лв.
-                </td>
-                <td class="col-2 d-flex justify-content-center">
-                    @order.PaymentStatus
-                </td>
-                <td class="col-md-2 d-flex justify-content-around">
-                    <div class="mr-2">
-                        <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary btn-sm mobile-fondsize-11"> Детайли</a>
-                    </div>
-                </td>
-            </tr>
+                <tr class="row">
+                    <td class="col-2 d-flex justify-content-center">
+                        @order.Id
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @order.Status
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @order.PaymentType
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @order.TotalPrice лв.
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @order.PaymentStatus
+                    </td>
+                    <td class="col-md-2 d-flex justify-content-around">
+                        <div class="mr-2">
+                            <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary btn-sm mobile-fondsize-11"> Детайли</a>
+                        </div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

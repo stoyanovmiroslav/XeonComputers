@@ -10,6 +10,6 @@ namespace XeonComputers.Services.Contracts
     {
         void UploadImage(IFormFile formImage, string path);
 
-        Task<IList<string>> UploadImages(IList<IFormFile> formImages, int count, string template, int id);
+        Task<IEnumerable<string>> UploadImages(IList<IFormFile> formImages, int count, string template, int id);
     }
 }

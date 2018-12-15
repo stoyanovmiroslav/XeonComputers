@@ -17,8 +17,8 @@ namespace XeonComputers.Controllers
     [Authorize]
     public class PaymentsController : BaseController
     {
-        public const string SUBMIT_URL_DEMO = "https://devep2.datamax.bg/ep2/epay2_demo/";
-        public const string SUBMIT_URL = "https://www.epay.bg/";
+        private const string SUBMIT_URL_DEMO = "https://devep2.datamax.bg/ep2/epay2_demo/";
+        private const string SUBMIT_URL = "https://www.epay.bg/";
 
         private readonly IOrdersService ordersService;
         private readonly IPaymentsService paymentService;
@@ -38,6 +38,7 @@ namespace XeonComputers.Controllers
                 this.RedirectToAction("Index", "Home");
             }
 
+            //TODO: 
             var encoded = this.paymentService.EPay(22.33M, "this is description");
 
             var payViewModel = new PayViewModel

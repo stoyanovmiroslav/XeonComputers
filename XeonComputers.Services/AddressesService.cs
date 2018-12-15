@@ -46,7 +46,7 @@ namespace XeonComputers.Services
             return address;
         }
 
-        public ICollection<Address> GetAllUserAddresses(string username)
+        public IEnumerable<Address> GetAllUserAddresses(string username)
         {
             return this.db.Addresses.Include(x => x.City).Where(x => x.XeonUser.UserName == username).ToList();
         }

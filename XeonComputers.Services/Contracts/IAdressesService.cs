@@ -11,6 +11,6 @@ namespace XeonComputers.Services.Contracts
 
         void AddAddressesToUser(string username, Address address);
 
-        ICollection<Address> GetAllUserAddresses(string name);
+        IEnumerable<Address> GetAllUserAddresses(string name);
     }
 }

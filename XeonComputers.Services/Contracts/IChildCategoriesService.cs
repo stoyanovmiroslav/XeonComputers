@@ -5,7 +5,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IChildCategoriesService
     {
-        ICollection<ChildCategory> GetChildCategories();
+        IEnumerable<ChildCategory> GetChildCategories();
 
         ChildCategory GetChildCategoryById(int id);
 

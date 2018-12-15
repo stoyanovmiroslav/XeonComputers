@@ -12,7 +12,6 @@ namespace XeonComputers.Controllers
     public class AddressesController : BaseController
     {
         private readonly IAdressesService addressesService;
-        
 
         public AddressesController(IAdressesService addressesService)
         {
@@ -27,7 +26,6 @@ namespace XeonComputers.Controllers
             }
 
             var address = this.addressesService.CreateAddress(model.DeliveryAddress, model.AdditionТoАddress, model.City, model.Postcode);
-
             this.addressesService.AddAddressesToUser(this.User.Identity.Name, address);
 
             return this.RedirectToAction("Create", "Orders");

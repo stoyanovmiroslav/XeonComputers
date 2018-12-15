@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using XeonComputers.Models;
 using XeonComputers.ViewModels.ShoppingCart;
 using XeonComputers.Services.Contracts;
+using XeonComputers.Common;
 
 namespace XeonComputers.Areas.Identity.Pages.Account
 {
@@ -84,15 +85,15 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
                     if (cart != null)
                     {
                         foreach (var product in cart)
                         {
                             _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
                         }
-
-                        HttpContext.Session.Clear();
+                        
+                        HttpContext.Session.Remove(GlobalConstans.SESSION_SHOPPING_CART_KEY);
                     }
 
                     _logger.LogInformation("User logged in.");

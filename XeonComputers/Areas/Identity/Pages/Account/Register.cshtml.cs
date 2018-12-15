@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using XeonComputers.Common;
 using XeonComputers.Models;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.ShoppingCart;
@@ -115,7 +116,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+                    var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
                     if (cart != null)
                     {
                         foreach (var product in cart)
@@ -123,7 +124,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                             _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
                         }
 
-                        HttpContext.Session.Clear();
+                        HttpContext.Session.Remove(GlobalConstans.SESSION_SHOPPING_CART_KEY);
                     }
 
                     return LocalRedirect(returnUrl);

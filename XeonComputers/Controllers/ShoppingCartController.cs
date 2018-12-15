@@ -10,7 +10,8 @@ using XeonComputers.Models;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.ShoppingCart;
 using System.ComponentModel;
-
+using XeonComputers.Common;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Controllers
 {
@@ -36,22 +37,22 @@ namespace XeonComputers.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-                bool isPartnerPrice = this.User.IsInRole("Partner") || this.User.IsInRole("Admin");
+                bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
                 {
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
                     Name = x.Product.Name,
-                    Price = isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price,
+                    Price = isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price,
                     Quantity = x.Quantity,
-                    TotalPrice = x.Quantity * (isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price)
+                    TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+            var cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
                 cart = new List<AllFavoriteViewModel>();
@@ -69,7 +70,7 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
                 cart = new List<AllFavoriteViewModel>();
@@ -88,7 +89,7 @@ namespace XeonComputers.Controllers
                     TotalPrice = DEFAULT_PRODUCT_QUANTITY * productViewModel.Price
                 });
 
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
             return this.RedirectToAction("Index");
@@ -103,7 +104,7 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
                 cart = new List<AllFavoriteViewModel>();
@@ -114,7 +115,7 @@ namespace XeonComputers.Controllers
                 var product = cart.First(x => x.Id == id);
                 cart.Remove(product);
 
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
             return this.RedirectToAction("Index");
@@ -129,7 +130,7 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, "cart");
+            List<AllFavoriteViewModel> cart = SessionHelper.GetObjectFromJson<List<AllFavoriteViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
                 cart = new List<AllFavoriteViewModel>();
@@ -141,7 +142,7 @@ namespace XeonComputers.Controllers
                 product.Quantity = quantity;
                 product.TotalPrice = quantity * product.Price;
 
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
             }
 
             return this.RedirectToAction("Index");

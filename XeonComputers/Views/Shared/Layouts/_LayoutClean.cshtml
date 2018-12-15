@@ -25,7 +25,7 @@
 
         <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />
 
-        @if (this.User.IsInRole("Admin"))
+        @if (this.User.IsInRole(Role.Admin.ToString()))
         {
             <partial name="~/Areas/Administrator/Views/Shared/_NavbarAdminPartial.cshtml" />
         }

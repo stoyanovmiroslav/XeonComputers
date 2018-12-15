@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XeonComputers.Models.Enums;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.ShoppingCart;
 
@@ -21,7 +22,7 @@ namespace XeonComputers.Components
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                bool isPartnerPrice = this.User.IsInRole("Partner") || this.User.IsInRole("Admin");
+                bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new AllFavoriteViewModel
@@ -29,9 +30,9 @@ namespace XeonComputers.Components
                     Id = x.ProductId,
                     ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
                     Name = x.Product.Name,
-                    Price = isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price,
+                    Price = isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price,
                     Quantity = x.Quantity,
-                    TotalPrice = x.Quantity * (isPartnerPrice ? x.Product.ParnersPrice : x.Product.Price)
+                    TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
                 return this.View(shoppingCartProductsViewModel);

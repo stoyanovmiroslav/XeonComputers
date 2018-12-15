@@ -132,7 +132,7 @@ namespace XeonComputers.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isPartnerOrAdmin = this.User.IsInRole("Partner") || this.User.IsInRole("Admin");
+            bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
@@ -152,7 +152,9 @@ namespace XeonComputers.Controllers
                                                      PaymentType = x.PaymentType.GetDisplayName(),
                                                      Status = x.Status.GetDisplayName(),
                                                      Id = x.Id,
-                                                  }).OrderByDescending(x => x.Id).ToList();
+                                                  })
+                                                  .OrderByDescending(x => x.Id)
+                                                  .ToList();
 
             return this.View(myOrdersViewModel);
         }

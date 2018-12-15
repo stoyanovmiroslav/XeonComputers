@@ -31,7 +31,7 @@ namespace XeonComputers.Services
                 return;
             }
 
-            var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(username);
+            var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(username).ToList();
             if (shoppingCartProducts == null || shoppingCartProducts.Count == 0)
             {
                 return;

@@ -8,7 +8,7 @@
             <li class="nav-item">
                 <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Начало<span class="sr-only">(current)</span></a>
             </li>
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole(Role.Admin.ToString()))
             {
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-area="Administrator" asp-controller="Home" asp-action="Index"><i class="fas fa-cogs"></i> Админ панел<span class="sr-only">(current)</span></a>

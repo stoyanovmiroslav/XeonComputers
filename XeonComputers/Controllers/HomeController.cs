@@ -9,11 +9,15 @@ using XeonComputers.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
 using XeonComputers.ViewModels.Home;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Controllers
 {
     public class HomeController : BaseController
     {
+        private const int DEFAULT_PAGE_SIZE = 8;
+        private const int DEFAULT_PAGE_NUMBER = 1;
+
         private IChildCategoriesService childCategoryService;
         private IParentCategoriesService parentCategoryService;
         private IProductsService productService;
@@ -27,7 +31,7 @@ namespace XeonComputers.Controllers
             this.productService = productService;
         }
 
-        public IActionResult Index(int? page, int? childCategoryId, string searchString)
+        public IActionResult Index(IndexViewModel model)
         {
             var categories = this.parentCategoryService.GetParentCategories();
             var categoriesViewModel = categories.Select(x => new IndexParentCategoriesViewModel
@@ -41,22 +45,8 @@ namespace XeonComputers.Controllers
                 }).ToList()
             }).ToList();
 
-            //TODO: Implement IQueryable
-            //TODO: OrderByPrice, OrderByRaiting
-            IList<Product> products = null;
-            
-            if (searchString != null)
-            {
-                products = this.productService.GetProductsBySearch(searchString);
-            }
-            else if (childCategoryId != null)
-            {
-                products = this.productService.GetProductsByCategory(childCategoryId.Value).ToList();
-            }
-            else
-            {
-                products = this.productService.GetProductsQuery().ToList();
-            }
+            var products = this.productService.GetProductsFilter(model.SearchString, model.ChildCategoryId);
+            products = this.productService.OrderBy(products, model.SortBy).ToList();
 
             var productsViewModel = products.Select(x => new IndexProductViewModel
             {
@@ -68,19 +58,14 @@ namespace XeonComputers.Controllers
                 ImageUrl = x.Images.FirstOrDefault()?.ImageUrl
             }).ToList();
 
-            var pageNumber = page ?? 1;
-            int productsPerPage = 8;
-            var onePageOfProducts = productsViewModel.ToPagedList(pageNumber, productsPerPage);
+            int pageNumber = model.PageNumber ?? DEFAULT_PAGE_NUMBER;
+            int pageSize = model.PageSize ?? DEFAULT_PAGE_SIZE;
+            var pageProductsViewMode = productsViewModel.ToPagedList(pageNumber, pageSize);
 
-            var indexViewModel = new IndexViewModel
-            {
-                ProductsViewModel = onePageOfProducts,
-                CategoriesViewModel = categoriesViewModel,
-                ChildCategoryId = childCategoryId,
-                SearchString = searchString
-            };
-
-            return View(indexViewModel);
+            model.ProductsViewModel = pageProductsViewMode;
+            model.CategoriesViewModel = categoriesViewModel;
+ 
+            return View(model);
         }
 
         public IActionResult About()
@@ -94,6 +79,7 @@ namespace XeonComputers.Controllers
         {
             var products = this.productService.GetProductsBySearch(term);
 
+            //TODO: Url Pass
             var result = products.Select(x => new
             {
                 value = x.Name,

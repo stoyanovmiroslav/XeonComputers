@@ -32,7 +32,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         public IActionResult Edit(int id)
         {
             var category = this.childCategoryService.GetChildCategoryById(id);
-            var parentCategory = this.parentCategoryService.GetParentCategories();
+            var parentCategory = this.parentCategoryService.GetParentCategories().ToList();
 
             if (category == null)
             {
@@ -55,7 +55,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.ParentCategories = this.parentCategoryService.GetParentCategories();
+                model.ParentCategories = this.parentCategoryService.GetParentCategories().ToList();
 
                 return this.View(model);
             }
@@ -79,7 +79,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         public IActionResult Add()
         {
-            var parentCategories = this.parentCategoryService.GetParentCategories();
+            var parentCategories = this.parentCategoryService.GetParentCategories().ToList();
 
             var addViewModel = new AddChildCategoryViewModel
             {
@@ -94,7 +94,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.ParentCategories = this.parentCategoryService.GetParentCategories();
+                model.ParentCategories = this.parentCategoryService.GetParentCategories().ToList();
 
                 return this.View(model);
             }

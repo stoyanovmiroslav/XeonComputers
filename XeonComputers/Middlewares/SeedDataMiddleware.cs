@@ -4,14 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using XeonComputers.Data;
 using XeonComputers.Models;
+using XeonComputers.Models.Enums;
 
 namespace XeonComputers.Middlewares
 {
     public class SeedDataMiddleware
     {
-        private const string ROLE_ADMIN = "Admin";
-        private const string ROLE_PARTNER = "Partner";
-
         private readonly RequestDelegate _next;
 
         public SeedDataMiddleware(RequestDelegate next)
@@ -31,14 +29,14 @@ namespace XeonComputers.Middlewares
 
         private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (!await roleManager.RoleExistsAsync(ROLE_ADMIN))
+            if (!await roleManager.RoleExistsAsync(Role.Admin.ToString()))
             {
-                await roleManager.CreateAsync(new IdentityRole(ROLE_ADMIN));
+                await roleManager.CreateAsync(new IdentityRole(Role.Admin.ToString()));
             }
 
-            if (!await roleManager.RoleExistsAsync(ROLE_PARTNER))
+            if (!await roleManager.RoleExistsAsync(Role.Partner.ToString()))
             {
-                await roleManager.CreateAsync(new IdentityRole(ROLE_PARTNER));
+                await roleManager.CreateAsync(new IdentityRole(Role.Partner.ToString()));
             }
         }
 
@@ -61,7 +59,7 @@ namespace XeonComputers.Middlewares
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, ROLE_ADMIN);
+                    await userManager.AddToRoleAsync(user, Role.Admin.ToString());
                 }
             }
         }
