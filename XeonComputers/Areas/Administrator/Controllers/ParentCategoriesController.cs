@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Areas.Administrator.ViewModels.ParentCategory;
 using XeonComputers.Models;
+using AutoMapper;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ParentCategoriesController : AdministratorController
     {
-        private IParentCategoriesService parentCategoryService;
+        private readonly IParentCategoriesService parentCategoryService;
+        private readonly IMapper mapper;
 
-        public ParentCategoriesController(IParentCategoriesService parentCategoryService)
+        public ParentCategoriesController(IParentCategoriesService parentCategoryService, IMapper mapper)
         {
             this.parentCategoryService = parentCategoryService;
+            this.mapper = mapper;
         }
 
         public IActionResult Edit(int id)
@@ -28,11 +31,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 return RedirectToAction("All");
             }
 
-            var categoryViewModel = new ParentCategoryViewModel
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            var categoryViewModel = mapper.Map<ParentCategoryViewModel>(category);
 
             return View(categoryViewModel);
         }
@@ -62,19 +61,17 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             var categories = this.parentCategoryService.GetParentCategories();
 
-            var categoriesViewModel = categories.Select(x => new ParentCategoryViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ChildCategoriesCount = x.ChildCategories.Count
-            }).ToArray();
+            var categoriesViewModel = mapper.Map<IList<ParentCategoryViewModel>>(categories);
 
             return View(categoriesViewModel);
         }
 
         public IActionResult Delete(int id)
         {
-            this.parentCategoryService.DeleteParentCategory(id);
+            if (!this.parentCategoryService.DeleteParentCategory(id))
+            {
+                this.TempData["error"] = "Може да изтриете основна категория само ако не съдържа други категории!";
+            }
 
             return RedirectToAction(nameof(All));
         }

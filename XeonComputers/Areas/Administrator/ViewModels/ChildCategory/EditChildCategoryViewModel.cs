@@ -24,7 +24,7 @@ namespace XeonComputers.Areas.Administrator.ViewModels.ChildCategory
 
         [Required(ErrorMessage = "Моля, изберете {0}!")]
         [Display(Name = "Основна категория")]
-        public int? ParentId { get; set; }
+        public int? ParentCategoryId { get; set; }
 
         public ICollection<XeonComputers.Models.ParentCategory> ParentCategories { get; set; }
     }

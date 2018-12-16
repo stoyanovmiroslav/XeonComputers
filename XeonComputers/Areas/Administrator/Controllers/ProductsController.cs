@@ -10,18 +10,23 @@ using XeonComputers.Areas.Administrator.ViewModels.Products;
 using XeonComputers.Common;
 using XeonComputers.Data;
 using XeonComputers.Models;
+using AutoMapper;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ProductsController : AdministratorController
     {
-        private IProductsService productService;
-        private IImagesService imageService;
+        private readonly IProductsService productService;
+        private readonly IImagesService imageService;
+        private readonly IMapper mapper;
 
-        public ProductsController(IProductsService productService, IImagesService imageService)
+        public ProductsController(IProductsService productService, 
+                                  IImagesService imageService, 
+                                  IMapper mapper)
         {
             this.productService = productService;
             this.imageService = imageService;
+            this.mapper = mapper;
         }
 
         public IActionResult All()
@@ -62,15 +67,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            var product = new Product
-            {
-                Name = model.Name,
-                ParnersPrice = model.ParnersPrice,
-                Price = model.Price,
-                Description = model.Description,
-                Specification = model.Specification,
-                ChildCategoryId = model.ChildCategoryId
-            };
+            var product = this.mapper.Map<Product>(model);
 
             this.productService.AddProduct(product);
 
@@ -102,17 +99,8 @@ namespace XeonComputers.Areas.Administrator.Controllers
                                                              Value = x.Id.ToString(),
                                                              Text = x.Name
                                                          }).ToList();
-           
 
-            var model = new EditProductViewModel
-            {
-                Name = product.Name,
-                ParnersPrice = product.ParnersPrice,
-                Price = product.Price,
-                Description = product.Description,
-                Specification = product.Specification,
-                ChildCategoryId = product.ChildCategoryId
-            };
+            var model = this.mapper.Map<EditProductViewModel>(product);
 
             return View(model);
         }
@@ -133,16 +121,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            var product = new Product
-            {
-                Id = model.Id,
-                Name = model.Name,
-                ParnersPrice = model.ParnersPrice,
-                Price = model.Price,
-                Description = model.Description,
-                Specification = model.Specification,
-                ChildCategoryId = model.ChildCategoryId
-            };
+            var product = this.mapper.Map<Product>(model);
 
             this.productService.EditProduct(product);
 

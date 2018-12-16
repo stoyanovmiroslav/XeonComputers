@@ -23,12 +23,12 @@
         <hr class="my-1 hr-xeon" />
         <partial name="~/Views/Shared/Partials/_CookieConsentPartial.cshtml" />
 
-        <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />
-
         @if (this.User.IsInRole(Role.Admin.ToString()))
         {
             <partial name="~/Areas/Administrator/Views/Shared/_NavbarAdminPartial.cshtml" />
         }
+
+        <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />
 
         <div class="body-content">
             @RenderBody()

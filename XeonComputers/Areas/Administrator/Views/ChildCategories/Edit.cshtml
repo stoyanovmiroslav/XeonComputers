@@ -28,13 +28,13 @@
                     <span asp-validation-for="@Model.FormImage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <select class="select-width" name="ParentId">
+                    <select class="select-width" name="ParentCategoryId">
                         <option value="" disabled>-- Основна категория --</option>
                         @if (Model.ParentCategories != null)
                         {
                             @foreach (var parentCategory in Model.ParentCategories)
                             {
-                                @if (parentCategory.Id == Model.ParentId)
+                                @if (parentCategory.Id == Model.ParentCategoryId)
                                 {
                                     <option value="@parentCategory.Id" selected>@parentCategory.Name</option>
                                 }

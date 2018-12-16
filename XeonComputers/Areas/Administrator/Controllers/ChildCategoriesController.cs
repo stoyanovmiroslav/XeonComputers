@@ -11,41 +11,40 @@ using XeonComputers.Areas.Administrator.ViewModels.ChildCategory;
 using XeonComputers.Areas.Administrator.ViewModels.ParentCategory;
 using XeonComputers.Common;
 using XeonComputers.Models;
+using AutoMapper;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ChildCategoriesController : AdministratorController
     {
-        private IChildCategoriesService childCategoryService;
-        private IParentCategoriesService parentCategoryService;
-        private IImagesService imageService;
+        private readonly IChildCategoriesService childCategoryService;
+        private readonly IParentCategoriesService parentCategoryService;
+        private readonly IImagesService imageService;
+        private readonly IMapper mapper;
 
         public ChildCategoriesController(IChildCategoriesService childCategoryService,
                                          IParentCategoriesService parentCategoryService,
-                                         IImagesService imageService)
+                                         IImagesService imageService,
+                                         IMapper mapper)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;
             this.imageService = imageService;
+            this.mapper = mapper;
         }
 
         public IActionResult Edit(int id)
         {
             var category = this.childCategoryService.GetChildCategoryById(id);
-            var parentCategory = this.parentCategoryService.GetParentCategories().ToList();
+            var parentCategories = this.parentCategoryService.GetParentCategories().ToList();
 
             if (category == null)
             {
                 return RedirectToAction(nameof(All));
             }
 
-            var categoryViewModel = new EditChildCategoryViewModel
-            {
-                Name = category.Name,
-                Description = category.Description,
-                ParentId = category.ParentCategoryId,
-                ParentCategories = parentCategory,
-            };
+            var categoryViewModel = mapper.Map<EditChildCategoryViewModel>(category);
+            categoryViewModel.ParentCategories = parentCategories;
 
             return View(categoryViewModel);
         }
@@ -61,7 +60,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             }
 
             this.childCategoryService.EditChildCategory(model.Id, model.Name, 
-                                                        model.Description, (int)model.ParentId);
+                                                        model.Description, (int)model.ParentCategoryId);
 
             if (model.FormImage != null)
             {
@@ -119,21 +118,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
         public IActionResult All()
         {
             var childCategories = this.childCategoryService.GetChildCategories();
-            var childCategoriesViewModel = childCategories.Select(x => new AllChildCategoryViewModel
-                                                                  {
-                                                                       Name = x.Name,
-                                                                       Description = x.Description,
-                                                                       Id = x.Id,
-                                                                       ProductsCount = x.Products.Count,
-                                                                       ParentCategoryName = x.ParentCategory.Name
-                                                                  }).ToArray();
+            var childCategoriesViewModel = this.mapper.Map<IList<AllChildCategoryViewModel>>(childCategories);
 
             var parentCategories = this.parentCategoryService.GetParentCategories();
-            var parentCategoriesViewModel = parentCategories.Select(x => new ParentCategoryViewModel
-                                                                    {
-                                                                        Id = x.Id,
-                                                                        Name = x.Name
-                                                                    }).ToArray();
+            var parentCategoriesViewModel = this.mapper.Map<IList<ParentCategoryViewModel>>(parentCategories);
 
             var childParentViewModel = new AllChildParentCategoryViewModel
             {
@@ -146,7 +134,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         public IActionResult Delete(int id)
         {
-            this.childCategoryService.DeleteChildCategory(id);
+            if (!this.childCategoryService.DeleteChildCategory(id))
+            {
+                this.TempData["error"] = "Може да изтриете категория само ако не съдържа продукти!";
+            }
 
             return RedirectToAction(nameof(All));
         }

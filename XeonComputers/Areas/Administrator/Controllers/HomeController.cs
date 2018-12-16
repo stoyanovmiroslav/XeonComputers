@@ -12,8 +12,8 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class HomeController : AdministratorController
     {
-        private IChildCategoriesService childCategoryService;
-        private IParentCategoriesService parentCategoryService;
+        private readonly IChildCategoriesService childCategoryService;
+        private readonly IParentCategoriesService parentCategoryService;
 
         public HomeController(IChildCategoriesService childCategoryService,
                                          IParentCategoriesService parentCategoryService)
