@@ -33,5 +33,12 @@ namespace XeonComputers.Controllers
 
             return View(productViewModel);
         }
+
+        public IActionResult Rate(int rating, int productId)
+        {
+            this.productService.AddRate(rating, productId);
+
+            return RedirectToAction(nameof(Details), new { id = productId });
+        }
     }
 }

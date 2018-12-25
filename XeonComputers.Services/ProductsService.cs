@@ -34,6 +34,7 @@ namespace XeonComputers.Services
         {
             return this.db.Products.Include(p => p.ChildCategory)
                                    .Include(x => x.Images)
+                                   .Include(x => x.Reviews)
                                    .FirstOrDefault(m => m.Id == id);
         }
 
@@ -42,6 +43,7 @@ namespace XeonComputers.Services
             return db.Products.Include(p => p.ChildCategory)
                               .ThenInclude(x => x.ParentCategory)
                               .Include(x => x.Images)
+                              .Include(x => x.Reviews)
                               .ToList();
         }
 
@@ -109,7 +111,8 @@ namespace XeonComputers.Services
         {
             return db.Products.Where(x => x.ChildCategory.Id == childCategoryId)
                               .Include(p => p.ChildCategory)
-                              .Include(x => x.Images);
+                              .Include(x => x.Images)
+                              .Include(x => x.Reviews);
         }
 
         public IEnumerable<Product> GetProductsBySearch(string searchString)
@@ -119,6 +122,7 @@ namespace XeonComputers.Services
             IQueryable<Product> products = this.db.Products.Include(p => p.ChildCategory)
                                                            .ThenInclude(x => x.ParentCategory)
                                                            .Include(x => x.Images)
+                                                           .Include(x => x.Reviews)
                                                            .Where(x => searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower())));
             return products;
         }
@@ -155,6 +159,14 @@ namespace XeonComputers.Services
 
             //ProductsSortType.Newest
             return products.OrderByDescending(x => x.Id).ToList();
+        }
+
+        public void AddRate(int rating, int productId)
+        {
+            var produc = this.GetProductById(productId);
+            produc.Reviews.Add(new Review { Raiting = rating });
+
+            this.db.SaveChanges();
         }
     }
 }

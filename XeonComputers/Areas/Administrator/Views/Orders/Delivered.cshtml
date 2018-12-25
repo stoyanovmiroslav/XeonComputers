@@ -1,0 +1,51 @@
+﻿@model IList<XeonComputers.Areas.Administrator.ViewModels.Orders.DeliveredОrdersViewModels>
+
+@{
+    ViewData["Title"] = "Доставени поръчки";
+}
+
+<div class="container mobile-fondsize-11 shadow pr-4 pl-4 pb-4 mb-4 bg-white">
+    <div class="mobile-fondsize-20 h3 text-center font-italic">@ViewData["Title"]</div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">Номер</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">Получена</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">Тип</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">Статус</th>
+                <th scope="col" class="col-md-4 col d-flex justify-content-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr class="row">
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @order.Id
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @order.DeliveryDate
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @order.PaymentType
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @order.PaymentStatus
+                    </td>
+                    <td class="col-md-4 col d-flex justify-content-around">
+                        <div class="mr-2">
+                            <a asp-area="Administrator" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">Детайли</a>
+                        </div>
+                        <div class="mr-2">
+                            <a asp-area="Administrator" asp-controller="Orders" asp-action="Process" asp-route-id="@order.Id" class="btn btn-warning btn-sm">Недоставена</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.Count == 0)
+    {
+        <div class="mobile-fondsize-11 h6 text-center font-italic">Нямате доставени поръчки!</div>
+    }
+</div>

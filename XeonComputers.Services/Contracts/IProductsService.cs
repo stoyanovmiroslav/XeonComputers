@@ -34,5 +34,7 @@ namespace XeonComputers.Services.Contracts
         IEnumerable<Product> GetProductsFilter(string searchString, int? childCategoryId);
 
         IEnumerable<Product> OrderBy(IEnumerable<Product> products, ProductsSort sortBy);
+
+        void AddRate(int rating, int productId);
     }
 }

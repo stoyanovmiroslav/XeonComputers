@@ -29,15 +29,15 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public Address CreateAddress(string deliveryAddress, string additionТoАddress, string cityName, string postcode)
+        public Address CreateAddress(string street, string description, string cityName, string postcode)
         {
             var city = this.GetOrCreateCity(cityName, postcode);
 
             var address = new Address
             {
                 City = city,
-                Street = deliveryAddress,
-                Description = additionТoАddress
+                Street = street,
+                Description = description
             };
 
             this.db.Addresses.Add(address);

@@ -19,6 +19,8 @@ namespace XeonComputers.Models
 
         public DateTime? DeliveryDate { get; set; }
 
+        public DateTime? DispatchDate { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public decimal DeliveryPrice { get; set; }

@@ -28,6 +28,10 @@ namespace XeonComputers.ViewModels.Products
         [Display(Name = "Категория")]
         public string ChildCategoryName { get; set; }
 
+        public double Raiting { get; set; }
+
+        public int ReviewsCount { get; set; }
+
         public ICollection<string> ImageUrls { get; set; }
     }
 }

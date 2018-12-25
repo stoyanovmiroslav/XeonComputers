@@ -4,14 +4,14 @@ namespace XeonComputers.Enums
 {
     public enum OrderStatus
     {
-        [Display(Name = "Обработва се...")]
+        [Display(Name = "В процес...")]
         Processing = 1,
 
-        [Display(Name = "Обработена")]
-        Processed = 2,
+        [Display(Name = "Необработена")]
+        Unprocessed = 2,
 
-        [Display(Name = "Изпратена")]
-        Sent = 3,
+        [Display(Name = "Обработена")]
+        Processed = 3,
 
         [Display(Name = "Доставена")]
         Delivered = 4

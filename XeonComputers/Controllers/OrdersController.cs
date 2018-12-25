@@ -17,6 +17,7 @@ namespace XeonComputers.Controllers
     public class OrdersController : BaseController
     {
         private const string ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS = "За да продължите добавете продукти в кошницата!";
+        private const string ERROR_MESSAGE_INVALID_ORDER_NUMBER = "Невалиден номер на поръчка, моля опитайте отново!";
 
         private readonly IAdressesService adressesService;
         private readonly IUsersService userService;
@@ -116,10 +117,8 @@ namespace XeonComputers.Controllers
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
            
-            //TODO:
             return this.RedirectToAction("Pay", "Payments", new { orderId = order.Id });
         }
-
 
         public IActionResult My(int id)
         {
@@ -128,6 +127,24 @@ namespace XeonComputers.Controllers
             var myOrdersViewModel = mapper.Map<IList<MyOrderViewModel>>(orders);
 
             return this.View(myOrdersViewModel);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var order = this.orderService.GetUserOrderById(id, this.User.Identity.Name);
+            if (order == null)
+            {
+                this.TempData["error"] = ERROR_MESSAGE_INVALID_ORDER_NUMBER;
+                return RedirectToAction(nameof(My));
+            }
+
+            var orderProducts = this.orderService.OrderProductsByOrderId(id);
+
+            var orderViewModel = mapper.Map<OrderDetailsViewModel>(order);
+            var orderProductsViewModel = mapper.Map<IList<OrderProductsViewModel>>(orderProducts);
+            orderViewModel.OrderProductsViewModel = orderProductsViewModel;
+
+            return this.View(orderViewModel);
         }
     }
 }

@@ -6,14 +6,7 @@
 }
 
 <div id="fb-root"></div>
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v3.2&appId=573350956442278&autoLogAppEvents=1';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+<script src="~/js/facebook.js"></script>
 
 <p class="h3">@Model.Name</p>
 <p class="text-muted h6">Номер на продукта: @Model.Id</p>
@@ -36,12 +29,10 @@
         <div>
             <div class="mb-3">
                 <p class="text-muted mb-0">Рейтинг:</p>
-                <p class="mb-0"><img src="~/images/Rating/stars-5.png" width="100"></p>
-                <a class="h6 font-italic text-info" asp-action="">4 ревюта от клиенти</a>
-                <span>|</span>
-                <a class="h6 font-italic text-info" asp-action="">3 коментара</a>
+                <span class="stars text-white">@Model.Raiting</span>
+                <a href="#ratingTitle" class="h6 font-italic text-info">@Model.ReviewsCount @(Model.ReviewsCount == 1 ? "ревю" : "ревюта") от клиенти</a>
+                @*<span>|</span><a class="h6 font-italic text-info" asp-action="">3 коментара</a>*@
             </div>
-
             <dl class="dl-horizontal">
                 <dt>@Html.DisplayNameFor(model => model.Description)</dt>
                 <dd>@Html.DisplayFor(model => model.Description)</dd>
@@ -79,10 +70,41 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row mt-1">
     <div class="col-md-8">
-        <div>
-            <div class="fb-comments" data-href="https://localhost:5001/Products/Details/@Model.Id" data-numposts="5" data-width="100%"></div>
+        <div id="ratingTitle" class="h4 mb-0">Ревюта:</div>
+        <div class="star-rating">
+            <input type="radio" id="5-stars" name="rating" value="5" />
+            <label for="5-stars" class="star">&#9733;</label>
+            <input type="radio" id="4-stars" name="rating" value="4" />
+            <label for="4-stars" class="star">&#9733;</label>
+            <input type="radio" id="3-stars" name="rating" value="3" />
+            <label for="3-stars" class="star">&#9733;</label>
+            <input type="radio" id="2-stars" name="rating" value="2" />
+            <label for="2-stars" class="star">&#9733;</label>
+            <input type="radio" id="1-star" name="rating" value="1" />
+            <label for="1-star" class="star">&#9733;</label>
         </div>
+        <div class="d-none">
+            <div id="dialog" title="">
+                <p>Благодарим ви!</p>
+                <p>Успешно оценихте продукта!</p>
+            </div>
+        </div>
+        <div class="fb-comments" data-href="https://localhost:5001/Products/Details/@Model.Id" data-numposts="5" data-width="100%"></div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/rating.js"></script>
+    <script>
+        $("div.star-rating").click(function () {
+             $("#dialog").dialog();
+             setTimeout(
+                 function () {
+                     window.location.href = '/Products/Rate?rating=' + $('input[name=rating]:checked').val()
+                         + '&productId=' + @Model.Id;
+                 }, 2000);
+         });
+    </script>
+}

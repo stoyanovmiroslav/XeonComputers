@@ -7,8 +7,16 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IUsersService
     {
-        string GetCurrentUserUsername();
-
         XeonUser GetUserByUsername(string username);
+
+        bool CreateCompany(Company company, string username);
+
+        IEnumerable<XeonUser> GetUsersWithPartnersRequsts();
+
+        void AddUserToRole(string username, string role);
+
+        void RemoveUserFromToRole(string name, string role);
+
+        IEnumerable<XeonUser> GetUsersByRole(string role);
     }
 }

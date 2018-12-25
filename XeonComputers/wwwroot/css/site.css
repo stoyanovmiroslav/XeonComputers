@@ -1,4 +1,44 @@
-﻿/*Query Autocomplete*/
+﻿/* Stars raiting */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 2.5em;
+    justify-content: space-around;
+    padding: 0 .4em;
+    text-align: center;
+    width: 4em;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating :checked ~ label {
+    color: #f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #fc0;
+}
+
+/*Stars raiting*/
+span.stars, span.stars span {
+    display: block;
+    background: url('/images/rating/stars.png') 0 -16px repeat-x; width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+
+/*Query Autocomplete*/
 .ui-autocomplete {
     max-height: 200px;
     overflow-y: auto;
@@ -167,4 +207,38 @@ nav-item-test {
 
 .dropdown-item:focus, .dropdown-item:hover {
     background: #47b7e9;
+}
+
+
+
+.icon-blue {
+    color: #0088cc
+}
+
+.icon-grey {
+    color: grey
+}
+
+.icon {
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+}
+
+.badge-icon:after {
+    content: "100";
+    position: absolute;
+    background: rgba(0,0,255,1);
+    height: 2rem;
+    top: 1rem;
+    right: 1.5rem;
+    width: 2rem;
+    text-align: center;
+    line-height: 2rem;
+    ;
+    font-size: 1rem;
+    border-radius: 50%;
+    color: white;
+    border: 1px solid blue;
 }

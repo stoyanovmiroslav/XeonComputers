@@ -1,3 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Админ панел";
 }
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h3 text-center font-italic">Необработени поръчки</div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="row">
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Номер</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Получена</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Тип</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Статус</th>
+                        <th scope="col" class="col-md-4 col d-flex justify-content-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.UnprocessedОrdersViewModel)
+                    {
+                        <tr class="row">
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @order.Id
+                            </td>
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @order.OrderDate
+                            </td>
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @order.PaymentType
+                            </td>
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @order.PaymentStatus
+                            </td>
+                            <td class="col-md-4 col d-flex justify-content-around">
+                                <div class="mr-2">
+                                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">Детайли</a>
+                                </div>
+                                <div class="mr-2">
+                                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Process" asp-route-id="@order.Id" class="btn btn-warning btn-sm">Обработи</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.ProcessedОrdersViewModel.Count == 0)
+            {
+                <div class="mobile-fondsize-11 h6 text-center font-italic">Нямате необработени поръчки!</div>
+            }
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h3 text-center font-italic">Обработени поръчки</div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="row">
+                        <th scope="col" class="col-2 d-flex justify-content-center">Номер</th>
+                        <th scope="col" class="col-2 d-flex justify-content-center">Изпратена</th>
+                        <th scope="col" class="col-2 d-flex justify-content-center">Тип</th>
+                        <th scope="col" class="col-2 d-flex justify-content-center">Статус</th>
+                        <th scope="col" class="col-4 d-flex justify-content-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.ProcessedОrdersViewModel)
+                    {
+                        <tr class="row">
+                            <td class="col-2 d-flex justify-content-center">
+                                @order.Id
+                            </td>
+                            <td class="col-2 d-flex justify-content-center">
+                                @order.DispatchDate
+                            </td>
+                            <td class="col-2 d-flex justify-content-center">
+                                @order.PaymentType
+                            </td>
+                            <td class="col-2 d-flex justify-content-center">
+                                @order.PaymentStatus
+                            </td>
+                            <td class="col-md-4 d-flex justify-content-around">
+                                <div class="mr-2">
+                                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">Детайли</a>
+                                </div>
+                                <div class="mr-2">
+                                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Deliver" asp-route-id="@order.Id" class="btn btn-warning btn-sm">Доставена</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.UnprocessedОrdersViewModel.Count == 0)
+            {
+                <div class="mobile-fondsize-11 h6 text-center font-italic">Нямате обработени поръчки!</div>
+            }
+        </div>
+    </div>
+</div>
+
+

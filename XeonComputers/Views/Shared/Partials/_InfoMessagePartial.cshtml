@@ -1,0 +1,7 @@
+﻿@if (this.TempData.ContainsKey("info"))
+{
+    <div class="alert alert-info alert-dismissible">
+        <p class="close" data-dismiss="alert" aria-label="close">&times;</p>
+        <strong>@this.TempData["info"]</strong>
+    </div>
+}

@@ -29,5 +29,7 @@ namespace XeonComputers.Models
         public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }
 
         public virtual ICollection<XeonUserFavoriteProduct> FavoriteProducts { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

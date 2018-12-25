@@ -18,6 +18,20 @@ namespace XeonComputers.Services.Contracts
 
         void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId);
 
+        void ProcessOrder(int id);
+
         IEnumerable<Order> GetUserOrders(string name);
+
+        IEnumerable<Order> GetUnprocessedOrders();
+
+        IEnumerable<Order> GetProcessedOrders();
+
+        void DeliverOrder(int id);
+
+        IEnumerable<OrderProduct> OrderProductsByOrderId(int id);
+
+        Order GetUserOrderById(int orderId, string username);
+
+        IEnumerable<Order> GetDeliveredOrders();
     }
 }

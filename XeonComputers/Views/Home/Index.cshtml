@@ -50,10 +50,14 @@
                     </div>
                 </a>
                 <div class="card-body text-center h-25 pb-0 pt-0 pl-0 pr-0">
-                    <div class="pb-1 text-center">
-                        <img src="~/images/Rating/stars-5.png" width="90">
-                        <a class="h6 font-italic text-info" asp-action="">1 ревю</a>
+                    <div class="pb-1 mt-1">
+                        <span class="stars mx-auto pb-1 text-white">@product.Raiting</span>
                     </div>
+                    <a class="h6 font-italic text-info" asp-action="">@product.ReviewsCount @(product.ReviewsCount == 1 ? "ревю" : "ревюта")</a>
+                    @*<div class="pb-1">
+                            <img src="~/images/Rating/stars-5.png" width="90">
+                            <a class="h6 font-italic text-info" asp-action="">1 ревю</a>
+                        </div>*@
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id"><h6 class="card-title font-weight-bold">@product.Name</h6></a>
                 </div>
                 <div class="mb-1">
@@ -86,3 +90,7 @@
                                                 PageClasses = new string[] { "page-link" }
                                             })
 </div>
+
+@section Scripts {
+    <script src="~/js/rating.js"></script>
+}

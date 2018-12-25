@@ -6,7 +6,10 @@ using System.Text;
 using XeonComputers.Data;
 using XeonComputers.Models;
 using XeonComputers.Models.Enums;
+using XeonComputers.Services.Common;
 using XeonComputers.Services.Contracts;
+using XeonComputers.Enums;
+
 
 namespace XeonComputers.Services
 {
@@ -45,19 +48,20 @@ namespace XeonComputers.Services
                 {
                     Order = order,
                     Product = shoppingCartProduct.Product,
-                    Quantity = shoppingCartProduct.Quantity
+                    Quantity = shoppingCartProduct.Quantity,
+                    Price = (isPartnerOrAdmin ? shoppingCartProduct.Product.ParnersPrice : shoppingCartProduct.Product.Price)
                 };
 
                 orderProducts.Add(orderProduct);
             }
 
             this.shoppingCartService.DeleteAllProductFromsShoppingCart(username);
-            
-            order.OrderDate = DateTime.UtcNow;
-            order.Status = Enums.OrderStatus.Processed;
+
+            order.OrderDate = DateTime.UtcNow.AddDays(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            order.Status = Enums.OrderStatus.Unprocessed;
             order.PaymentStatus = Enums.PaymentStatus.Unpaid;
             order.OrderProducts = orderProducts;
-            order.TotalPrice = order.OrderProducts.Sum(x => x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price));
+            order.TotalPrice = order.OrderProducts.Sum(x => x.Quantity * x.Price);
 
             this.db.SaveChanges();
         }
@@ -86,18 +90,43 @@ namespace XeonComputers.Services
 
         public Order GetOrderById(int orderId)
         {
-            return this.db.Orders.FirstOrDefault(x => x.Id == orderId);
+            return this.db.Orders.Include(x => x.DeliveryAddress)
+                                 .ThenInclude(x => x.City)
+                                 .Include(x => x.XeonUser)
+                                 .ThenInclude(x => x.Company)
+                                 .FirstOrDefault(x => x.Id == orderId);
+        }
+
+        public IEnumerable<Order> GetUnprocessedOrders()
+        {
+            var orders = this.db.Orders.Include(x => x.DeliveryAddress)
+                                       .ThenInclude(x => x.City)
+                                       .Include(x => x.OrderProducts)
+                                       .Where(x => x.Status == Enums.OrderStatus.Unprocessed);
+
+            return orders;
         }
 
         public Order GetProcessingOrder(string username)
         {
             var user = this.userService.GetUserByUsername(username);
 
-            var order = this.db.Orders.Include(x => x.DeliveryAddress).ThenInclude(x => x.City)
-                                      .Include(x => x.OrderProducts) 
-                               .FirstOrDefault(x => x.XeonUser.UserName == username && x.Status == Enums.OrderStatus.Processing);
+            var order = this.db.Orders.Include(x => x.DeliveryAddress)
+                                      .ThenInclude(x => x.City)
+                                      .Include(x => x.OrderProducts)
+                                      .FirstOrDefault(x => x.XeonUser.UserName == username && x.Status == Enums.OrderStatus.Processing);
 
             return order;
+        }
+
+        public IEnumerable<Order> GetProcessedOrders()
+        {
+            var orders = this.db.Orders.Include(x => x.DeliveryAddress)
+                                       .ThenInclude(x => x.City)
+                                       .Include(x => x.OrderProducts)
+                                       .Where(x => x.Status == Enums.OrderStatus.Processed);
+
+            return orders;
         }
 
         public IEnumerable<Order> GetUserOrders(string username)
@@ -116,6 +145,62 @@ namespace XeonComputers.Services
 
             this.db.Update(order);
             this.db.SaveChanges();
+        }
+
+        public void ProcessOrder(int id)
+        {
+            var order = this.db.Orders.FirstOrDefault(x => x.Id == id && 
+                                        (x.Status == OrderStatus.Unprocessed || x.Status == OrderStatus.Delivered));
+
+            if (order == null)
+            {
+                return;
+            }
+
+            order.Status = Enums.OrderStatus.Processed;
+            order.DispatchDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            this.db.SaveChanges();
+        }
+
+        public void DeliverOrder(int id)
+        {
+            var order = this.db.Orders.FirstOrDefault(x => x.Id == id
+                                            && x.Status == Enums.OrderStatus.Processed);
+
+            if (order == null)
+            {
+                return;
+            }
+
+            order.Status = Enums.OrderStatus.Delivered;
+            order.DeliveryDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            this.db.SaveChanges();
+        }
+
+        public IEnumerable<OrderProduct> OrderProductsByOrderId(int id)
+        {
+            return this.db.OrderProducts.Include(x => x.Product)
+                                 .ThenInclude(x => x.Images)
+                                 .Where(x => x.OrderId == id).ToList();
+        }
+
+        public Order GetUserOrderById(int orderId, string username)
+        {
+            return this.db.Orders.Include(x => x.DeliveryAddress)
+                              .ThenInclude(x => x.City)
+                              .Include(x => x.XeonUser)
+                              .ThenInclude(x => x.Company)
+                              .FirstOrDefault(x => x.Id == orderId && x.XeonUser.UserName == username);
+        }
+
+        public IEnumerable<Order> GetDeliveredOrders()
+        {
+            var orders = this.db.Orders.Include(x => x.DeliveryAddress)
+                                      .ThenInclude(x => x.City)
+                                      .Include(x => x.OrderProducts)
+                                      .Where(x => x.Status == Enums.OrderStatus.Delivered);
+
+            return orders;
         }
     }
 }

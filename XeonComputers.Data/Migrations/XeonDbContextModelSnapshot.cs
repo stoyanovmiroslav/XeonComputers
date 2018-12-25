@@ -259,6 +259,8 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<decimal>("DeliveryPrice");
 
+                    b.Property<DateTime?>("DispatchDate");
+
                     b.Property<DateTime?>("EstimatedDeliveryDate");
 
                     b.Property<DateTime?>("OrderDate");
@@ -292,6 +294,8 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<int>("ProductId");
 
+                    b.Property<decimal>("Price");
+
                     b.Property<int>("Quantity");
 
                     b.HasKey("OrderId", "ProductId");
@@ -312,6 +316,23 @@ namespace XeonComputers.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ParentCategories");
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.PartnerRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("XeonUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("XeonUserId")
+                        .IsUnique()
+                        .HasFilter("[XeonUserId] IS NOT NULL");
+
+                    b.ToTable("PartnerRequests");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.Product", b =>
@@ -339,6 +360,25 @@ namespace XeonComputers.Data.Migrations
                     b.HasIndex("ChildCategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<int>("Raiting");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.ShoppingCart", b =>
@@ -563,12 +603,26 @@ namespace XeonComputers.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("XeonComputers.Models.PartnerRequest", b =>
+                {
+                    b.HasOne("XeonComputers.Models.XeonUser", "XeonUser")
+                        .WithOne("PartnerRequest")
+                        .HasForeignKey("XeonComputers.Models.PartnerRequest", "XeonUserId");
+                });
+
             modelBuilder.Entity("XeonComputers.Models.Product", b =>
                 {
                     b.HasOne("XeonComputers.Models.ChildCategory", "ChildCategory")
                         .WithMany("Products")
                         .HasForeignKey("ChildCategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("XeonComputers.Models.Review", b =>
+                {
+                    b.HasOne("XeonComputers.Models.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.ShoppingCartProduct", b =>

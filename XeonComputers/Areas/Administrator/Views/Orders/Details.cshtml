@@ -1,0 +1,79 @@
+﻿@model OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Детайли на поръчката";
+}
+
+<div class="mobile-fondsize-20 h2 font-italic text-center">Детайли поръчката</div>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h6 text-center font-italic">Данни за пратката</div>
+            <p class="mb-0"><strong>Получател:</strong> @Model.Recipient</p>
+            <p class="mb-0"><strong>Номер на получателя:</strong> @Model.RecipientPhoneNumber</p>
+            <p class="mb-0"><strong>Град:</strong> @Model.DeliveryAddressCityName</p>
+            <p class="mb-0"><strong>Пощенски код:</strong> @Model.DeliveryAddressCityPostcode</p>
+            <p class="mb-0"><strong>Улица:</strong> @Model.DeliveryAddressStreet</p>
+            <p class="mb-0"><strong>Допълнително описание:</strong> @Model.DeliveryAddressDescription</p>
+            <p class="mb-0"><strong>Цена:</strong> @Model.TotalPrice лв.</p>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h6 text-center font-italic">Други детайли</div>
+            <p class="mb-0"><strong>Номер на поръчката:</strong> @Model.Id</p>
+            @if (@Model.XeonUserCompanyName != null)
+            {
+                <p class="mb-0"><strong>Име на компанията:</strong> @Model.XeonUserCompanyName</p>
+            }
+            <p class="mb-0"><strong>Статус на поръчката:</strong> @Model.Status</p>
+            <p class="mb-0"><strong>Статус на плащане:</strong> @Model.PaymentStatus</p>
+            <p class="mb-0"><strong>Метод на плащане:</strong> @Model.PaymentType</p>
+            <p class="mb-0"><strong>Дата на поръчката:</strong> @Model.OrderDate</p>
+            <p class="mb-0"><strong>Дата на изпращане:</strong> @Model.DispatchDate</p>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="container mobile-fondsize-11 shadow pl-4 pb-4 pr-4 mb-4 bg-white">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="row">
+                        <th scope="col" class="col-1 d-flex justify-content-center"><strong>ID</strong></th>
+                        <th scope="col" class="col-2 d-flex justify-content-center"><strong>Продукт</strong></th>
+                        <th scope="col" class="col-4 d-flex justify-content-center"></th>
+                        <th scope="col" class="col-2 d-flex justify-content-center"><strong>Цена</strong></th>
+                        <th scope="col" class="col-1 d-flex justify-content-center"><strong>Брой</strong></th>
+                        <th scope="col" class="col-2 d-flex justify-content-center"><strong>Общо</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.OrderProductsViewModel)
+                    {
+                        <tr class="row">
+                            <td class="col-1 d-flex justify-content-center">
+                                @product.ProductId
+                            </td>
+                            <td class="col-2 d-flex justify-content-center">
+                                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                                    <img src=" @product.ImageUrl" width="50" height="50">
+                                </a>
+                            </td>
+                            <td class="col-4 d-flex justify-content-center">
+                                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                                    @product.ProductName
+                                </a>
+                            </td>
+                            <td class="col-2 d-flex justify-content-center">
+                                @product.Price лв.
+                            </td>
+                            <td class="col-1 d-flex justify-content-center">
+                                @product.Quantity
+                            </td>
+                            <td class="col-2 d-flex justify-content-around">
+                                @(product.Quantity * product.Price) лв.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

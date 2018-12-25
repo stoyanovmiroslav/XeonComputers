@@ -85,6 +85,20 @@ namespace XeonComputers.Controllers
             return View();
         }
 
+        public IActionResult Payments()
+        {
+            ViewData["Message"] = "Your application Payments page.";
+
+            return View();
+        }
+
+        public IActionResult Delivery()
+        {
+            ViewData["Message"] = "Your application Delivery page.";
+
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

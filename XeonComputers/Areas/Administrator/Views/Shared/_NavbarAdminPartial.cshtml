@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light">
+﻿@*@model IndexViewModel*@
+
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -10,59 +12,45 @@
                     <a asp-controller="ChildCategories" asp-action="All" class="dropdown-item nav-link text-dark">Под категории</a>
                 </div>
             </li>
-            @*<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Категории
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-controller="ChildCategories" asp-action="All" class="dropdown-item nav-link text-dark">Виж всички</a>
-                    <a asp-controller="ChildCategories" asp-action="Add" class="dropdown-item nav-link text-dark">Добави категория</a>
-                </div>
-            </li>*@
             <li class="nav-item">
                 <a asp-controller="Products" asp-action="All" class="nav-link text-dark">Продукти</a>
-            </li>
-            @*<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Продукти
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a asp-controller="Products" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
-                        <a asp-controller="Products" asp-action="Create" class="dropdown-item nav-link">Добави</a>
-                        <a asp-controller="Products" asp-action="Edit" class="dropdown-item nav-link">Промени</a>
-                        <a asp-controller="Products" asp-action="Delete" class="dropdown-item nav-link">Изтрий</a>
-                    </div>
-                </li>*@
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Партньори
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">Заявки за партньорство</a>
-                </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Поръчки
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">Стаус</a>
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item nav-link text-dark">История</a>
+                    <a asp-area="Administrator" asp-controller="Home" asp-action="Index" class="dropdown-item nav-link text-dark">Работен плот</a>
+                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Delivered" class="dropdown-item nav-link text-dark">История</a>
                 </div>
             </li>
-            <li class="nav-item text-dark">
-                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Промоции</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Потребители
+                    @*@if (Model.PartnerRequestsCount != 0)
+                    {
+                        <i class="fa fa-star" aria-hidden="true"> @Model.PartnerRequestsCount</i>
+                    }*@
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a asp-area="Administrator" asp-controller="PartnerRequests" asp-action="All" class="dropdown-item nav-link text-dark">Заявки за партньорство</a>
+                    <a asp-area="Administrator" asp-controller="Partners" asp-action="All" class="dropdown-item nav-link text-dark">Партньори</a>
+                </div>
             </li>
             <li class="nav-item">
-                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Съобщения <i class="fa fa-star" aria-hidden="true"> 1</i></a>
+                <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Съобщения</a>
             </li>
-            <li class="nav-item">
-                <span class="fa-stack fa-1x has-badge" data-count="1">
-                    <i class="fas fa-user-circle fa-stack-1x"></i>
-                    @*<i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-bell fa-stack-1x fa-inverse"></i>*@
-                </span>
-            </li>
+
+            @*<span class="badge badge-light">@Model.PartnerRequestsCount</span>*@
+            @*<a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Съобщения <i class="fa fa-star" aria-hidden="true"> 1</i></a>*@
+            @*<li class="nav-item">
+            <span class="fa-stack fa-1x has-badge" data-count="1">
+                <i class="fas fa-user-circle fa-stack-1x"></i>
+                <-- Tests -->
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-bell fa-stack-1x fa-inverse"></i>
+            </span>
+        </li>*@
         </ul>
     </div>
 </nav>

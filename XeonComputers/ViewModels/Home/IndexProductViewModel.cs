@@ -17,6 +17,10 @@ namespace XeonComputers.ViewModels.Home
 
         public decimal ParnersPrice { get; set; }
 
+        public double Raiting { get; set; }
+
+        public int ReviewsCount { get; set; }
+
         public string ImageUrl { get; set; }
     }
 }

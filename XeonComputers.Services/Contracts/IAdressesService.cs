@@ -7,7 +7,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IAdressesService
     {
-        Address CreateAddress(string deliveryAddress, string additionТoАddress, string city, string postcode);
+        Address CreateAddress(string street, string description, string city, string postcode);
 
         void AddAddressesToUser(string username, Address address);
 

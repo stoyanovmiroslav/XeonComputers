@@ -4,11 +4,9 @@
     ViewData["Title"] = "Всички продукти";
 }
 
-<div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
-
-<p><a asp-action="Create" class="btn btn-success">Създай нов</a></p>
-
-<div class="container mobile-fondsize-11">
+<div class="container mobile-fondsize-11 shadow">
+    <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
+    <p><a asp-action="Create" class="btn btn-success">Създай нов</a></p>
     <table class="table table-hover">
         <thead>
             <tr class="row">

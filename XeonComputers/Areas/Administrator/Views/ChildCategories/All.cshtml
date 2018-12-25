@@ -3,10 +3,10 @@
 @model AllChildParentCategoryViewModel
 
 @{
-    ViewData["Title"] = "Категории";
+    ViewData["Title"] = "Под категории";
 }
 
-<div class="container">
+<div class="container shadow">
     <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
     <p><a asp-controller="ChildCategories" asp-action="Add" class="btn btn-success">Създай новa</a></p>
     <table class="table table-hover">
@@ -16,12 +16,11 @@
                 <th scope="col" class="col-lg-2 d-flex justify-content-center">Име</th>
                 <th scope="col" class="col-lg-2 d-flex justify-content-center">Описание</th>
                 <th scope="col" class="col-lg-3 d-flex justify-content-center">Основна категории</th>
-                <th scope="col" class="col-lg-1 d-flex justify-content-center">Брой продукти</th>
+                <th scope="col" class="col-lg-1 d-flex justify-content-center">Продукти</th>
                 <th scope="col" class="col-lg-3 d-flex justify-content-center">Действие</th>
             </tr>
         </thead>
         <tbody>
-
             @{int count = 0; }
             @foreach (var category in Model.ChildCategoryViewModel)
             {

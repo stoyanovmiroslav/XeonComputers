@@ -7,26 +7,42 @@ using Microsoft.AspNetCore.Mvc;
 using XeonComputers.Services.Contracts;
 using XeonComputers.Models;
 using XeonComputers.ViewModels;
+using AutoMapper;
+using XeonComputers.Areas.Administrator.ViewModels.Home;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class HomeController : AdministratorController
     {
-        private readonly IChildCategoriesService childCategoryService;
-        private readonly IParentCategoriesService parentCategoryService;
+        private readonly IOrdersService ordersService;
+        public readonly IPartnerRequestService partnerRequestService;
+        private readonly IMapper mapper;
 
-        public HomeController(IChildCategoriesService childCategoryService,
-                                         IParentCategoriesService parentCategoryService)
+        public HomeController(IOrdersService ordersService, IPartnerRequestService partnerRequestService, IMapper mapper)
         {
-            this.childCategoryService = childCategoryService;
-            this.parentCategoryService = parentCategoryService;
+            this.ordersService = ordersService;
+            this.partnerRequestService = partnerRequestService;
+            this.mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var categories = this.parentCategoryService.GetParentCategories();
+            var unprocessedОrders = this.ordersService.GetUnprocessedOrders();
+            var processedОrders = this.ordersService.GetProcessedOrders();
 
-            return View(categories);
+            var unprocessedОrdersViewModel = mapper.Map<IList<IndexUnprocessedОrdersViewModels>>(unprocessedОrders);
+            var processedОrdersViewModel = mapper.Map<IList<IndexProcessedОrdersViewModels>>(processedОrders);
+            var partnerRequestsCount = this.partnerRequestService.GetPartnetsRequests().Count();
+
+
+            var viewModel = new IndexViewModel
+            {
+                UnprocessedОrdersViewModel = unprocessedОrdersViewModel,
+                ProcessedОrdersViewModel = processedОrdersViewModel,
+                PartnerRequestsCount = partnerRequestsCount
+            };
+
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

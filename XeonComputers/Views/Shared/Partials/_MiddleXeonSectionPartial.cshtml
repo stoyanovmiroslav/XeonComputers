@@ -1,11 +1,19 @@
 ﻿<div class="row mt-1">
     <div class="col-md-3 text-center d-none d-none d-lg-block">
-        <a class="" href="#"><img alt="Brand" src="~/images/xeon_logo.jpg" width="180" @*class="img-fluid px-2 py-2"*@></a>
+        <a asp-controller="Home" asp-action="Index"><img alt="Brand" src="~/images/xeon_logo.jpg" width="220" @*class="img-fluid px-2 py-2" *@></a>
     </div>
     <div class="col-lg-6 col-md-8 mt-2">
         <input class="search-xeon mx-auto" id="Search" type="text" name="Search" placeholder="Търси..">
+        <div class="mb-0 mobile-fondsize-11 d-flex justify-content-around text-muted font-italic fond-bold">
+            <div>
+                <i class="fas fa-phone"></i><strong> +359 878 32 25 64</strong>
+            </div>
+            <div>
+                <i class="fas fa-envelope"></i><strong> xeon.computers.bg@gmail.com</strong> 
+            </div>
+        </div>
     </div>
-    <div class="col-lg-3 col-md-4 text-center">
+    <div class="col-lg-3 col-md-4 text-center pt-1">
         <a asp-controller="Home" asp-action="Contact"><img src="~/images/contact-us.jpg" width="200" /></a>
     </div>
 </div>

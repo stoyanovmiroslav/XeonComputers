@@ -1,0 +1,47 @@
+﻿@model CompanyViewModel
+
+@{
+    ViewData["Title"] = "Партньорска програма";
+    Layout = "Layouts/_LayoutMiddle";
+}
+
+<partial name="~/Views/Shared/Partials/_InfoMessagePartial.cshtml" />
+<div class="shadow text-center pb-2">
+    <div class="h2 mobile-fondsize-20">@ViewData["Title"]</div>
+    <div class="mx-auto modal-dialog text-center">
+        <div class="modal-content">
+            <div class="container mb-2">
+                <p class="h6 pt-3">За да станете наш партньор моля попълнете следната информация и наш сътрудник ще се свържи с вас.</p>
+                <hr class="hr-xeon" />
+                <form asp-route-returnUrl="" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <input asp-for="Name" class="form-control" placeholder="Име" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="UniqueIdentifier" class="form-control" placeholder="ЕИК" />
+                        <span asp-validation-for="UniqueIdentifier" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Manager" class="form-control" placeholder="Управител" />
+                        <span asp-validation-for="Manager" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="AddressCityName" class="form-control" placeholder="Град" />
+                        <span asp-validation-for="AddressCityName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="AddressStreet" class="form-control" placeholder="Адрес" />
+                        <span asp-validation-for="AddressStreet" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn xeon-color text-white">Изпрати</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="~/Views/Shared/Partials/_ValidationScriptsPartial.cshtml" />
+}

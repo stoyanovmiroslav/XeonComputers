@@ -20,11 +20,13 @@ namespace XeonComputers.Models
         public int? CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         public int ShoppingCartId { get; set; }
         public virtual ShoppingCart ShoppingCart { get; set; }
 
         public virtual ICollection<XeonUserFavoriteProduct> FavoriteProducts { get; set; }
+
+        public virtual PartnerRequest PartnerRequest { get; set; }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model IList<AllPartnersViewModel>
+
+@{
+    ViewData["Title"] = "Партньори";
+}
+
+<div class="container mobile-fondsize-11 shadow pr-4 pl-4 pb-4 mb-4 bg-white">
+    <div class="mobile-fondsize-20 h3 text-center font-italic">@ViewData["Title"]</div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th scope="col" class="col-md-3 col d-flex justify-content-center">Име</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">ЕИК</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center">Управител</th>
+                <th scope="col" class="col-md-3 col d-flex justify-content-center">Адрес</th>
+                <th scope="col" class="col-md-2 col d-flex justify-content-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var partner in Model)
+            {
+                <tr class="row">
+                    <td class="col-md-3 col d-flex justify-content-center">
+                        @partner.UserName
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @partner.CompanyName
+                        @partner.CompanyUniqueIdentifier
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-center">
+                        @partner.CompanyManager
+                    </td>
+                    <td class="col-md-3 col d-flex justify-content-center">
+                        @partner.CompanyAddressCityName, @partner.CompanyAddressStreet @partner.CompanyAddressDescription
+                    </td>
+                    <td class="col-md-2 col d-flex justify-content-around">
+                        <div class="mr-2">
+                            <a asp-area="Administrator" asp-controller="Partners" asp-action="Remove" asp-route-username="@partner.UserName" class="btn btn-danger btn-sm">Премахни</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

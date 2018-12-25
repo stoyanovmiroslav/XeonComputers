@@ -30,8 +30,10 @@ namespace XeonComputers.Data
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
-
+        
         public DbSet<XeonUserFavoriteProduct> XeonUserFavoriteProducts { get; set; }
+
+        public DbSet<PartnerRequest> PartnerRequests { get; set; }
 
         public XeonDbContext(DbContextOptions<XeonDbContext> options)
             : base(options)
@@ -65,6 +67,11 @@ namespace XeonComputers.Data
                   .WithOne(x => x.Company)
                   .HasForeignKey<XeonUser>(x => x.CompanyId)
                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<XeonUser>()
+                  .HasOne(x => x.PartnerRequest)
+                  .WithOne(x => x.XeonUser)
+                  .HasForeignKey<PartnerRequest>(x => x.XeonUserId);
 
             base.OnModelCreating(builder);
         }
