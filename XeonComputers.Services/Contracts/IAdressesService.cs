@@ -9,7 +9,7 @@ namespace XeonComputers.Services.Contracts
     {
         Address CreateAddress(string street, string description, string city, string postcode);
 
-        void AddAddressesToUser(string username, Address address);
+        void AddAddressToUser(string username, Address address);
 
         IEnumerable<Address> GetAllUserAddresses(string name);
     }

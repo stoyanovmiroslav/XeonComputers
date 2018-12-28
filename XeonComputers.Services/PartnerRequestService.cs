@@ -23,7 +23,7 @@ namespace XeonComputers.Services
         {
             var user = this.userService.GetUserByUsername(username);
 
-            if (user == null)
+            if (user == null || this.db.PartnerRequests.Any(x => x.XeonUser == user))
             {
                 return;
             }

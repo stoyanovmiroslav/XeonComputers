@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{838623CA-2B2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0579618F-07D2-42C9-B192-9053674DBA23}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1641E9B6-9BD9-4C8B-BCB2-0AD7D567351E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeonComputers.Services.Tests", "Tests\XeonComputers.Services.Tests\XeonComputers.Services.Tests.csproj", "{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{DD483A46-31EB-478C-895B-F6D078D1E8A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD483A46-31EB-478C-895B-F6D078D1E8A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD483A46-31EB-478C-895B-F6D078D1E8A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 		{C5406464-361B-4E75-AAF9-182A3ACA0BE1} = {93322AD6-D706-49AB-A0FC-0661AA9B5A33}
 		{CD3E7D1A-A6AE-43CE-886A-AB302DEC7AFC} = {93322AD6-D706-49AB-A0FC-0661AA9B5A33}
 		{DD483A46-31EB-478C-895B-F6D078D1E8A9} = {0579618F-07D2-42C9-B192-9053674DBA23}
+		{1651EB32-DC2D-44E4-A71D-D6FE6FA06D57} = {1641E9B6-9BD9-4C8B-BCB2-0AD7D567351E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCE2B768-0671-4978-BB0F-4FC7B380C7B8}

@@ -20,7 +20,7 @@ namespace XeonComputers.Services
             this.db = db;
         }
 
-        public void AddAddressesToUser(string username, Address address)
+        public void AddAddressToUser(string username, Address address)
         {
             var user = this.userService.GetUserByUsername(username);
 
