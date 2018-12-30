@@ -42,6 +42,11 @@ namespace XeonComputers.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
+                if (shoppingCartProducts.Count() == 0)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 //TODO: AutoMapping
@@ -61,7 +66,7 @@ namespace XeonComputers.Controllers
             var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
             if (cart == null)
             {
-                cart = new List<ShoppingCartProductsViewModel>();
+                return RedirectToAction("Index", "Home");
             }
 
             return this.View(cart);

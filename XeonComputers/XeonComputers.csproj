@@ -116,6 +116,9 @@
     <Content Update="Views\Shared\Layouts\_DefaultLayout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\Layouts\_LayoutAdmin.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Partials\_InfoMessagePartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

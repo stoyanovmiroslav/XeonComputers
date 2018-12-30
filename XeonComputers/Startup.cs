@@ -23,6 +23,7 @@ using XeonComputers.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using AutoMapper;
 using XeonComputers.MappingConfiguration;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace XeonComputers
 {
@@ -92,6 +93,9 @@ namespace XeonComputers
             services.AddScoped<IFavoritesService, FavoritesService>();
             services.AddScoped<IPartnerRequestService, PartnerRequestService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {

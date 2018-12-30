@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="SendGrid" Version="9.10.0" />
   </ItemGroup>
 
   <ItemGroup>

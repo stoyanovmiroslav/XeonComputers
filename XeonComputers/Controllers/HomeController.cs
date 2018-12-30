@@ -58,13 +58,6 @@ namespace XeonComputers.Controllers
             return View(model);
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
         public IActionResult GetProduct(string term)
         {
             var products = this.productService.GetProductsBySearch(term);
@@ -107,22 +100,23 @@ namespace XeonComputers.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult Payments()
         {
-            ViewData["Message"] = "Your application Payments page.";
-
             return View();
         }
 
         public IActionResult Delivery()
         {
-            ViewData["Message"] = "Your application Delivery page.";
+            return View();
+        }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult About()
+        {
             return View();
         }
 
