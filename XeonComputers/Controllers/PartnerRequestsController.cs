@@ -55,7 +55,7 @@ namespace XeonComputers.Controllers
 
             this.TempData["info"] = YOUR_REQUEST_WAS_ACCEPTED;
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

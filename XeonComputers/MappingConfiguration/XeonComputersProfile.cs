@@ -13,6 +13,8 @@ using XeonComputers.ViewModels.Orders;
 using XeonComputers.ViewModels.Products;
 using XeonComputers.ViewModels.ShoppingCart;
 using XeonComputers.Areas.Administrator.ViewModels.Partners;
+using XeonComputers.Areas.Administrator.Controllers;
+using XeonComputers.Areas.Administrator.ViewModels.UserRequests;
 
 namespace XeonComputers.MappingConfiguration
 {
@@ -33,6 +35,9 @@ namespace XeonComputers.MappingConfiguration
             this.CreateMap<CompanyViewModel, Company>();
             this.CreateMap<XeonUser, RequestUserCompanyViewModel>();
             this.CreateMap<XeonUser, AllPartnersViewModel>();
+            this.CreateMap<UserRequest, UserRequestViewModel>()
+                            .ForMember(x => x.RequestDate, y => y.MapFrom(src => src.RequestDate.ToLongTimeString()));
+
             this.CreateMap<Order, ViewModels.Orders.OrderDetailsViewModel>()
                           .ForMember(x => x.Status, y => y.MapFrom(src => src.Status.GetDisplayName()))
                           .ForMember(x => x.PaymentStatus, y => y.MapFrom(src => src.PaymentStatus.GetDisplayName()))

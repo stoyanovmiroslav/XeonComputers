@@ -1,0 +1,69 @@
+﻿@model IndexUserRequestViewModel
+
+@{
+    ViewData["Title"] = "Запитвания";
+}
+
+<div class="mobile-fondsize-20 font-weight-bold h4 text-center text-secondary font-italic"><u>ЗАПИТВАНИЯ</u></div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="container mobile-fondsize-11 p-3">
+            <div class="vertical-menu">
+                @foreach (var userRequest in Model.UserRequestsViewModel)
+                {
+                    string color = "text-muted";
+                    if (userRequest.Seen == false)
+                    {
+                        color = "text-dark font-weight-bold";
+                    }
+
+                    string active = null;
+                    if (userRequest.Id == Model.UserRequestViewModel.Id)
+                    {
+                        active = "active";
+                    }
+
+                    <a asp-controller="UserRequests" asp-action="Index" asp-route-id="@userRequest.Id" class="@active">
+                        <div class="row @color">
+                            <div class="col-md-4 col">
+                                @userRequest.Title
+                            </div>
+                            <div class="col-md-8 col">
+                                @userRequest.Content
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="container mt-3">
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="@Model.UserRequestViewModel.Title">Заглавие:</label>
+                            <input asp-for="@Model.UserRequestViewModel.Title" class="form-control" disabled placeholder="Заглавие" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="@Model.UserRequestViewModel.Email">Емейл:</label>
+                            <input type="email" asp-for="@Model.UserRequestViewModel.Email" class="form-control" disabled placeholder="Емейл" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.UserRequestViewModel.RequestDate">Дата и час:</label>
+                    <input asp-for="@Model.UserRequestViewModel.RequestDate" class="form-control" disabled placeholder="Заглавие" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.UserRequestViewModel.Content">Съдържание:</label>
+                    <textarea asp-for="@Model.UserRequestViewModel.Content" class="form-control" rows="3" disabled>@Model.UserRequestViewModel.Content</textarea>
+                </div>
+                <div class="text-right">
+                    <a href="mailto:@Model.UserRequestViewModel.Email?subject=Re: @Model.UserRequestViewModel.Title&body=@Model.UserRequestViewModel.Content" class="btn xeon-color text-white btn-sm font-weight-bold"><i class="fas fa-reply"></i> Отговори</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿@model IndexViewModel
+﻿@model AdminNavbarViewModel
 
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,7 +29,7 @@
                     Потребители
                     @if (Model.PartnerRequestsCount != 0)
                     {
-                        <i class="fa fa-star" aria-hidden="true"> @Model.PartnerRequestsCount</i>
+                    <i class="fa fa-star" aria-hidden="true"> @Model.PartnerRequestsCount</i>
                     }
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -44,19 +44,25 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a asp-area="Administrator"  asp-controller="UserRequests" asp-action="Index" class="nav-link text-dark">Запитвания</a>
+                <a asp-area="Administrator" asp-controller="UserRequests" asp-action="Index" class="nav-link text-dark">
+                    Запитвания
+                    @if (Model.UserRequestsCount != 0)
+                    {
+                        <i class="fa fa-star" aria-hidden="true"> @Model.UserRequestsCount</i>
+                    }
+                </a>
             </li>
 
             @*<span class="badge badge-light">@Model.PartnerRequestsCount</span>*@
             @*<a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">Съобщения <i class="fa fa-star" aria-hidden="true"> 1</i></a>*@
             @*<li class="nav-item">
-            <span class="fa-stack fa-1x has-badge" data-count="1">
-                <i class="fas fa-user-circle fa-stack-1x"></i>
-                <-- Tests -->
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-bell fa-stack-1x fa-inverse"></i>
-            </span>
-        </li>*@
+                    <span class="fa-stack fa-1x has-badge" data-count="1">
+                        <i class="fas fa-user-circle fa-stack-1x"></i>
+                        <-- Tests -->
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-bell fa-stack-1x fa-inverse"></i>
+                    </span>
+                </li>*@
         </ul>
     </div>
 </nav>

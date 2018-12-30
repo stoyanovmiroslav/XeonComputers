@@ -18,6 +18,7 @@ namespace XeonComputers.Controllers
     {
         private const int DEFAULT_PAGE_SIZE = 8;
         private const int DEFAULT_PAGE_NUMBER = 1;
+        private const string YOUR_REQUEST_WAS_ACCEPTED = "Благодарим ви! Вашето запитване беше приета успешно!";
 
         private readonly IChildCategoriesService childCategoryService;
         private readonly IParentCategoriesService parentCategoryService;
@@ -98,6 +99,8 @@ namespace XeonComputers.Controllers
             {
                 return this.View(model);
             }
+
+            this.TempData["info"] = YOUR_REQUEST_WAS_ACCEPTED;
 
             this.userRequestService.Create(model.Title, model.Email, model.Content);
 

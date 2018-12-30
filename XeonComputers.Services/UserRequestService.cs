@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using XeonComputers.Data;
 using XeonComputers.Models;
@@ -17,6 +18,11 @@ namespace XeonComputers.Services
             this.db = db;
         }
 
+        public IEnumerable<UserRequest> All()
+        {
+            return db.UserRequests;
+        }
+
         public void Create(string title, string email, string content)
         {
             var userRequest = new UserRequest
@@ -28,6 +34,29 @@ namespace XeonComputers.Services
             };
 
             this.db.UserRequests.Add(userRequest);
+            this.db.SaveChanges();
+        }
+
+        public UserRequest GetRequestById(int id)
+        {
+            return this.db.UserRequests.FirstOrDefault(x => x.Id == id);
+        }
+
+        public IEnumerable<UserRequest> GetUnSeenRequests()
+        {
+            return this.db.UserRequests.Where(x => x.Seen == false);
+        }
+
+        public void Seen(int id)
+        {
+            var userRequest = this.GetRequestById(id);
+
+            if (userRequest == null)
+            {
+                return;
+            }
+
+            userRequest.Seen = true;
             this.db.SaveChanges();
         }
     }

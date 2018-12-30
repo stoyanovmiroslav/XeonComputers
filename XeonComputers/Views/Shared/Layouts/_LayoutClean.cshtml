@@ -25,7 +25,8 @@
 
         @if (this.User.IsInRole(Role.Admin.ToString()))
         {
-            <partial name="~/Areas/Administrator/Views/Shared/_NavbarAdminPartial.cshtml" />
+            @await Component.InvokeAsync(typeof(AdminNavbarComponent))
+            @*<partial name="~/Areas/Administrator/Views/Shared/_NavbarAdminPartial.cshtml" />*@
         }
 
         <partial name="~/Views/Shared/Partials/_ErrorMessagePartial.cshtml" />

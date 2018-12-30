@@ -209,8 +209,6 @@ nav-item-test {
     background: #47b7e9;
 }
 
-
-
 .icon-blue {
     color: #0088cc
 }
@@ -241,4 +239,27 @@ nav-item-test {
     border-radius: 50%;
     color: white;
     border: 1px solid blue;
+}
+
+/*Vertical message menu */
+.vertical-menu {
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.vertical-menu a {
+    background-color: white;
+    color: black;
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #eee;
 }
