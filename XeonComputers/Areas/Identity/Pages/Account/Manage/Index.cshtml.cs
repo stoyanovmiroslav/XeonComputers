@@ -28,6 +28,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        [Display(Name = "Потребителско име")]
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -42,10 +43,11 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Имейл")]
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
         }
 
@@ -110,7 +112,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Потребителският ви профил бе актуализиран";
             return RedirectToPage();
         }
 
@@ -127,7 +129,6 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-
             var userId = await _userManager.GetUserIdAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -138,10 +139,10 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Потвърдете имейла си",
+                $"Моля потвърдете вашия акаунт, като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>кликнете тук</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Имейлът за потвърждение е изпратен. Моля, проверете електронната си поща.";
             return RedirectToPage();
         }
     }
