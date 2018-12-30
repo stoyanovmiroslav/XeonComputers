@@ -22,16 +22,19 @@ namespace XeonComputers.Controllers
         private readonly IChildCategoriesService childCategoryService;
         private readonly IParentCategoriesService parentCategoryService;
         private readonly IProductsService productService;
+        private readonly IUserRequestService userRequestService;
         private readonly IMapper mapper;
 
         public HomeController(IChildCategoriesService childCategoryService,
                               IParentCategoriesService parentCategoryService,
                               IProductsService productService,
+                              IUserRequestService userRequestService,
                               IMapper mapper)
         {
             this.childCategoryService = childCategoryService;
             this.parentCategoryService = parentCategoryService;
             this.productService = productService;
+            this.userRequestService = userRequestService;
             this.mapper = mapper;
         }
 
@@ -77,7 +80,28 @@ namespace XeonComputers.Controllers
 
         public IActionResult Contact()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                ContactUserRequestViewModel model = new ContactUserRequestViewModel();
+                model.Email = this.User.Identity.Name;
+
+                return View(model);
+            }
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Contact(ContactUserRequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            this.userRequestService.Create(model.Title, model.Email, model.Content);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

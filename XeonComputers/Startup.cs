@@ -91,6 +91,7 @@ namespace XeonComputers
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<IFavoritesService, FavoritesService>();
             services.AddScoped<IPartnerRequestService, PartnerRequestService>();
+            services.AddScoped<IUserRequestService, UserRequestService>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {

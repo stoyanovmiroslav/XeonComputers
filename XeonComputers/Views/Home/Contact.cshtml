@@ -1,18 +1,63 @@
-﻿@{
+﻿@model ContactUserRequestViewModel
+
+@{
     ViewData["Title"] = "За контакти";
     Layout = "Layouts/_LayoutMiddle";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="h2 text-center text-info">@ViewData["Title"]</div>
+        <div class="shadow py-3 px-3">
+            <strong>"КСЕОН КОМПЮТЕРС" ЕООД</strong>
+            <address>
+                гр. Бургас 8000 <br />
+                ж.к. Славейков, бл. 86, ет. 2, ап. 10<br />
+            </address>
+            <strong>Офиси:</strong>
+            <address>
+                гр.Бургас<br />
+                к-с "Славейков" бл.107(до Била)<br />
+                <abbr title="Phone">Тел:</abbr>
+                +359 878 32 25 64
+            </address>
+            <p class="mb-0"><strong>Емейл: </strong><a href="mailto:xeon.computers.bg@gmail.com">xeon.computers.bg@gmail.com</a></p>
+            <p class="mb-0"><strong>Skype: </strong>Xeon_Computers</p>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5881.361158848966!2d27.457115417876572!3d42.51959556527126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a6937985ed9355%3A0x137fa6edfb85663a!2sXeon+Computers+Ltd!5e0!3m2!1sbg!2sbg!4v1546159951545" height="350" style="width:100%; border:0;" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="container mt-2 py-3 px-3">
+    <div class="font-weight-bold h4 text-center text-secondary"><u>ЗАПИТВАНЕ</u></div>
+    <form asp-controller="Home" asp-action="Contact" method="post">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Title">Заглавие:</label>
+                    <input asp-for="Title" class="form-control" placeholder="Заглавие" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Email">Емейл:</label>
+                    <input type="email" asp-for="Email" class="form-control" placeholder="Емейл" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Content">Съдържание:</label>
+            <textarea asp-for="Content" class="form-control" rows="3">Съдържание</textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn xeon-color text-white text-center font-weight-bold">Изпрати</button>
+        </div>
+    </form>
+</div>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+@section Scripts {
+    <partial name="~/Views/Shared/Partials/_ValidationScriptsPartial.cshtml" />
+}
