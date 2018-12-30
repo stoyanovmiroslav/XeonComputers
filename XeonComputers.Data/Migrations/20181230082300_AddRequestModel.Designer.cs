@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XeonComputers.Data;
 
 namespace XeonComputers.Data.Migrations
 {
     [DbContext(typeof(XeonDbContext))]
-    partial class XeonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181230082300_AddRequestModel")]
+    partial class AddRequestModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,23 +407,6 @@ namespace XeonComputers.Data.Migrations
                     b.HasIndex("ShoppingCartId");
 
                     b.ToTable("ShoppingCartProducts");
-                });
-
-            modelBuilder.Entity("XeonComputers.Models.UserRequest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserRequests");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.XeonUser", b =>

@@ -35,6 +35,8 @@ namespace XeonComputers.Data
 
         public DbSet<PartnerRequest> PartnerRequests { get; set; }
 
+        public DbSet<UserRequest> UserRequests { get; set; }
+
         public XeonDbContext(DbContextOptions<XeonDbContext> options)
             : base(options)
         {
