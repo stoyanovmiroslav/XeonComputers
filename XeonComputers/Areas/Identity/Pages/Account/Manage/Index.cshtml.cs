@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using XeonComputers.Models;
+using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Areas.Identity.Pages.Account.Manage
 {
@@ -16,16 +18,22 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<XeonUser> _userManager;
         private readonly SignInManager<XeonUser> _signInManager;
+        private readonly IUsersService _userService;
+        private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
             UserManager<XeonUser> userManager,
             SignInManager<XeonUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUsersService userService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         [Display(Name = "Потребителско име")]
@@ -49,6 +57,21 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Име")]
+            public string Name { get; set; }
+
+            [Display(Name = "ЕИК")]
+            public string UniqueIdentifier { get; set; }
+
+            [Display(Name = "Управител")]
+            public string Manager { get; set; }
+            
+            [Display(Name = "Град")]
+            public string AddressCityName { get; set; }
+
+            [Display(Name = "Адрес")]
+            public string AddressStreet { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,17 +82,21 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            Username = this.User.Identity.Name;
 
-            Input = new InputModel
+            var company = _userService.GetUserCompanyByUsername(Username);
+            Input = _mapper.Map<InputModel>(company);
+
+            if (Input == null)
             {
-                Email = email,
-                PhoneNumber = phoneNumber
-            };
+                Input = new InputModel();
+            }
+
+            Input.Email = email;
+            Input.PhoneNumber = phoneNumber;
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 

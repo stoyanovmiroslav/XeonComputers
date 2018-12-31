@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using XeonComputers.Enums;
@@ -18,21 +20,27 @@ namespace XeonComputers.Controllers
     {
         private const string ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS = "За да продължите добавете продукти в кошницата!";
         private const string ERROR_MESSAGE_INVALID_ORDER_NUMBER = "Невалиден номер на поръчка, моля опитайте отново!";
+        private const string PATH_CONFIRMATION_ORDER_EMAIL = "Views/EmailTemplates/ConfirmOrder.cshtml";
+        private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
+        private const string YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED = "Вашата поръчка беше получена успешно!";
 
         private readonly IAdressesService adressesService;
         private readonly IUsersService userService;
         private readonly IOrdersService orderService;
         private readonly IShoppingCartService shoppingCartService;
         private readonly IMapper mapper;
+        private readonly IEmailSender emailSender;
 
         public OrdersController(IAdressesService adressesService, IUsersService userService,
-                                IOrdersService orderService, IShoppingCartService shoppingCartService, IMapper mapper)
+                                IOrdersService orderService, IShoppingCartService shoppingCartService,
+                                IMapper mapper, IEmailSender emailSender)
         {
             this.userService = userService;
             this.adressesService = adressesService;
             this.orderService = orderService;
             this.shoppingCartService = shoppingCartService;
             this.mapper = mapper;
+            this.emailSender = emailSender;
         }
 
         public IActionResult Create()
@@ -84,7 +92,7 @@ namespace XeonComputers.Controllers
             {
                 return this.RedirectToAction("Index", "ShoppingCart");
             }
-            
+
             this.orderService.SetOrderDetails(order, model.FullName, model.PhoneNumber, model.PaymentType, model.DeliveryAddressId.Value);
 
             return this.RedirectToAction(nameof(Confirm));
@@ -104,7 +112,7 @@ namespace XeonComputers.Controllers
             return this.View(orderViewModel);
         }
 
-        public IActionResult Complete(int id)
+        public async Task<IActionResult> Complete(int id)
         {
             if (!this.shoppingCartService.AnyProducts(this.User.Identity.Name))
             {
@@ -116,7 +124,20 @@ namespace XeonComputers.Controllers
 
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
-           
+
+            var email = this.userService.GetUserByUsername(this.User.Identity.Name).Email;
+
+            var orderModel = mapper.Map<CompleteOrderViewModel>(order);
+            var emailMessageTempate = System.IO.File.ReadAllText(PATH_CONFIRMATION_ORDER_EMAIL);
+            var message = string.Format(emailMessageTempate, orderModel.Recipient, orderModel.RecipientPhoneNumber, orderModel.DeliveryAddressCityName, orderModel.DeliveryAddressCityPostCode,
+                                                             orderModel.DeliveryAddressStreet, orderModel.DeliveryAddressDescription, orderModel.TotalPrice);
+
+            var subject = string.Format(REGISTERED_ORDER, order.Id);
+
+            await this.emailSender.SendEmailAsync(email, subject, message);
+
+            this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
+
             return this.RedirectToAction("Pay", "Payments", new { orderId = order.Id });
         }
 

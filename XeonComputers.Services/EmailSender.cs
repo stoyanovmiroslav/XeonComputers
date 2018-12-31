@@ -28,7 +28,7 @@ namespace XeonComputers.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("confirm@xeoncomputer.com", "Xeon Computers"),
+                From = new EmailAddress("no-reply@xeoncomputer.com", "Xeon Computers"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

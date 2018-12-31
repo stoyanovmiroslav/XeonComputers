@@ -21,10 +21,14 @@
             {
                 <tr class="row">
                     <td class="col-2 d-flex justify-content-center">
-                        <img src="@product.ProductImageUrl" width="50" height="50">
+                        <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                            <img src="@product.ProductImageUrl" width="50" height="50">
+                        </a>
                     </td>
                     <td class="col-4 d-flex justify-content-center">
-                        @product.ProductName
+                        <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                            @product.ProductName
+                        </a>
                     </td>
                     <td class="col-1 d-flex justify-content-center">
                         @product.ProductPrice
@@ -34,7 +38,7 @@
                             <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@product.ProductId" class="btn btn-primary btn-sm mobile-fondsize-11"><i class="fas fa-shopping-cart"></i> Добави</a>
                         </div>
                         <div class="mr-2">
-                            <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@product.ProductId" class="btn btn-danger btn-sm"><i class="far fa-credit-card"></i> Купи</a>
+                            <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@product.ProductId" asp-route-direct="true" class="btn btn-danger btn-sm"><i class="far fa-credit-card"></i> Купи</a>
                         </div>
                         <div>
                             <a asp-controller="Favorites" asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-outline-danger btn-sm"><i class="fas fa-times-circle"></i> Премахни</a>

@@ -10,6 +10,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
     {
         public static string Index => "Index";
 
+        public static string Company => "Company";
+
         public static string ChangePassword => "ChangePassword";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
@@ -23,6 +25,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string CompanyData(ViewContext viewContext) => PageNavClass(viewContext, Company);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

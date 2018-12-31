@@ -32,9 +32,12 @@ namespace XeonComputers.MappingConfiguration
             this.CreateMap<ChildCategory, EditChildCategoryViewModel>();
             this.CreateMap<ChildCategory, AllChildCategoryViewModel>();
             this.CreateMap<Order, ConfirmOrderViewModel>();
+            this.CreateMap<Order, CompleteOrderViewModel>();
             this.CreateMap<CompanyViewModel, Company>();
             this.CreateMap<XeonUser, RequestUserCompanyViewModel>();
             this.CreateMap<XeonUser, AllPartnersViewModel>();
+            this.CreateMap<Company, XeonComputers.Areas.Identity.Pages.Account.Manage.IndexModel.InputModel>();
+
             this.CreateMap<UserRequest, UserRequestViewModel>()
                             .ForMember(x => x.RequestDate, y => y.MapFrom(src => src.RequestDate.ToLongTimeString()));
 

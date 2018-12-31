@@ -87,5 +87,12 @@ namespace XeonComputers.Services
                                 .Where(x => usersOfRole.Any(u => u.Id == x.Id))
                                 .ToList();
         }
+
+        public Company GetUserCompanyByUsername(string username)
+        {
+            return this.db.Companies
+                          .Include(x => x.Address.City)
+                          .FirstOrDefault(x => x.XeonUser.UserName == username);
+        }
     }
 }

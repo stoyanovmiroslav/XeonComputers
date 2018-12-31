@@ -5,7 +5,6 @@
 }
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
-@*@Html.Partial("_StatusMessage", Model.StatusMessage)*@
 
 <div class="row">
     <div class="col-md-6">
@@ -38,6 +37,39 @@
             </div>
             <button type="submit" class="btn xeon-color text-white">Запази</button>
         </form>
+    </div>
+    <div class="col-md-6">
+        @if (Model.Input.Name != null)
+        {
+            <form id="profile-form" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Name"></label>
+                    <input asp-for="Input.Name" class="form-control" disabled />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.UniqueIdentifier"></label>
+                    <input asp-for="Input.UniqueIdentifier" class="form-control" disabled />
+                    <span asp-validation-for="Input.UniqueIdentifier" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Manager"></label>
+                    <input asp-for="Input.Manager" class="form-control" disabled />
+                    <span asp-validation-for="Input.Manager" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.AddressCityName"></label>
+                    <input asp-for="Input.AddressCityName" class="form-control" disabled />
+                    <span asp-validation-for="Input.AddressCityName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.AddressStreet"></label>
+                    <input asp-for="Input.AddressStreet" class="form-control" disabled />
+                    <span asp-validation-for="Input.AddressStreet" class="text-danger"></span>
+                </div>
+            </form>
+        }
     </div>
 </div>
 

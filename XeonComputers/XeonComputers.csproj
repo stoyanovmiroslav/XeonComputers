@@ -80,6 +80,9 @@
     <Content Update="Areas\Shared\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\EmailTemplates\ConfirmOrder.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Favorites\All.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

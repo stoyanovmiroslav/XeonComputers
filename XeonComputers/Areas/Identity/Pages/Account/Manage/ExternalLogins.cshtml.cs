@@ -96,7 +96,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred adding external login for user with ID '{user.Id}'.");
+                StatusMessage = "Този профил вече е използван от друг потребител.";
+                return RedirectToPage();
             }
 
             // Clear the existing external cookie to ensure a clean login process

@@ -59,7 +59,7 @@
         }
         <div class="mt-4">
             <div class="mb-2">
-                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</a>
+                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" asp-route-direct="true" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</a>
             </div>
             <div class="mb-2">
                 <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn xeon-color text-white btn-lg btn-block"><i class="fas fa-shopping-cart"></i>  Добави в количката</a>

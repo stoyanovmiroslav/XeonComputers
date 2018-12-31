@@ -72,11 +72,16 @@ namespace XeonComputers.Controllers
             return this.View(cart);
         }
 
-        public IActionResult Add(int id)
+        public IActionResult Add(int id, bool direct)
         {
             if (this.User.Identity.IsAuthenticated)
             {
                 this.shoppingCartService.AddProductInShoppingCart(id, this.User.Identity.Name);
+
+                if (direct == true)
+                {
+                    return this.RedirectToAction("Create", "Orders");
+                }
 
                 return this.RedirectToAction(nameof(Index));
             }
@@ -98,6 +103,11 @@ namespace XeonComputers.Controllers
                 cart.Add(shoppingCart);
 
                 SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY, cart);
+            }
+
+            if (direct == true)
+            {
+                return this.RedirectToAction("Create", "Orders");
             }
 
             return this.RedirectToAction(nameof(Index));

@@ -5,29 +5,43 @@
 }
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
+
 @if (Model.CurrentLogins?.Count > 0)
 {
-<h4>Регистрирани услуги за вход</h4>
+    <h4>Регистрирани услуги за вход</h4>
     <table class="table">
         <tbody>
             @foreach (var login in Model.CurrentLogins)
             {
                 <tr>
-                    <td>@login.LoginProvider</td>
                     <td>
-                        @if (Model.ShowRemoveButton)
+                        @if (login.LoginProvider == "Facebook")
                         {
-                        <form id="remove-login" asp-page-handler="RemoveLogin" method="post">
-                            <div>
-                                <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                <button type="submit" class="btn btn-default" title="Remove this @login.LoginProvider login from your account">Премахни</button>
-                            </div>
-                        </form>
+                            <p class="h5"><i class="fab fa-facebook text-primary"></i>  @login.LoginProvider</p>
+                        }
+                        else if (login.LoginProvider == "Google")
+                        {
+                            <p class="h5"><i class="fab fa-google-plus-g text-danger"></i>  @login.LoginProvider</p>
                         }
                         else
                         {
-                        @: &nbsp;
+                            @login.LoginProvider
+                        }
+                    </td>
+                    <td>
+                        @if (Model.ShowRemoveButton)
+                        {
+                            <form id="remove-login" asp-page-handler="RemoveLogin" method="post">
+                                <div>
+                                    <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                    <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                                    <button type="submit" class="btn btn-outline-danger" title="Remove this @login.LoginProvider login from your account">Премахни</button>
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            @: &nbsp;
                         }
                     </td>
                 </tr>
@@ -44,7 +58,15 @@
             <p>
                 @foreach (var provider in Model.OtherLogins)
                 {
-                    <button id="link-login-button" type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+
+                    @if (provider.Name == "Facebook")
+                    {
+                        <button id="link-login-button" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook"></i> @provider.DisplayName</button>
+                    }
+                    else if (provider.Name == "Google")
+                    {
+                        <button id="link-login-button" type="submit" class="btn btn-danger" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-google-plus-g"></i> @provider.DisplayName</button>
+                    }
                 }
             </p>
         </div>

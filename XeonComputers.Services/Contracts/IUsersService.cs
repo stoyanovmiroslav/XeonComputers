@@ -18,5 +18,7 @@ namespace XeonComputers.Services.Contracts
         void RemoveUserFromToRole(string name, string role);
 
         IEnumerable<XeonUser> GetUsersByRole(string role);
+
+        Company GetUserCompanyByUsername(string name);
     }
 }
