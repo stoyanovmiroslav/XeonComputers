@@ -7,7 +7,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IFavoritesService
     {
-        void Add(int id, string name);
+        bool Add(int id, string name);
 
         IEnumerable<XeonUserFavoriteProduct> All(string name);
 

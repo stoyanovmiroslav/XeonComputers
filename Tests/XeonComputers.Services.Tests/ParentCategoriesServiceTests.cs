@@ -121,7 +121,7 @@ namespace XeonComputers.Services.Tests
         public void DeleteParentCategoryShouldReturnTrueAndDeleteParentCategory()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
-                    .UseInMemoryDatabase(databaseName: "DeleteParentCategory_ParentCategories_Database")
+                    .UseInMemoryDatabase(databaseName: "DeleteParentCategoryCorrect_ParentCategories_Database")
                     .Options;
             var dbContext = new XeonDbContext(options);
 
@@ -139,7 +139,7 @@ namespace XeonComputers.Services.Tests
         public void DeleteParentCategoryWhithInvalidParentCategoryIdShouldReturnFalse()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
-                    .UseInMemoryDatabase(databaseName: "DeleteParentCategory_ParentCategories_Database")
+                    .UseInMemoryDatabase(databaseName: "DeleteParentCategoryWhithInvalidParentCategoryId_ParentCategories_Database")
                     .Options;
             var dbContext = new XeonDbContext(options);
 

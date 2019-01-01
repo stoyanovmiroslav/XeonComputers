@@ -18,13 +18,18 @@ namespace XeonComputers.Services
             this.db = db;
         }
 
-        public void Add(int id, string username)
+        public bool Add(int id, string username)
         {
             var user = this.db.Users.Include(x => x.FavoriteProducts).FirstOrDefault(x => x.UserName == username);
-
             if (user == null || user.FavoriteProducts.Any(x => x.ProductId == id))
             {
-                return;
+                return false;
+            }
+
+            var isProductExist = this.db.Products.Any(x => x.Id == id);
+            if (!isProductExist)
+            {
+                return false;
             }
 
             var xeonFavoritesProduct = new XeonUserFavoriteProduct
@@ -35,6 +40,8 @@ namespace XeonComputers.Services
 
             user.FavoriteProducts.Add(xeonFavoritesProduct);
             this.db.SaveChanges();
+
+            return true;
         }
 
         public IEnumerable<XeonUserFavoriteProduct> All(string username)
