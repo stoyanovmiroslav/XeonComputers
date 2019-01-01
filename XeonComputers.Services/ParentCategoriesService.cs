@@ -18,13 +18,19 @@ namespace XeonComputers.Services
             this.db = db;
         }
 
-        public void AddMainCategory(string name)
+        public ParentCategory CreateParentCategory(string name)
         {
+            if (name == null)
+            {
+                return null;
+            }
+
             var categoty = new ParentCategory { Name = name };
 
             this.db.ParentCategories.Add(categoty);
-
             this.db.SaveChanges();
+
+            return categoty;
         }
 
         public bool DeleteParentCategory(int id)

@@ -5,7 +5,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IParentCategoriesService
     {
-        void AddMainCategory(string name);
+        ParentCategory CreateParentCategory(string name);
 
         IEnumerable<ParentCategory> GetParentCategories();
 

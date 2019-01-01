@@ -52,7 +52,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult Add(ParentCategoryViewModel model)
         {
-            this.parentCategoryService.AddMainCategory(model.Name);
+            this.parentCategoryService.CreateParentCategory(model.Name);
 
             return RedirectToAction("All");
         }

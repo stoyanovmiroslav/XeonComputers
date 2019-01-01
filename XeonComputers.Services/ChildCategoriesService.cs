@@ -73,6 +73,13 @@ namespace XeonComputers.Services
                 return false;
             }
 
+            var isParentCategoryExist = this.db.ParentCategories.Any(x => x.Id == parentId);
+
+            if (!isParentCategoryExist)
+            {
+                return false;
+            }
+
             category.Name = name;
             category.Description = description;
             category.ParentCategoryId = parentId;
