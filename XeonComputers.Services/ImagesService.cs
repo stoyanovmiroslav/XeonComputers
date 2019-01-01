@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using XeonComputers.Services.Common;
 using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Services
@@ -34,7 +35,7 @@ namespace XeonComputers.Services
                     await formImages[i].CopyToAsync(stream);
                 }
 
-                var imageRoot = imagePath.Replace("wwwroot", "");
+                var imageRoot = imagePath.Replace(GlobalConstans.WWWROOT, "");
                 imageUrls.Add(imageRoot);
             }
 

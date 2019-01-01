@@ -33,7 +33,7 @@ namespace XeonComputers.Services
 
             this.Encoded = Base64Encode(data);
 
-            return HmacSha1(this.Encoded, SecretKey);
+            return this.HmacSha1(this.Encoded, SecretKey);
         }
 
         private string HmacSha1(string encoded, string secret)

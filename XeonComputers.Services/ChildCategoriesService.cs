@@ -89,9 +89,13 @@ namespace XeonComputers.Services
             return true;
         }
 
+
         public IEnumerable<ChildCategory> GetChildCategories()
         {
-            var categories = this.db.ChildCategories.Include(x => x.Products).Include(x => x.ParentCategory).ToArray();
+            var categories = this.db.ChildCategories
+                                    .Include(x => x.Products)
+                                    .Include(x => x.ParentCategory)
+                                    .ToArray();
 
             return categories;
         }

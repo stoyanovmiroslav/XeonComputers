@@ -21,13 +21,13 @@ namespace XeonComputers.Services
 
         public void AddProduct(Product product)
         {
+            if (product == null)
+            {
+                return;
+            }
+
             this.db.Products.Add(product);
             this.db.SaveChanges();
-        }
-
-        public IEnumerable<ChildCategory> GetChildCategories()
-        {
-            return this.db.ChildCategories.ToArray();
         }
 
         public Product GetProductById(int id)
@@ -91,6 +91,11 @@ namespace XeonComputers.Services
         {
             var product = this.GetProductById(id);
 
+            if (product == null)
+            {
+                return;
+            }
+
             foreach (var imageUrl in imageUrls)
             {
                 var image = new Image { ImageUrl = imageUrl };
@@ -103,6 +108,11 @@ namespace XeonComputers.Services
         public IEnumerable<Image> GetImages(int id)
         {
             var product = GetProductById(id);
+
+            if (product == null)
+            {
+                return null;
+            }
 
             return product.Images.ToList();
         }
@@ -161,11 +171,15 @@ namespace XeonComputers.Services
             return products.OrderByDescending(x => x.Id).ToList();
         }
 
-        public void AddRate(int rating, int productId)
+        public void AddReview(int rating, int productId)
         {
-            var produc = this.GetProductById(productId);
-            produc.Reviews.Add(new Review { Raiting = rating });
+            var product = this.GetProductById(productId);
+            if (product == null || rating < 0 || rating > 5)
+            {
+                return;
+            }
 
+            product.Reviews.Add(new Review { Raiting = rating });
             this.db.SaveChanges();
         }
     }

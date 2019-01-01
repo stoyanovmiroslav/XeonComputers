@@ -17,14 +17,17 @@ namespace XeonComputers.Areas.Administrator.Controllers
     public class ProductsController : AdministratorController
     {
         private readonly IProductsService productService;
+        private readonly IChildCategoriesService childCategoriesService;
         private readonly IImagesService imageService;
         private readonly IMapper mapper;
 
-        public ProductsController(IProductsService productService, 
+        public ProductsController(IProductsService productService,
+                                  IChildCategoriesService childCategoriesService,
                                   IImagesService imageService, 
                                   IMapper mapper)
         {
             this.productService = productService;
+            this.childCategoriesService = childCategoriesService;
             this.imageService = imageService;
             this.mapper = mapper;
         }
@@ -38,7 +41,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         public IActionResult Create()
         {
-            var childCategories = this.productService.GetChildCategories();
+            var childCategories = this.childCategoriesService.GetChildCategories();
 
             var categories = childCategories.Select(x => new SelectListItem
                                                         {
@@ -56,7 +59,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var childCategories = this.productService.GetChildCategories();
+                var childCategories = this.childCategoriesService.GetChildCategories();
 
                 ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
                                                              {
@@ -92,7 +95,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 return NotFound();
             }
 
-            var childCategories = this.productService.GetChildCategories();
+            var childCategories = this.childCategoriesService.GetChildCategories();
 
             ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
                                                          {
@@ -110,7 +113,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var childCategories = this.productService.GetChildCategories();
+                var childCategories = this.childCategoriesService.GetChildCategories();
 
                 ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
                 {

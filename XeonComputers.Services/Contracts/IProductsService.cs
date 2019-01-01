@@ -13,8 +13,6 @@ namespace XeonComputers.Services.Contracts
 
         Product GetProductById(int id);
 
-        IEnumerable<ChildCategory> GetChildCategories();
-
         void AddProduct(Product product);
 
         bool RemoveProduct(int id);
@@ -35,6 +33,6 @@ namespace XeonComputers.Services.Contracts
 
         IEnumerable<Product> OrderBy(IEnumerable<Product> products, ProductsSort sortBy);
 
-        void AddRate(int rating, int productId);
+        void AddReview(int rating, int productId);
     }
 }
