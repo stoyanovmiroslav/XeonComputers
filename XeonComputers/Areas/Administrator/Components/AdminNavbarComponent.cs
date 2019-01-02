@@ -25,7 +25,7 @@ namespace XeonComputers.Components
         public IViewComponentResult Invoke()
         {
             var partnerRequestsCount = this.partnerRequestService.GetPartnetsRequests().Count();
-            var userRequestsCount = this.userRequestService.GetUnSeenRequests().Count();
+            var userRequestsCount = this.userRequestService.GetUnseenRequests().Count();
 
             var viewModel = new AdminNavbarViewModel
             {

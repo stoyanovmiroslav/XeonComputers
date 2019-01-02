@@ -42,7 +42,7 @@ namespace XeonComputers.Services
             return this.db.UserRequests.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<UserRequest> GetUnSeenRequests()
+        public IEnumerable<UserRequest> GetUnseenRequests()
         {
             return this.db.UserRequests.Where(x => x.Seen == false);
         }

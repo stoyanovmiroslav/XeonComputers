@@ -15,6 +15,6 @@ namespace XeonComputers.Services.Contracts
 
         void Seen(int id);
 
-        IEnumerable<UserRequest> GetUnSeenRequests();
+        IEnumerable<UserRequest> GetUnseenRequests();
     }
 }
