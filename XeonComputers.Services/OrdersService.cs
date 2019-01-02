@@ -55,7 +55,7 @@ namespace XeonComputers.Services
                 orderProducts.Add(orderProduct);
             }
 
-            this.shoppingCartService.DeleteAllProductFromsShoppingCart(username);
+            this.shoppingCartService.DeleteAllProductFromShoppingCart(username);
 
             order.OrderDate = DateTime.UtcNow.AddDays(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
             order.Status = Enums.OrderStatus.Unprocessed;

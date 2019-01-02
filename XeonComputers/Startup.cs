@@ -86,13 +86,13 @@ namespace XeonComputers
             services.AddScoped<IImagesService, ImagesService>();
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IPaymentsService, PaymentsService>();
-            services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartsService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IAdressesService, AddressesService>();
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<IFavoritesService, FavoritesService>();
-            services.AddScoped<IPartnerRequestService, PartnerRequestService>();
-            services.AddScoped<IUserRequestService, UserRequestService>();
+            services.AddScoped<IPartnerRequestService, PartnerRequestsService>();
+            services.AddScoped<IUserRequestService, UserRequestsService>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);

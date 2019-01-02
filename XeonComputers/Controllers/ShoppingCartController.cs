@@ -143,7 +143,7 @@ namespace XeonComputers.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                this.shoppingCartService.EditProductInShoppingCart(id, this.User.Identity.Name, quantity);
+                this.shoppingCartService.EditProductQuantityInShoppingCart(id, this.User.Identity.Name, quantity);
 
                 return this.RedirectToAction(nameof(Index));
             }

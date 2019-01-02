@@ -10,7 +10,7 @@ using Xunit;
 
 namespace XeonComputers.Services.Tests
 {
-    public class PartnerRequestServiceTests
+    public class PartnerRequestsServiceTests
     {
         [Fact]
         public void CreateShouldCreatePartnerRequest()
@@ -28,7 +28,7 @@ namespace XeonComputers.Services.Tests
             userService.Setup(r => r.GetUserByUsername(username))
                        .Returns(user);
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
 
             partnerRequestService.Create(username);
 
@@ -53,7 +53,7 @@ namespace XeonComputers.Services.Tests
             userService.Setup(r => r.GetUserByUsername(username))
                        .Returns(user);
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
 
             partnerRequestService.Create(username);
 
@@ -78,7 +78,7 @@ namespace XeonComputers.Services.Tests
             userService.Setup(r => r.GetUserByUsername(username))
                        .Returns(user);
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
 
             partnerRequestService.Create(username);
             partnerRequestService.Create(username);
@@ -104,7 +104,7 @@ namespace XeonComputers.Services.Tests
             userService.Setup(r => r.GetUserByUsername(username))
                        .Returns(user);
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
 
             partnerRequestService.Create(username);
 
@@ -132,7 +132,7 @@ namespace XeonComputers.Services.Tests
             userService.Setup(r => r.GetUserByUsername(username))
                        .Returns(user);
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
 
             partnerRequestService.Create(username);
 
@@ -165,7 +165,7 @@ namespace XeonComputers.Services.Tests
             dbContext.PartnerRequests.AddRange(partnerRequests);
             dbContext.SaveChanges();
 
-            var partnerRequestService = new PartnerRequestService(userService.Object, dbContext);
+            var partnerRequestService = new PartnerRequestsService(userService.Object, dbContext);
             var allPartnerRequests = partnerRequestService.GetPartnetsRequests();
 
             Assert.Equal(3, allPartnerRequests.Count());

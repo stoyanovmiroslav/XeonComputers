@@ -9,13 +9,13 @@ namespace XeonComputers.Services.Contracts
     {
         void AddProductInShoppingCart(int productId, string username, int? quntity = null);
 
-        void EditProductInShoppingCart(int productId, string username, int quantity);
+        void EditProductQuantityInShoppingCart(int productId, string username, int quantity);
 
         IEnumerable<ShoppingCartProduct> GetAllShoppingCartProducts(string username);
 
         void DeleteProductFromShoppingCart(int id, string username);
 
-        void DeleteAllProductFromsShoppingCart(string username);
+        void DeleteAllProductFromShoppingCart(string username);
 
         bool AnyProducts(string username);
     }
