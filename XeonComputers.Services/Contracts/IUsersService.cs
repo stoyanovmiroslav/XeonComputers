@@ -13,9 +13,9 @@ namespace XeonComputers.Services.Contracts
 
         IEnumerable<XeonUser> GetUsersWithPartnersRequsts();
 
-        void AddUserToRole(string username, string role);
+        bool AddUserToRole(string username, string role);
 
-        void RemoveUserFromToRole(string name, string role);
+        bool RemoveUserFromToRole(string name, string role);
 
         IEnumerable<XeonUser> GetUsersByRole(string role);
 

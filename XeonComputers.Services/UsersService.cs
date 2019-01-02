@@ -55,26 +55,28 @@ namespace XeonComputers.Services
                                 .ToList();
         }
 
-        public void AddUserToRole(string username, string role)
+        public bool AddUserToRole(string username, string role)
         {
             var user = GetUserByUsername(username);
             if (user == null)
             {
-                return;
+                return false;
             }
 
             this.userManager.AddToRoleAsync(user, role).GetAwaiter().GetResult();
+            return true;
         }
 
-        public void RemoveUserFromToRole(string username, string role)
+        public bool RemoveUserFromToRole(string username, string role)
         {
             var user = GetUserByUsername(username);
             if (user == null)
             {
-                return;
+                return false;
             }
 
             this.userManager.RemoveFromRoleAsync(user, role).GetAwaiter().GetResult();
+            return true;
         }
 
         public IEnumerable<XeonUser> GetUsersByRole(string role)

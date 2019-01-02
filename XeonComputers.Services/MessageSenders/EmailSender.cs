@@ -11,6 +11,9 @@ namespace XeonComputers.Services
 {
     public class EmailSender : IEmailSender
     {
+        private const string SENDER_EMAIL = "no-reply@xeoncomputers.com";
+        private const string NAME_OF_THE_SENDER = "Xeon Computers";
+
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
             Options = optionsAccessor.Value;
@@ -28,7 +31,7 @@ namespace XeonComputers.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("no-reply@xeoncomputer.com", "Xeon Computers"),
+                From = new EmailAddress(SENDER_EMAIL, NAME_OF_THE_SENDER),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
