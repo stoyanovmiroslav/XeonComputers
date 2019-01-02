@@ -22,10 +22,10 @@ namespace XeonComputers.Areas.Identity.Pages.Account
         private readonly SignInManager<XeonUser> _signInManager;
         private readonly ILogger<LoginModel> _logger; 
         private readonly IUsersService _userService;
-        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IShoppingCartsService _shoppingCartService;
 
         public LoginModel(SignInManager<XeonUser> signInManager, ILogger<LoginModel> logger, 
-                          IUsersService userService, IShoppingCartService shoppingCartService)
+                          IUsersService userService, IShoppingCartsService shoppingCartService)
         {
             _signInManager = signInManager;
             _logger = logger;

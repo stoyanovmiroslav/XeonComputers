@@ -16,10 +16,10 @@ namespace XeonComputers.Services
     public class OrdersService : IOrdersService
     {
         private readonly IUsersService userService;
-        private readonly IShoppingCartService shoppingCartService;
+        private readonly IShoppingCartsService shoppingCartService;
         private readonly XeonDbContext db;
 
-        public OrdersService(IUsersService userService, IShoppingCartService shoppingCartService, XeonDbContext db)
+        public OrdersService(IUsersService userService, IShoppingCartsService shoppingCartService, XeonDbContext db)
         {
             this.userService = userService;
             this.shoppingCartService = shoppingCartService;
@@ -57,7 +57,7 @@ namespace XeonComputers.Services
 
             this.shoppingCartService.DeleteAllProductFromShoppingCart(username);
 
-            order.OrderDate = DateTime.UtcNow.AddDays(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            order.OrderDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
             order.Status = Enums.OrderStatus.Unprocessed;
             order.PaymentStatus = Enums.PaymentStatus.Unpaid;
             order.OrderProducts = orderProducts;
@@ -110,6 +110,11 @@ namespace XeonComputers.Services
         public Order GetProcessingOrder(string username)
         {
             var user = this.userService.GetUserByUsername(username);
+
+            if (user == null)
+            {
+                return null;
+            }
 
             var order = this.db.Orders.Include(x => x.DeliveryAddress)
                                       .ThenInclude(x => x.City)
@@ -180,8 +185,8 @@ namespace XeonComputers.Services
         public IEnumerable<OrderProduct> OrderProductsByOrderId(int id)
         {
             return this.db.OrderProducts.Include(x => x.Product)
-                                 .ThenInclude(x => x.Images)
-                                 .Where(x => x.OrderId == id).ToList();
+                                        .ThenInclude(x => x.Images)
+                                        .Where(x => x.OrderId == id).ToList();
         }
 
         public Order GetUserOrderById(int orderId, string username)

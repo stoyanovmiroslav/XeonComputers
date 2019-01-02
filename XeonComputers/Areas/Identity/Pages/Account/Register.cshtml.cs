@@ -26,7 +26,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IUsersService _userService;
-        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IShoppingCartsService _shoppingCartService;
 
         public RegisterModel(
             UserManager<XeonUser> userManager,
@@ -34,7 +34,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             IUsersService userService,
-            IShoppingCartService shoppingCartService)
+            IShoppingCartsService shoppingCartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

@@ -18,12 +18,12 @@ namespace XeonComputers.Controllers
 
         public readonly IUsersService userService;
         public readonly IAdressesService adressesService;
-        public readonly IPartnerRequestService partnerRequestService;
+        public readonly IPartnerRequestsService partnerRequestService;
         public readonly IMapper mapper;
 
         public PartnerRequestsController(IUsersService userService,
                                    IAdressesService adressesService,
-                                   IPartnerRequestService partnerRequestService,
+                                   IPartnerRequestsService partnerRequestService,
                                    IMapper mapper)
         {
             this.userService = userService;

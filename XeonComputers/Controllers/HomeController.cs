@@ -23,13 +23,13 @@ namespace XeonComputers.Controllers
         private readonly IChildCategoriesService childCategoryService;
         private readonly IParentCategoriesService parentCategoryService;
         private readonly IProductsService productService;
-        private readonly IUserRequestService userRequestService;
+        private readonly IUserRequestsService userRequestService;
         private readonly IMapper mapper;
 
         public HomeController(IChildCategoriesService childCategoryService,
                               IParentCategoriesService parentCategoryService,
                               IProductsService productService,
-                              IUserRequestService userRequestService,
+                              IUserRequestsService userRequestService,
                               IMapper mapper)
         {
             this.childCategoryService = childCategoryService;

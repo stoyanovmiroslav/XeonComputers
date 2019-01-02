@@ -12,9 +12,9 @@ namespace XeonComputers.Components
 {
     public class ShoppingCartComponent : ViewComponent
     {
-        private IShoppingCartService shoppingCartService;
+        private IShoppingCartsService shoppingCartService;
 
-        public ShoppingCartComponent(IShoppingCartService shoppingCartService)
+        public ShoppingCartComponent(IShoppingCartsService shoppingCartService)
         {
             this.shoppingCartService = shoppingCartService;
         }

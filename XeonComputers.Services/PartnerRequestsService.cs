@@ -8,7 +8,7 @@ using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Services
 {
-    public class PartnerRequestsService : IPartnerRequestService
+    public class PartnerRequestsService : IPartnerRequestsService
     {
         private readonly IUsersService userService;
         private readonly XeonDbContext db;

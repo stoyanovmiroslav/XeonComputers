@@ -9,7 +9,7 @@ using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Services
 {
-    public class UserRequestsService : IUserRequestService
+    public class UserRequestsService : IUserRequestsService
     {
         private readonly XeonDbContext db;
 

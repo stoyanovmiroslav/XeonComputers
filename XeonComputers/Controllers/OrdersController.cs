@@ -27,12 +27,12 @@ namespace XeonComputers.Controllers
         private readonly IAdressesService adressesService;
         private readonly IUsersService userService;
         private readonly IOrdersService orderService;
-        private readonly IShoppingCartService shoppingCartService;
+        private readonly IShoppingCartsService shoppingCartService;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
         public OrdersController(IAdressesService adressesService, IUsersService userService,
-                                IOrdersService orderService, IShoppingCartService shoppingCartService,
+                                IOrdersService orderService, IShoppingCartsService shoppingCartService,
                                 IMapper mapper, IEmailSender emailSender)
         {
             this.userService = userService;

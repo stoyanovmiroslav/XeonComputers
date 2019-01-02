@@ -13,10 +13,10 @@ namespace XeonComputers.Components
 {
     public class AdminNavbarComponent : ViewComponent
     {
-        public readonly IPartnerRequestService partnerRequestService;
-        public readonly IUserRequestService userRequestService;
+        public readonly IPartnerRequestsService partnerRequestService;
+        public readonly IUserRequestsService userRequestService;
 
-        public AdminNavbarComponent(IPartnerRequestService partnerRequestService, IUserRequestService userRequestService)
+        public AdminNavbarComponent(IPartnerRequestsService partnerRequestService, IUserRequestsService userRequestService)
         {
             this.partnerRequestService = partnerRequestService;
             this.userRequestService = userRequestService;

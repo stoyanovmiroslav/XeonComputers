@@ -15,11 +15,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
     {
         private readonly IUsersService userService;
         private readonly IAdressesService adressesService;
-        private readonly IPartnerRequestService partnerRequestService;
+        private readonly IPartnerRequestsService partnerRequestService;
         private readonly IMapper mapper;
 
         public PartnerRequestsController(IUsersService userService, IAdressesService adressesService,
-                                         IPartnerRequestService partnerRequestService, IMapper mapper)
+                                         IPartnerRequestsService partnerRequestService, IMapper mapper)
         {
             this.userService = userService;
             this.adressesService = adressesService;

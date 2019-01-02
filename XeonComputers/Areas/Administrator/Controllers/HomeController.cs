@@ -15,10 +15,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
     public class HomeController : AdministratorController
     {
         private readonly IOrdersService ordersService;
-        public readonly IPartnerRequestService partnerRequestService;
+        public readonly IPartnerRequestsService partnerRequestService;
         private readonly IMapper mapper;
 
-        public HomeController(IOrdersService ordersService, IPartnerRequestService partnerRequestService, IMapper mapper)
+        public HomeController(IOrdersService ordersService, IPartnerRequestsService partnerRequestService, IMapper mapper)
         {
             this.ordersService = ordersService;
             this.partnerRequestService = partnerRequestService;

@@ -20,13 +20,13 @@ namespace XeonComputers.Controllers
     {
         private const int DEFAULT_PRODUCT_QUANTITY = 1;
 
-        private readonly IShoppingCartService shoppingCartService;
+        private readonly IShoppingCartsService shoppingCartService;
         private readonly IMemoryCache cache;
         private readonly IProductsService productSevice;
         private readonly IMapper mapper;
 
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService, 
+        public ShoppingCartController(IShoppingCartsService shoppingCartService, 
                                       IMemoryCache cache,
                                       IProductsService productSevice,
                                       IMapper mapper)

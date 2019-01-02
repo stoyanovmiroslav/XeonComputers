@@ -10,7 +10,7 @@ using XeonComputers.Services.Contracts;
 
 namespace XeonComputers.Services
 {
-    public class ShoppingCartsService : IShoppingCartService
+    public class ShoppingCartsService : IShoppingCartsService
     {
         private const int DEFAULT_PRODUCT_QUANTITY = 1;
 

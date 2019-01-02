@@ -13,10 +13,10 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class UserRequestsController : AdministratorController
     {
-        private readonly IUserRequestService userRequestService;
+        private readonly IUserRequestsService userRequestService;
         private readonly IMapper mapper;
 
-        public UserRequestsController(IUserRequestService userRequestService, IMapper mapper)
+        public UserRequestsController(IUserRequestsService userRequestService, IMapper mapper)
         {
             this.userRequestService = userRequestService;
             this.mapper = mapper;
