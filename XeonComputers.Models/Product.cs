@@ -21,6 +21,8 @@ namespace XeonComputers.Models
 
         public decimal ParnersPrice { get; set; }
 
+        public bool Hide { get; set; }
+
         public int ChildCategoryId { get; set; }
         public virtual ChildCategory ChildCategory { get; set; }
 

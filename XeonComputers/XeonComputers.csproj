@@ -56,6 +56,9 @@
     <Content Update="Areas\Administrator\Views\ParentCategories\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Administrator\Views\Products\AllHide.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Administrator\Views\Shared\Components\AdminNavbarComponent\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

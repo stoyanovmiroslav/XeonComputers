@@ -9,13 +9,21 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IProductsService
     {
-        IEnumerable<Product> GetProducts();
+        Product GetHideProductById(int id);
+
+        IEnumerable<Product> GetVisibleProducts();
+
+        IEnumerable<Product> GetHideProducts();
+
+        IEnumerable<Product> GetAllProducts();
 
         Product GetProductById(int id);
 
         void AddProduct(Product product);
 
-        bool RemoveProduct(int id);
+        bool HideProduct(int id);
+
+        bool ShowProduct(int id);
 
         bool ProductExists(int id);
 

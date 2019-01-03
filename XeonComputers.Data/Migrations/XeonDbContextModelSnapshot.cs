@@ -345,6 +345,8 @@ namespace XeonComputers.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("Hide");
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("ParnersPrice");

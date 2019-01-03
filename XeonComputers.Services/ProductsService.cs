@@ -30,15 +30,23 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
+        public Product GetHideProductById(int id)
+        {
+            return this.db.Products.Include(p => p.ChildCategory)
+                                 .Include(x => x.Images)
+                                 .Include(x => x.Reviews)
+                                 .FirstOrDefault(x => x.Id == id && x.Hide == true);
+        }
+
         public Product GetProductById(int id)
         {
             return this.db.Products.Include(p => p.ChildCategory)
                                    .Include(x => x.Images)
                                    .Include(x => x.Reviews)
-                                   .FirstOrDefault(m => m.Id == id);
+                                   .FirstOrDefault(x => x.Id == id && x.Hide == false);
         }
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<Product> GetAllProducts()
         {
             return db.Products.Include(p => p.ChildCategory)
                               .ThenInclude(x => x.ParentCategory)
@@ -47,7 +55,17 @@ namespace XeonComputers.Services
                               .ToList();
         }
 
-        public bool RemoveProduct(int id)
+        public IEnumerable<Product> GetVisibleProducts()
+        {
+            return db.Products.Where(x => x.Hide == false)
+                              .Include(p => p.ChildCategory)
+                              .ThenInclude(x => x.ParentCategory)
+                              .Include(x => x.Images)
+                              .Include(x => x.Reviews)
+                              .ToList();
+        }
+
+        public bool HideProduct(int id)
         {
             var product = this.db.Products.FirstOrDefault(x => x.Id == id);
 
@@ -56,7 +74,22 @@ namespace XeonComputers.Services
                 return false;
             }
 
-            this.db.Products.Remove(product);
+            product.Hide = true;
+            this.db.SaveChanges();
+
+            return true;
+        }
+
+        public bool ShowProduct(int id)
+        {
+            var product = this.db.Products.FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.Hide = false;
             this.db.SaveChanges();
 
             return true;
@@ -89,7 +122,8 @@ namespace XeonComputers.Services
 
         public void AddImageUrls(int id, IEnumerable<string> imageUrls)
         {
-            var product = this.GetProductById(id);
+            var product = this.db.Products.Include(x => x.Images)
+                                          .FirstOrDefault(x => x.Id == id);
 
             if (product == null)
             {
@@ -107,19 +141,24 @@ namespace XeonComputers.Services
 
         public IEnumerable<Image> GetImages(int id)
         {
-            var product = GetProductById(id);
+            var product = this.db.Products.Include(x => x.Images).FirstOrDefault(x => x.Id == id);
 
             if (product == null)
             {
                 return null;
             }
 
+            //if (product.Images == null)
+            //{
+            //    product.Images = new List<Image>();
+            //}
+            
             return product.Images.ToList();
         }
 
         public IEnumerable<Product> GetProductsByCategory(int childCategoryId)
         {
-            return db.Products.Where(x => x.ChildCategory.Id == childCategoryId)
+            return db.Products.Where(x => x.ChildCategory.Id == childCategoryId && x.Hide == false)
                               .Include(p => p.ChildCategory)
                               .Include(x => x.Images)
                               .Include(x => x.Reviews);
@@ -133,7 +172,7 @@ namespace XeonComputers.Services
                                                            .ThenInclude(x => x.ParentCategory)
                                                            .Include(x => x.Images)
                                                            .Include(x => x.Reviews)
-                                                           .Where(x => searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower())));
+                                                           .Where(x => x.Hide == false && searchStringClean.All(c => x.Name.ToLower().Contains(c.ToLower())));
             return products;
         }
 
@@ -148,7 +187,7 @@ namespace XeonComputers.Services
                 return this.GetProductsByCategory(childCategoryId.Value);
             }
 
-            return this.GetProducts();
+            return this.GetVisibleProducts();
         }
 
         public IEnumerable<Product> OrderBy(IEnumerable<Product> products, ProductsSort sortBy)
@@ -181,6 +220,16 @@ namespace XeonComputers.Services
 
             product.Reviews.Add(new Review { Raiting = rating });
             this.db.SaveChanges();
+        }
+
+        public IEnumerable<Product> GetHideProducts()
+        {
+            return db.Products.Where(x => x.Hide == true)
+                            .Include(p => p.ChildCategory)
+                            .ThenInclude(x => x.ParentCategory)
+                            .Include(x => x.Images)
+                            .Include(x => x.Reviews)
+                            .ToList();
         }
     }
 }

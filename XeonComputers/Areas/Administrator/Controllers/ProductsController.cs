@@ -11,11 +11,15 @@ using XeonComputers.Common;
 using XeonComputers.Data;
 using XeonComputers.Models;
 using AutoMapper;
+using X.PagedList;
 
 namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ProductsController : AdministratorController
     {
+        private const int DEFAULT_PAGE_SIZE = 8;
+        private const int DEFAULT_PAGE_NUMBER = 1;
+
         private readonly IProductsService productService;
         private readonly IChildCategoriesService childCategoriesService;
         private readonly IImagesService imageService;
@@ -32,11 +36,28 @@ namespace XeonComputers.Areas.Administrator.Controllers
             this.mapper = mapper;
         }
 
-        public IActionResult All()
+        public IActionResult AllHide(int? pageNumber, int? pageSize)
         {
-            var products = this.productService.GetProducts();
+            //TODO
+            var products = this.productService.GetHideProducts();
 
-            return View(products);
+            pageNumber = pageNumber ?? DEFAULT_PAGE_NUMBER;
+            pageSize = pageSize ?? DEFAULT_PAGE_SIZE;
+            var pageProductsViewMode = products.ToPagedList(pageNumber.Value, pageSize.Value);
+           
+            return View(pageProductsViewMode);
+        }
+
+        public IActionResult All(int? pageNumber, int? pageSize)
+        {    
+            //TODO
+            var products = this.productService.GetAllProducts().OrderByDescending(x => x.Id).ToList();
+
+            pageNumber = pageNumber ?? DEFAULT_PAGE_NUMBER;
+            pageSize = pageSize ?? DEFAULT_PAGE_SIZE;
+            var pageProductsViewMode = products.ToPagedList(pageNumber.Value, pageSize.Value);
+        
+            return View(pageProductsViewMode);
         }
 
         public IActionResult Create()
@@ -46,7 +67,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             var categories = childCategories.Select(x => new SelectListItem
                                                         {
                                                            Value = x.Id.ToString(),
-                                                           Text = x.Name
+                                                           Text = $"{x.Name} ({x.ParentCategory.Name})"
                                                         }).ToList();
 
             var model = new CreateProductViewModel { ChildCategories = categories };
@@ -100,7 +121,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
                                                          {
                                                              Value = x.Id.ToString(),
-                                                             Text = x.Name
+                                                             Text = $"{x.Name} ({x.ParentCategory.Name})"
                                                          }).ToList();
 
             var model = this.mapper.Map<EditProductViewModel>(product);
@@ -140,7 +161,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Hide(int id)
         {
             var product = this.productService.GetProductById(id);
 
@@ -149,13 +170,37 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var deleteViewModel = mapper.Map<DeleteProductViewModel>(product);
+
+            return View(deleteViewModel);
         }
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public IActionResult HideConfirmed(int id)
         {
-            this.productService.RemoveProduct(id);
+            this.productService.HideProduct(id);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult Show(int id)
+        {
+            var product = this.productService.GetHideProductById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var deleteViewModel = mapper.Map<DeleteProductViewModel>(product);
+
+            return View(deleteViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult ShowConfirmed(int id)
+        {
+            this.productService.ShowProduct(id);
 
             return RedirectToAction(nameof(All));
         }
