@@ -52,7 +52,7 @@
                                     @product.TotalPrice лв.
                                 </td>
                                 <td class="col-1 d-flex justify-content-center">
-                                    <a class="text-danger px-0" asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@product.Id"><i class="fas fa-times-circle"></i></a>
+                                    <a class="text-danger px-0" asp-area="" asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@product.Id"><i class="fas fa-times-circle"></i></a>
                                 </td>
                             </tr>
                         }
