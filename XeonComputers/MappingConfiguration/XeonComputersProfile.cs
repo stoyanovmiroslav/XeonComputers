@@ -27,6 +27,7 @@ namespace XeonComputers.MappingConfiguration
             this.CreateMap<Address, OrderAdressViewModel>();
             this.CreateMap<CreateProductViewModel, Product>();
             this.CreateMap<Product, EditProductViewModel>();
+            this.CreateMap<Product, DeleteProductViewModel>();
             this.CreateMap<EditProductViewModel, Product>();
             this.CreateMap<ParentCategory, ParentCategoryViewModel>();
             this.CreateMap<ChildCategory, EditChildCategoryViewModel>();

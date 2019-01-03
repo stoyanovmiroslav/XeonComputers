@@ -1,15 +1,14 @@
 ﻿@model XeonComputers.Areas.Administrator.ViewModels.ChildCategory.AddChildCategoryViewModel
 
 @{
-    ViewData["Title"] = "Добави категория";
+    ViewData["Title"] = "Добави под категория";
 }
-
 
 <div class="row">
     <div class="col-md-6">
         <section>
             <form method="post" asp-controller="ChildCategories" asp-action="Add" enctype="multipart/form-data">
-                <h4>@ViewData["Title"]</h4>
+                <h3 class="text-muted">@ViewData["Title"]</h3>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">

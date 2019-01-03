@@ -7,7 +7,7 @@
 }
 
 <div class="container shadow">
-    <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
+    <div class="mobile-fondsize-20 h3 text-muted">@ViewData["Title"]</div>
     <p><a asp-controller="ChildCategories" asp-action="Add" class="btn btn-success">Създай новa</a></p>
     <table class="table table-hover">
         <thead>
@@ -32,8 +32,8 @@
                     <td class="col-lg-3 d-flex justify-content-center">@category.ParentCategoryName</td>
                     <td class="col-lg-1 d-flex justify-content-center">@category.ProductsCount</td>
                     <td class="col-lg-3 d-flex justify-content-around">
-                        <a asp-controller="ChildCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Промени</a>
-                        <a asp-controller="ChildCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-primary">Изтрий</a>
+                        <a asp-controller="ChildCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-primary">Промени</a>
+                        <a asp-controller="ChildCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-outline-danger">Изтрий</a>
                     </td>
                 </tr>
             }

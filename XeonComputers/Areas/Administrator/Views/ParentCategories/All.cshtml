@@ -7,32 +7,31 @@
 }
 
 <div class="container shadow">
-    <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
+    <div class="mobile-fondsize-20 h3 text-muted">@ViewData["Title"]</div>
     <p><a asp-controller="ParentCategories" asp-action="Add" class="btn btn-success">Създай новa</a></p>
     <table class="table table-hover">
         <thead>
             <tr class="row">
                 <th scope="col" class="col-lg-1 d-flex justify-content-center">#</th>
-                <th scope="col" class="col-lg-1 d-flex justify-content-center">Номер</th>
+                <th scope="col" class="col-lg-2 d-flex justify-content-center">Номер</th>
                 <th scope="col" class="col-lg-3 d-flex justify-content-center">Име</th>
                 <th scope="col" class="col-lg-3 d-flex justify-content-center">Брой категории</th>
                 <th scope="col" class="col-lg-3 d-flex justify-content-center">Действие</th>
             </tr>
         </thead>
         <tbody>
-
             @{int count = 0; }
             @foreach (var category in Model)
             {
                 count++;
                 <tr class="row">
                     <td class="col-lg-1 d-flex justify-content-center">@count</td>
-                    <td class="col-lg-1 d-flex justify-content-center">@category.Id</td>
+                    <td class="col-lg-2 d-flex justify-content-center">@category.Id</td>
                     <td class="col-lg-3 d-flex justify-content-center">@category.Name</td>
                     <td class="col-lg-3 d-flex justify-content-center">@category.ChildCategoriesCount</td>
                     <td class="col-lg-3 d-flex justify-content-around">
-                        <a asp-controller="ParentCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Промени</a>
-                        <a asp-controller="ParentCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-primary">Изтрий</a>
+                        <a asp-controller="ParentCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary btn-sm">Промени</a>
+                        <a asp-controller="ParentCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-danger btn-sm">Изтрий</a>
                     </td>
                 </tr>
             }

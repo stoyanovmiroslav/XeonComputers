@@ -39,6 +39,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult Edit(ParentCategoryViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             this.parentCategoryService.EditParentCategory(model.Id, model.Name);
 
             return RedirectToAction("All");
@@ -52,6 +57,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult Add(ParentCategoryViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             this.parentCategoryService.CreateParentCategory(model.Name);
 
             return RedirectToAction("All");
