@@ -1,0 +1,50 @@
+﻿@model XeonComputers.Areas.Administrator.ViewModels.Products.DeleteProductViewModel
+
+@{
+    ViewData["Title"] = "Промяна статуса на продукт";
+}
+
+<h3 class="mobile-fondsize-20 text-muted text-center">@ViewData["Title"]</h3>
+<h5 class="mobile-fondsize-20 text-muted text-center">Сигурни ли сте, че искате да скриете този продукт за останалите потребители?</h5>
+
+<hr class="w-50" />
+<div class="container">
+    <form asp-action="HideConfirmed">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Specification" class="control-label"></label>
+                <input asp-for="Specification" class="form-control" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ChildCategoryName" class="control-label"></label>
+                <input asp-for="ChildCategoryName" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ParnersPrice" class="control-label"></label>
+                <input asp-for="ParnersPrice" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-danger">Скрий</button>
+        </div>
+    </form>
+</div>
