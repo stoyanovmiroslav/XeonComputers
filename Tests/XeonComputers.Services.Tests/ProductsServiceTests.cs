@@ -78,7 +78,7 @@ namespace XeonComputers.Services.Tests
         }
 
         [Fact]
-        public void RemoveProducShouldRemoveProduct()
+        public void HideProductShouldChangeHiteToTrue()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
                     .UseInMemoryDatabase(databaseName: "Remove_Product_Database")
@@ -87,28 +87,54 @@ namespace XeonComputers.Services.Tests
             var dbContext = new XeonDbContext(options);
             var productService = new ProductsService(dbContext);
 
-            var productNameForRemove = "USB";
+            var productName = "USB";
             dbContext.Products.AddRange(new List<Product>
             {
-                new Product { Name = productNameForRemove },
+                new Product { Name = productName },
                 new Product { Name = "Cable" },
                 new Product { Name = "Keyboard" },
                 new Product { Name = "Computer" },
             });
             dbContext.SaveChanges();
 
-            var product = dbContext.Products.FirstOrDefault(x => x.Name == productNameForRemove);
+            var product = dbContext.Products.FirstOrDefault(x => x.Name == productName);
 
-            var isProductDeleted = productService.RemoveProduct(product.Id);
-            var isProductExist = dbContext.Products.Any(x => x.Name == productNameForRemove);
+            var isProductHide = productService.HideProduct(product.Id);
 
-            Assert.True(isProductDeleted);
-            Assert.False(isProductExist);
-            Assert.Equal(3, dbContext.Products.Count());
+            Assert.True(isProductHide);
+            Assert.True(product.Hide);
         }
 
         [Fact]
-        public void RemoveInvalidProducShouldReturnFalse()
+        public void ShowProductShouldChangeHiteToFalse()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                    .UseInMemoryDatabase(databaseName: "Remove_Product_Database")
+                    .Options;
+
+            var dbContext = new XeonDbContext(options);
+            var productService = new ProductsService(dbContext);
+
+            var productName = "USB";
+            dbContext.Products.AddRange(new List<Product>
+            {
+                new Product { Name = productName },
+                new Product { Name = "Cable" },
+                new Product { Name = "Keyboard" },
+                new Product { Name = "Computer" },
+            });
+            dbContext.SaveChanges();
+
+            var product = dbContext.Products.FirstOrDefault(x => x.Name == productName);
+
+            var isProductShow = productService.ShowProduct(product.Id);
+
+            Assert.True(isProductShow);
+            Assert.False(product.Hide);
+        }
+
+        [Fact]
+        public void HideInvalidProducShouldReturnFalse()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
                     .UseInMemoryDatabase(databaseName: "RemoveInvalid_Product_Database")
@@ -127,7 +153,7 @@ namespace XeonComputers.Services.Tests
             dbContext.SaveChanges();
 
             var invalidProductId = 123;
-            var isProductDeleted = productService.RemoveProduct(invalidProductId);
+            var isProductDeleted = productService.HideProduct(invalidProductId);
 
             Assert.False(isProductDeleted);
             Assert.Equal(4, dbContext.Products.Count());
@@ -143,17 +169,17 @@ namespace XeonComputers.Services.Tests
             var dbContext = new XeonDbContext(options);
             var productService = new ProductsService(dbContext);
 
-            var productNameForRemove = "USB";
+            var productName = "USB";
             dbContext.Products.AddRange(new List<Product>
             {
-                new Product { Name = productNameForRemove },
+                new Product { Name = productName },
                 new Product { Name = "Cable" },
                 new Product { Name = "Keyboard" },
                 new Product { Name = "Computer" },
             });
             dbContext.SaveChanges();
 
-            var product = dbContext.Products.FirstOrDefault(x => x.Name == productNameForRemove);
+            var product = dbContext.Products.FirstOrDefault(x => x.Name == productName);
 
             var isProductExist = productService.ProductExists(product.Id);
 
@@ -218,7 +244,7 @@ namespace XeonComputers.Services.Tests
         }
 
         [Fact]
-        public void GrtProductShouldReturnAllProducts()
+        public void GetVisibleProductsShouldReturnAllVisibleProducts()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
                     .UseInMemoryDatabase(databaseName: "GetProducts_Product_Database")
@@ -241,7 +267,68 @@ namespace XeonComputers.Services.Tests
             });
             dbContext.SaveChanges();
 
-            var products = productService.GetProducts();
+            var products = productService.GetVisibleProducts();
+
+            Assert.Equal(4, products.Count());
+            Assert.DoesNotContain(products, x => x.Hide == true);
+        }
+
+        [Fact]
+        public void GetHideProductsShouldReturnAllHideProducts()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                    .UseInMemoryDatabase(databaseName: "GetHideProducts_Product_Database")
+                    .Options;
+
+            var dbContext = new XeonDbContext(options);
+            var productService = new ProductsService(dbContext);
+
+            var parentCategory = new ParentCategory { Name = "Computers" };
+            var childCategory = new ChildCategory { Name = "Cables", ParentCategory = parentCategory };
+            dbContext.ChildCategories.Add(childCategory);
+            dbContext.SaveChanges();
+
+            dbContext.Products.AddRange(new List<Product>
+            {
+                new Product { Name = "USB", ChildCategory = childCategory, Hide = true },
+                new Product { Name = "Cable", ChildCategory = childCategory, Hide = true },
+                new Product { Name = "Keyboard", ChildCategory = childCategory },
+                new Product { Name = "Computer", ChildCategory = childCategory },
+            });
+            dbContext.SaveChanges();
+
+            var products = productService.GetHideProducts();
+
+            Assert.Equal(2, products.Count());
+            Assert.DoesNotContain(products, x => x.Hide == false);
+        }
+
+        [Fact]
+        public void GetAllProductsShouldReturAllProducts()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                    .UseInMemoryDatabase(databaseName: "GetAllProducts_Product_Database")
+                    .Options;
+
+            var dbContext = new XeonDbContext(options);
+            var productService = new ProductsService(dbContext);
+
+            var parentCategory = new ParentCategory { Name = "Computers" };
+            var childCategory = new ChildCategory { Name = "Cables", ParentCategory = parentCategory };
+            dbContext.ChildCategories.Add(childCategory);
+            dbContext.SaveChanges();
+
+            dbContext.Products.AddRange(new List<Product>
+            {
+                new Product { Name = "USB", ChildCategory = childCategory, Hide = true },
+                new Product { Name = "Cable", ChildCategory = childCategory, Hide = true },
+                new Product { Name = "Keyboard", ChildCategory = childCategory },
+                new Product { Name = "Computer", ChildCategory = childCategory },
+            });
+            dbContext.SaveChanges();
+
+            var products = productService.GetAllProducts();
+
             Assert.Equal(4, products.Count());
         }
 
@@ -274,6 +361,39 @@ namespace XeonComputers.Services.Tests
             var product = productService.GetProductById(productId);
 
             Assert.Equal(productName, product.Name);
+        }
+
+        [Fact]
+        public void GetHideProductByIdShouldReturnOnlyHideProduct()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                    .UseInMemoryDatabase(databaseName: "GetHideProductById_Product_Database")
+                    .Options;
+
+            var dbContext = new XeonDbContext(options);
+            var productService = new ProductsService(dbContext);
+
+            var parentCategory = new ParentCategory { Name = "Computers" };
+            var childCategory = new ChildCategory { Name = "Cables", ParentCategory = parentCategory };
+            dbContext.ChildCategories.Add(childCategory);
+            dbContext.SaveChanges();
+
+            var products = new List<Product>
+            {
+                new Product { Id = 1, Name = "USB", ChildCategory = childCategory, Hide = true },
+                new Product { Id = 2, Name = "Cable", ChildCategory = childCategory, Hide = false },
+                new Product { Id = 3, Name = "Keyboard", ChildCategory = childCategory, Hide = false },
+                new Product { Id = 4, Name = "Computer", ChildCategory = childCategory, Hide = false },
+            };
+
+            dbContext.Products.AddRange(products);
+            dbContext.SaveChanges();
+
+            var firstProduct = productService.GetHideProductById(products.First().Id);
+            var lastProduct = productService.GetHideProductById(products.Last().Id);
+
+            Assert.Equal(firstProduct.Name, products.First().Name);
+            Assert.Null(lastProduct);
         }
 
         [Fact]
@@ -505,7 +625,7 @@ namespace XeonComputers.Services.Tests
             });
             dbContext.SaveChanges();
 
-            var products = productService.GetProducts();
+            var products = productService.GetVisibleProducts();
             var orderedProducts = productService.OrderBy(products, productsSort);
 
             Assert.Equal(productName, orderedProducts.First().Name);

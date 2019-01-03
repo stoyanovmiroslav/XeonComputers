@@ -10,7 +10,6 @@ using XeonComputers.Models.Enums;
 using XeonComputers.Services.Contracts;
 using Xunit;
 
-
 namespace XeonComputers.Services.Tests
 {
     public class OrdersServiceTests
