@@ -6,25 +6,25 @@
 <nav class="navbar navbar-expand-lg navbar-light pt-0 pb-0">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-item nav-link">
+            <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-item nav-link font-weight-bold">
                 <a asp-page="./Index" class="nav-link">Профил</a>
             </li>
-            <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-item nav-link">
+            <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-item nav-link font-weight-bold">
                 <a id="change-password" asp-page="./ChangePassword" class="nav-link">Смяна на парола</a>
             </li>
             @if (hasExternalLogins)
             {
-                <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext) nav-item nav-link">
+                <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext) nav-item nav-link font-weight-bold">
                     <a id="external-login" asp-page="./ExternalLogins" class="nav-link">Външен вход</a>
                 </li>
             }
             @*<li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) nav-item nav-link">
             <a asp-page="./TwoFactorAuthentication" class="nav-link">Двуфакторна идентификация</a>
         </li>*@
-            <li class="@ManageNavPages.PersonalDataNavClass(ViewContext) nav-item nav-link">
+            <li class="@ManageNavPages.PersonalDataNavClass(ViewContext) nav-item nav-link font-weight-bold">
                 <a asp-page="./PersonalData" class="nav-link">Лични данни</a>
             </li>
         </ul>
     </div>
 </nav>
-<hr class="my-1 hr-xeon d-none d-lg-block" />
+<hr class="my-0 hr-xeon d-none d-lg-block" />

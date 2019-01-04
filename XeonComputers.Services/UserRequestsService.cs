@@ -37,6 +37,21 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
+        public bool Delete(int id)
+        {
+            var userRequest = this.GetRequestById(id);
+
+            if (userRequest == null)
+            {
+                return false;
+            }
+
+            this.db.UserRequests.Remove(userRequest);
+            this.db.SaveChanges();
+
+            return true;
+        }
+
         public UserRequest GetRequestById(int id)
         {
             return this.db.UserRequests.FirstOrDefault(x => x.Id == id);
@@ -57,6 +72,19 @@ namespace XeonComputers.Services
             }
 
             userRequest.Seen = true;
+            this.db.SaveChanges();
+        }
+
+        public void Unseen(int id)
+        {
+            var userRequest = this.GetRequestById(id);
+
+            if (userRequest == null)
+            {
+                return;
+            }
+
+            userRequest.Seen = false;
             this.db.SaveChanges();
         }
     }

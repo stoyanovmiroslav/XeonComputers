@@ -10,5 +10,7 @@ namespace XeonComputers.Areas.Administrator.ViewModels.Components
         public int PartnerRequestsCount { get; set; }
 
         public int UserRequestsCount { get; set; }
+
+        public int UnprocessedOrdersCount { get; set; }
     }
 }

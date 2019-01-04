@@ -39,10 +39,7 @@
         </tbody>
     </table>
     <div class="text-right">
-        <p class=" text-danger h6 text-right">Общо за продуктите: @(Model.Sum(x => x.Price * x.Quantity))лв.</p>
-        <p class=" text-danger h6 text-right">Цена за доставка: 5.00лв.</p>
-        <br />
-        <p class="font-weight-bold text-danger h5 text-right">Сума за плащане: @((Model.Sum(x => x.Price * x.Quantity)) + 5)лв.</p>
+        <p class="font-weight-bold text-danger h5 text-right">Обща сума за продуктите: @(Model.Sum(x => x.Price * x.Quantity))</p>
     </div>
     @*<div class="row mt-5">
             <div class="col-4">

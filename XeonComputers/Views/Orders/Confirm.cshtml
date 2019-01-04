@@ -26,8 +26,10 @@
     </div>
     <div class="col-md-6">
         @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
-            <div class="text-center mt-4">
-                <a asp-area="" asp-controller="Orders" asp-action="Complete" class="btn btn-danger btn-lg"><i class="fas fa-check"></i> Потвърди поръчката</a>
-            </div>
+        <p class="text-danger h6 text-right">Цена за доставка: @Model.DeliveryPrice лв.</p>
+        <p class="text-danger h6 text-right">(Цената за доставка ще бъде платена директно на доставчика!)</p>
+        <div class="text-center mt-4">
+            <a asp-area="" asp-controller="Orders" asp-action="Complete" class="btn btn-danger btn-lg"><i class="fas fa-clipboard-check"></i> Потвърди поръчката</a>
+        </div>
     </div>
 </div>

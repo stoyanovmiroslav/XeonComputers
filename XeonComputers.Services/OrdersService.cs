@@ -15,6 +15,8 @@ namespace XeonComputers.Services
 {
     public class OrdersService : IOrdersService
     {
+        private const decimal DEFAULT_DELIVERY_PRICE = 5.00M;
+
         private readonly IUsersService userService;
         private readonly IShoppingCartsService shoppingCartService;
         private readonly XeonDbContext db;
@@ -80,6 +82,7 @@ namespace XeonComputers.Services
             {
                 Status = Enums.OrderStatus.Processing,
                 XeonUser = user,
+                DeliveryPrice = DEFAULT_DELIVERY_PRICE
             };
 
             this.db.Orders.Add(order);

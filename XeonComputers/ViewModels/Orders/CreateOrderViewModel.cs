@@ -28,5 +28,7 @@ namespace XeonComputers.ViewModels.Orders
         [Display(Name = "Начин на плащане")]
         [Required(ErrorMessage = "Моля изберете \"{0}\".")]
         public PaymentType PaymentType { get; set; }
+
+        public decimal DeliveryPrice { get; set; }
     }
 }

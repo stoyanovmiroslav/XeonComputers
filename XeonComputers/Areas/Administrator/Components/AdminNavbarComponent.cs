@@ -15,22 +15,28 @@ namespace XeonComputers.Components
     {
         public readonly IPartnerRequestsService partnerRequestService;
         public readonly IUserRequestsService userRequestService;
+        public readonly IOrdersService ordersService;
 
-        public AdminNavbarComponent(IPartnerRequestsService partnerRequestService, IUserRequestsService userRequestService)
+        public AdminNavbarComponent(IPartnerRequestsService partnerRequestService, 
+                                    IUserRequestsService userRequestService,
+                                    IOrdersService ordersService)
         {
             this.partnerRequestService = partnerRequestService;
             this.userRequestService = userRequestService;
+            this.ordersService = ordersService;
         }
 
         public IViewComponentResult Invoke()
         {
             var partnerRequestsCount = this.partnerRequestService.GetPartnetsRequests().Count();
             var userRequestsCount = this.userRequestService.GetUnseenRequests().Count();
+            var unprocessedOrdersCount = this.ordersService.GetUnprocessedOrders().Count();
 
             var viewModel = new AdminNavbarViewModel
             {
                 PartnerRequestsCount = partnerRequestsCount,
-                UserRequestsCount = userRequestsCount
+                UserRequestsCount = userRequestsCount,
+                UnprocessedOrdersCount = unprocessedOrdersCount
             };
 
             return this.View(viewModel);

@@ -63,7 +63,8 @@ namespace XeonComputers.Controllers
             {
                 OrderAddressesViewModel = addressesViewModel.ToList(),
                 FullName = fullName,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                DeliveryPrice = order.DeliveryPrice
             };
 
             return this.View(createOrderViewModel);
@@ -143,7 +144,7 @@ namespace XeonComputers.Controllers
 
         public IActionResult My(int id)
         {
-            IEnumerable<Order> orders = this.orderService.GetUserOrders(this.User.Identity.Name);
+            IEnumerable<Order> orders = this.orderService.GetUserOrders(this.User.Identity.Name).OrderByDescending(x => x.Id);
 
             var myOrdersViewModel = mapper.Map<IList<MyOrderViewModel>>(orders);
 

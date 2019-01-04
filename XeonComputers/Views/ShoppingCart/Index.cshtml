@@ -53,9 +53,9 @@
     <div class="col-lg-4">
         <div class="mobile-fondsize-20 h4">Информация за поръчката:</div>
         <div class="mt-4">
-            <p class="h6 ">Общо за продуктите: @Model.Sum(x => x.TotalPrice) лв.</p>
-            <p class="h6 ">Цена за доставка: 5.00 лв.</p>
-            <p class="font-weight-bold text-danger h5 mt-3">Сума за плащане: @(Model.Sum(x => x.TotalPrice) + 5) лв.</p>
+            <p class="font-weight-bold text-danger h5 mt-3">Обща сума за продуктите: @(Model.Sum(x => x.TotalPrice)) лв.</p>
+            <p class="text-danger h6 text-right">(В сумата не е включена доставката)</p>
+            <p class="text-danger h6 text-right">(Доставка ще бъде платена директно на доставчика)</p>
             <div class="mb-2 ">
                 <a class="btn btn-success btn-lg btn-block" asp-controller="Orders" asp-action="Create" asp-route-id=""> Продължи</a>
             </div>

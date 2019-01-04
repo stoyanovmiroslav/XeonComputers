@@ -45,7 +45,19 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             return View(viewModel);
         }
+
+        public IActionResult Delete(int id)
+        {
+            var userRequests = this.userRequestService.Delete(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Unseen(int id)
+        {
+            this.userRequestService.Unseen(id);
+            
+            return RedirectToAction(nameof(Index));
+        }
     }
-
-
 }

@@ -60,11 +60,11 @@
                 </table>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-6 pr-0">
                     <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" class="dropdown-item nav-link text-white ">Виж количка</a>
                 </div>
                 <div class="col-6 pl-0 pr-0">
-                    <p class="font-weight-bold text-white mb-0">Сума за плащане:</p>
+                    <p class="font-weight-bold text-white mb-0 pr-4 text-right">Общо продукти:</p>
                     <p class="font-weight-bold text-white mb-0 pr-4 text-right">@(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
                 </div>
             </div>

@@ -103,6 +103,8 @@
             </div>
         </div>
         @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
+        <p class="text-danger h6 text-right">Цена за доставка: @Model.DeliveryPrice лв.</p>
+        <p class="text-danger h6 text-right">(Цената за доставка ще бъде платена директно на доставчика!)</p>
     </div>
 </div>
 

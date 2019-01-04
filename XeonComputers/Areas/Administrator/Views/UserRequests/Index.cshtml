@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="container mobile-fondsize-11 p-3">
-                <div class="vertical-menu">
+                <div id="verm" class="vertical-menu">
                     @foreach (var userRequest in Model.UserRequestsViewModel)
                     {
                         string color = "text-muted";
@@ -24,7 +24,7 @@
                             active = "active";
                         }
                         <a asp-controller="UserRequests" asp-action="Index" asp-route-id="@userRequest.Id" class="@active">
-                            <div class="row @color">
+                            <div id="@userRequest.Id" class="row @color">
                                 <div class="col-md-4 col">
                                     @userRequest.Title
                                 </div>
@@ -56,9 +56,17 @@
                         <label asp-for="@Model.UserRequestViewModel.RequestDate">Дата и час:</label>
                         <input asp-for="@Model.UserRequestViewModel.RequestDate" class="form-control" disabled placeholder="Заглавие" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <label asp-for="@Model.UserRequestViewModel.Content">Съдържание:</label>
                         <textarea asp-for="@Model.UserRequestViewModel.Content" class="form-control" rows="3" disabled>@Model.UserRequestViewModel.Content</textarea>
+                    </div>
+                    <div class="row mb-3 pt-0">
+                        <div class="col-md-6">
+                            <a asp-controller="UserRequests" asp-action="Delete" asp-route-id="@Model.UserRequestViewModel.Id" class=""> <i class="far fa-trash-alt"> Изтрий</i></a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a asp-controller="UserRequests" asp-action="Unseen" asp-route-id="@Model.UserRequestViewModel.Id" class=""><i class="far fa-envelope"> Маркирай като непрочетено</i></a>
+                        </div>
                     </div>
                     <div class="text-right">
                         <a href="mailto:@Model.UserRequestViewModel.Email?subject=Re: @Model.UserRequestViewModel.Title&body=@Model.UserRequestViewModel.Content" class="btn xeon-color text-white btn-sm font-weight-bold"><i class="fas fa-reply"></i> Отговори</a>
@@ -68,3 +76,4 @@
         </div>
     </div>
 </div>
+}
