@@ -3,7 +3,7 @@
     Layout = "Layouts/_LayoutMiddle";
 }
 
-@model List<ShoppingCartProductsViewModel>
+@model IndexShoppingCartProductsViewModel
 
 <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
 <div class="row">
@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in Model)
+                    @foreach (var product in Model.ShoppingCartProducts)
                     {
                         <tr class="row">
                             <td class="col-2 d-flex justify-content-center">
@@ -53,12 +53,56 @@
     <div class="col-lg-4">
         <div class="mobile-fondsize-20 h4">Информация за поръчката:</div>
         <div class="mt-4">
-            <p class="font-weight-bold text-danger h5 mt-3">Обща сума за продуктите: @(Model.Sum(x => x.TotalPrice)) лв.</p>
-            <p class="text-danger h6 text-right">(В сумата не е включена доставката)</p>
-            <p class="text-danger h6 text-right">(Доставка ще бъде платена директно на доставчика)</p>
+            <p class="font-weight-bold text-danger h5 mt-3">Обща сума за продуктите: @(Model.ShoppingCartProducts.Sum(x => x.TotalPrice)) лв.</p>
             <div class="mb-2 ">
-                <a class="btn btn-success btn-lg btn-block" asp-controller="Orders" asp-action="Create" asp-route-id=""> Продължи</a>
+                <form asp-controller="Orders" asp-action="Create" method="post">
+                    @foreach (var supplier in Model.Suppliers)
+                    {
+                        <div class="form-group mb-0">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>
+                                        @if (supplier.IsDefault)
+                                        {
+                                            <input asp-for="SupplierId" type="radio" value="@supplier.Id" checked />
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="SupplierId" type="radio" value="@supplier.Id" />
+                                        }
+                                        <span class="font-weight-bold">@supplier.Name</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    Aдрес: @supplier.PriceToHome лв. / Oфис: @supplier.PriceToOffice лв.
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <hr class="my-1" />
+                    <span asp-validation-for="SupplierId" class="text-danger"></span>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input asp-for="DeliveryType" type="radio" id="Home" value="Home" checked>
+                                <label for="Home">Доставка до адрес</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="DeliveryType" type="radio" id="Office" value="Office">
+                                <label for="Office">Доставка до офис</label>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="DeliveryType" class="text-danger"></span>
+                    <div class="text-right mt-3 mb-3">
+                        <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="~/Views/Shared/Partials/_ValidationScriptsPartial.cshtml" />
+}

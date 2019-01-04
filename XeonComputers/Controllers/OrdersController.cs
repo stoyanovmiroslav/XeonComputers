@@ -28,17 +28,19 @@ namespace XeonComputers.Controllers
         private readonly IUsersService userService;
         private readonly IOrdersService orderService;
         private readonly IShoppingCartsService shoppingCartService;
+        private readonly ISuppliersService suppliersService;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
         public OrdersController(IAdressesService adressesService, IUsersService userService,
                                 IOrdersService orderService, IShoppingCartsService shoppingCartService,
-                                IMapper mapper, IEmailSender emailSender)
+                                ISuppliersService suppliersService, IMapper mapper, IEmailSender emailSender)
         {
             this.userService = userService;
             this.adressesService = adressesService;
             this.orderService = orderService;
             this.shoppingCartService = shoppingCartService;
+            this.suppliersService = suppliersService;
             this.mapper = mapper;
             this.emailSender = emailSender;
         }
@@ -51,7 +53,12 @@ namespace XeonComputers.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var order = this.orderService.CreateOrder(this.User.Identity.Name);
+            var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
+            if (order == null)
+            {
+                return this.RedirectToAction("Index", "ShoppingCart");
+            }
+
             var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
 
             var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
@@ -71,7 +78,36 @@ namespace XeonComputers.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateOrderViewModel model)
+        public IActionResult Create(int supplierId, DeliveryType deliveryType)
+        {
+            if (!this.shoppingCartService.AnyProducts(this.User.Identity.Name))
+            {
+                this.TempData["error"] = ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS;
+                return RedirectToAction("Index", "Home");
+            }
+
+            decimal deliveryPrice = this.suppliersService.GetDiliveryPrice(supplierId, deliveryType);
+            var order = this.orderService.CreateOrder(this.User.Identity.Name, deliveryPrice);
+            var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
+
+            var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
+
+            var user = this.userService.GetUserByUsername(this.User.Identity.Name);
+            var fullName = $"{user.FirstName} {user.LastName}";
+
+            var createOrderViewModel = new CreateOrderViewModel
+            {
+                OrderAddressesViewModel = addressesViewModel.ToList(),
+                FullName = fullName,
+                PhoneNumber = user.PhoneNumber,
+                DeliveryPrice = order.DeliveryPrice
+            };
+
+            return this.View(createOrderViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SetOrderDetails(CreateOrderViewModel model)
         {
             if (!this.shoppingCartService.AnyProducts(this.User.Identity.Name))
             {
@@ -85,7 +121,7 @@ namespace XeonComputers.Controllers
                 var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
 
                 model.OrderAddressesViewModel = addressesViewModel.ToList();
-                return this.View(model);
+                return this.View(nameof(Create), model);
             }
 
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);

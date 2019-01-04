@@ -96,5 +96,27 @@ namespace XeonComputers.Services
                           .Include(x => x.Address.City)
                           .FirstOrDefault(x => x.XeonUser.UserName == username);
         }
+
+        public void EditFirstName(XeonUser user, string firstName)
+        {
+            if (user == null)
+            {
+                return;
+            }
+
+            user.FirstName = firstName;
+            this.db.SaveChanges();
+        }
+
+        public void EditLastName(XeonUser user, string lastName)
+        {
+            if (user == null)
+            {
+                return;
+            }
+
+            user.LastName = lastName;
+            this.db.SaveChanges();
+        }
     }
 }

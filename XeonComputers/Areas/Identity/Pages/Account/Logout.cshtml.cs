@@ -29,7 +29,6 @@ namespace XeonComputers.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
 
             return Redirect("/");
-
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

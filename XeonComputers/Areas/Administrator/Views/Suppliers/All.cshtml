@@ -1,0 +1,59 @@
+﻿@model IList<SupplierViewModel>
+@{
+    ViewData["Title"] = "Всички доставчици";
+}
+
+<div class="container mobile-fondsize-11 shadow">
+    <div class="mobile-fondsize-20 h3 text-muted text-center pb-2">@ViewData["Title"]</div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th scope="col" class="col-1 d-flex justify-content-center">#</th>
+                <th scope="col" class="col-3 d-flex justify-content-center">Име</th>
+                <th scope="col" class="col-2 d-flex justify-content-center">Цена до адрес</th>
+                <th scope="col" class="col-2 d-flex justify-content-center">Цена до офис</th>
+                <th scope="col" class="col-4 d-flex justify-content-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var supplier in Model)
+            {
+            <tr class="row">
+                <td class="col-1 d-flex justify-content-center">
+                    @supplier.Id
+                </td>
+                <td class="col-3 d-flex justify-content-center">
+                    @supplier.Name
+                </td>
+                <td class="col-2 d-flex justify-content-center font-weight-bold">
+                    @supplier.PriceToHome лв.
+                </td>
+                <td class="col-2 d-flex justify-content-center">
+                    @supplier.PriceToOffice лв.
+                </td>
+                <td class="col-md-4 d-flex justify-content-around">
+                    @if (supplier.IsDefault)
+                    {
+                        <div><i class="fas fa-truck-loading"> Текущ доставчик</i></div>
+                        <div class="mr-2">
+                            <a asp-controller="Suppliers" asp-action="Edit" asp-route-id="@supplier.Id" class="btn btn-outline-success btn-sm mobile-fondsize-11">Промени</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mr-2">
+                            <a asp-controller="Suppliers" asp-action="MakeDafault" asp-route-id="@supplier.Id" class="btn btn-primary btn-sm mobile-fondsize-11">По подразбиране</a>
+                        </div>
+                        <div class="mr-2">
+                            <a asp-controller="Suppliers" asp-action="Edit" asp-route-id="@supplier.Id" class="btn btn-outline-success btn-sm mobile-fondsize-11">Промени</a>
+                        </div>
+                        <div class="mr-2">
+                            <a asp-controller="Suppliers" asp-action="Delete" asp-route-id="@supplier.Id" class="btn btn-outline-danger btn-sm mobile-fondsize-11">Изтрий</a>
+                        </div>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

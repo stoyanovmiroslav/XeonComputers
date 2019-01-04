@@ -64,7 +64,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             if (model.FormImage != null)
             {
-                var imagePath = string.Format(GlobalConstans.CHILD_CATEGORY_PATH_TEMPLATE, model.Id);
+                var imagePath = string.Format(GlobalConstants.CHILD_CATEGORY_PATH_TEMPLATE, model.Id);
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await model.FormImage.CopyToAsync(stream);
@@ -103,7 +103,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             if (model.FormImage != null)
             {
-                var imagePath = string.Format(GlobalConstans.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
+                var imagePath = string.Format(GlobalConstants.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await model.FormImage.CopyToAsync(stream);

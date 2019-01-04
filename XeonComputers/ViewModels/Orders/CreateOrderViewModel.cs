@@ -21,7 +21,7 @@ namespace XeonComputers.ViewModels.Orders
         [Required(ErrorMessage = "Моля въведете \"{0}\".")]
         public string FullName { get; set; }
 
-        [Display(Name = "GSM номер")]
+        [Display(Name = "Телефонен номер")]
         [Required(ErrorMessage = "Моля въведете \"{0}\".")]
         public string PhoneNumber { get; set; }
 

@@ -80,6 +80,11 @@ namespace XeonComputers.Areas.Identity.Pages.Account
 
         public async void OnGet(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Home/Error");
+            }
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
@@ -116,7 +121,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+                    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
                     if (cart != null)
                     {
                         foreach (var product in cart)
@@ -124,7 +129,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                             _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
                         }
 
-                        HttpContext.Session.Remove(GlobalConstans.SESSION_SHOPPING_CART_KEY);
+                        HttpContext.Session.Remove(GlobalConstants.SESSION_SHOPPING_CART_KEY);
                     }
 
                     return LocalRedirect(returnUrl);

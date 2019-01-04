@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XeonComputers.Common;
 using XeonComputers.Models.Enums;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.ShoppingCart;
@@ -26,7 +25,7 @@ namespace XeonComputers.Components
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
 
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-
+               
                 //TODO: AutoMapping
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
@@ -41,13 +40,7 @@ namespace XeonComputers.Components
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
-            {
-                cart = new List<ShoppingCartProductsViewModel>();
-            }
-
-            return this.View(cart);
+            return this.View(new List<ShoppingCartProductsViewModel>());
         }
     }
 }

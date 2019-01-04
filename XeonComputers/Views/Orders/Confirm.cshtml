@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        @await Component.InvokeAsync(typeof(FullShoppingCartComponent))
+        @await Component.InvokeAsync(typeof(ShoppingCartComponent))
         <p class="text-danger h6 text-right">Цена за доставка: @Model.DeliveryPrice лв.</p>
         <p class="text-danger h6 text-right">(Цената за доставка ще бъде платена директно на доставчика!)</p>
         <div class="text-center mt-4">

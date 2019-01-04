@@ -56,6 +56,15 @@
     <Content Update="Areas\Administrator\Views\ParentCategories\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Administrator\Views\Suppliers\All.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administrator\Views\Suppliers\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administrator\Views\Suppliers\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Administrator\Views\Products\AllHide.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -110,10 +119,10 @@
     <Content Update="Views\Products\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\Components\FullShoppingCartComponent\Default.cshtml">
+    <Content Update="Views\Shared\Components\ShoppingCartComponent\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\Components\ShoppingCartComponent\Default.cshtml">
+    <Content Update="Views\Shared\Components\ShoppingCartBasketComponent\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\Layouts\_DefaultLayout.cshtml">

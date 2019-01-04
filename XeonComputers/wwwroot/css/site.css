@@ -285,3 +285,7 @@ span.stars span {
     text-decoration: underline;
     transform: rotate(-90deg);
 }
+
+.height-300 {
+    height: 300px;
+}

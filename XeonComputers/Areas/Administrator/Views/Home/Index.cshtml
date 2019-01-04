@@ -46,7 +46,7 @@
                     }
                 </tbody>
             </table>
-            @if (Model.ProcessedОrdersViewModel.Count == 0)
+            @if (Model.UnprocessedОrdersViewModel.Count == 0)
             {
                 <div class="mobile-fondsize-11 h6 text-center font-italic">Нямате необработени поръчки!</div>
             }
@@ -93,7 +93,7 @@
                     }
                 </tbody>
             </table>
-            @if (Model.UnprocessedОrdersViewModel.Count == 0)
+            @if (Model.ProcessedОrdersViewModel.Count == 0)
             {
                 <div class="mobile-fondsize-11 h6 text-center font-italic">Нямате обработени поръчки!</div>
             }

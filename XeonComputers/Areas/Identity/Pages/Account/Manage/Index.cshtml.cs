@@ -49,7 +49,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
             [EmailAddress]
             [Display(Name = "Имейл")]
             public string Email { get; set; }
@@ -57,6 +57,14 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
+
+            [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
+            [Display(Name = "Име")]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
+            [Display(Name = "Фамилия")]
+            public string LastName { get; set; }
 
             [Display(Name = "Име")]
             public string Name { get; set; }
@@ -95,6 +103,8 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
                 Input = new InputModel();
             }
 
+            Input.FirstName = user.FirstName;
+            Input.LastName = user.LastName;
             Input.Email = email;
             Input.PhoneNumber = phoneNumber;
 
@@ -136,6 +146,16 @@ namespace XeonComputers.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
+            }
+
+            if (Input.FirstName != user.FirstName)
+            {
+                _userService.EditFirstName(user, Input.FirstName);
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                _userService.EditLastName(user, Input.LastName);
             }
 
             await _signInManager.RefreshSignInAsync(user);

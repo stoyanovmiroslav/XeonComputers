@@ -30,7 +30,7 @@ namespace XeonComputers.Services
                 Title = title,
                 Email = email,
                 Content = content,
-                RequestDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME)
+                RequestDate = DateTime.UtcNow.AddHours(GlobalConstants.BULGARIAN_HOURS_FROM_UTC_TIME)
             };
 
             this.db.UserRequests.Add(userRequest);

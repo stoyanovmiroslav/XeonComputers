@@ -1,0 +1,40 @@
+﻿@model EditSupplierViewModel
+
+@{
+    ViewData["Title"] = "Промени доставчик";
+}
+
+<h3 class="mobile-fondsize-20 text-muted text-center">@ViewData["Title"]</h3>
+<hr class="w-50" />
+<div class="container">
+    <form asp-controller="Suppliers" asp-action="Edit" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input asp-for="Id" class="form-control" hidden/>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="PriceToHome" class="control-label"></label>
+                <input asp-for="PriceToHome" class="form-control" />
+                <span asp-validation-for="PriceToHome" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="PriceToOffice" class="control-label"></label>
+                <input asp-for="PriceToOffice" class="form-control" />
+                <span asp-validation-for="PriceToOffice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" value="" class="btn btn-primary">Промени</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

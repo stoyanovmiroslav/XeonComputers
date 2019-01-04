@@ -34,7 +34,7 @@ namespace XeonComputers.Services.Tests
             Assert.Equal(title, userRequests.First().Title);
             Assert.Equal(email, userRequests.First().Email);
             Assert.Equal(content, userRequests.First().Content);
-            Assert.Equal(DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME).Hour,
+            Assert.Equal(DateTime.UtcNow.AddHours(GlobalConstants.BULGARIAN_HOURS_FROM_UTC_TIME).Hour,
                 userRequests.First().RequestDate.Hour);
         }
 
@@ -114,10 +114,37 @@ namespace XeonComputers.Services.Tests
         }
 
         [Fact]
-        public void GetUnSeenRequestsShouldReturneAllGetUnSeenRequests()
+        public void UnseenShouldChangeIsSeenOnFalse()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()
-             .UseInMemoryDatabase(databaseName: "GetUnSeenRequests_UserRequests_Database")
+             .UseInMemoryDatabase(databaseName: "Unseen_UserRequests_Database")
+             .Options;
+            var dbContext = new XeonDbContext(options);
+
+            var userRequestsService = new UserRequestsService(dbContext);
+
+            var userRequestId = 1;
+            var userRequestTitle = "Request-1";
+            dbContext.UserRequests.AddRange(new List<UserRequest>
+            {
+                new UserRequest { Id = userRequestId, Title = userRequestTitle, Seen = true },
+                new UserRequest { Id = 2, Title = "Request-2" },
+                new UserRequest { Id = 3, Title = "Request-3" },
+            });
+            dbContext.SaveChanges();
+
+            userRequestsService.Unseen(userRequestId);
+
+            var userRequest = dbContext.UserRequests.FirstOrDefault(x => x.Id == userRequestId);
+
+            Assert.False(userRequest.Seen);
+        }
+
+        [Fact]
+        public void GetUnseenRequestsShouldReturneAllGetUnSeenRequests()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+             .UseInMemoryDatabase(databaseName: "GetUnseenRequests_UserRequests_Database")
              .Options;
             var dbContext = new XeonDbContext(options);
 
@@ -136,6 +163,34 @@ namespace XeonComputers.Services.Tests
             var unseenRequests = userRequestsService.GetUnseenRequests();
 
             Assert.Equal(2, unseenRequests.Count());
+        }
+
+        [Fact]
+        public void DeleteShouldReturnTrueAndDeleteUserRequest()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+             .UseInMemoryDatabase(databaseName: "Delete_UserRequests_Database")
+             .Options;
+            var dbContext = new XeonDbContext(options);
+
+            var userRequestsService = new UserRequestsService(dbContext);
+
+            var userRequestId = 1;
+            var userRequestTitle = "Request-1";
+            dbContext.UserRequests.AddRange(new List<UserRequest>
+            {
+                new UserRequest { Id = userRequestId, Title = userRequestTitle, Seen = true },
+                new UserRequest { Id = 2, Title = "Request-2" },
+                new UserRequest { Id = 3, Title = "Request-3" },
+            });
+            dbContext.SaveChanges();
+
+            var isDeleted = userRequestsService.Delete(userRequestId);
+
+            var userRequest = dbContext.UserRequests.FirstOrDefault(x => x.Id == userRequestId);
+
+            Assert.Null(userRequest);
+            Assert.True(isDeleted);
         }
     }
 }

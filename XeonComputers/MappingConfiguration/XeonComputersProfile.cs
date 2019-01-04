@@ -15,6 +15,7 @@ using XeonComputers.ViewModels.ShoppingCart;
 using XeonComputers.Areas.Administrator.ViewModels.Partners;
 using XeonComputers.Areas.Administrator.Controllers;
 using XeonComputers.Areas.Administrator.ViewModels.UserRequests;
+using XeonComputers.Areas.Administrator.ViewModels.Suppliers;
 
 namespace XeonComputers.MappingConfiguration
 {
@@ -36,6 +37,8 @@ namespace XeonComputers.MappingConfiguration
             this.CreateMap<Order, CompleteOrderViewModel>();
             this.CreateMap<CompanyViewModel, Company>();
             this.CreateMap<XeonUser, RequestUserCompanyViewModel>();
+            this.CreateMap<Supplier, SupplierViewModel> ();
+            this.CreateMap<Supplier, EditSupplierViewModel> ();
             this.CreateMap<XeonUser, AllPartnersViewModel>();
             this.CreateMap<Company, XeonComputers.Areas.Identity.Pages.Account.Manage.IndexModel.InputModel>();
 

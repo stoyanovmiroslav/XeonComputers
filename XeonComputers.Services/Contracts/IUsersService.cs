@@ -20,5 +20,9 @@ namespace XeonComputers.Services.Contracts
         IEnumerable<XeonUser> GetUsersByRole(string role);
 
         Company GetUserCompanyByUsername(string name);
+
+        void EditFirstName(XeonUser user, string firstName);
+
+        void EditLastName(XeonUser user, string lastName);
     }
 }

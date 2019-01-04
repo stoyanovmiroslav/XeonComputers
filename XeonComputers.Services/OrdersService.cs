@@ -15,8 +15,6 @@ namespace XeonComputers.Services
 {
     public class OrdersService : IOrdersService
     {
-        private const decimal DEFAULT_DELIVERY_PRICE = 5.00M;
-
         private readonly IUsersService userService;
         private readonly IShoppingCartsService shoppingCartService;
         private readonly XeonDbContext db;
@@ -59,7 +57,7 @@ namespace XeonComputers.Services
 
             this.shoppingCartService.DeleteAllProductFromShoppingCart(username);
 
-            order.OrderDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            order.OrderDate = DateTime.UtcNow.AddHours(GlobalConstants.BULGARIAN_HOURS_FROM_UTC_TIME);
             order.Status = Enums.OrderStatus.Unprocessed;
             order.PaymentStatus = Enums.PaymentStatus.Unpaid;
             order.OrderProducts = orderProducts;
@@ -68,13 +66,16 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public Order CreateOrder(string username)
+        public Order CreateOrder(string username, decimal deliveryPrice)
         {
             var user = this.userService.GetUserByUsername(username);
 
             var processingOrder = this.GetProcessingOrder(username);
             if (processingOrder != null)
             {
+                processingOrder.DeliveryPrice = deliveryPrice;
+                this.db.SaveChanges();
+
                 return processingOrder;
             }
 
@@ -82,7 +83,7 @@ namespace XeonComputers.Services
             {
                 Status = Enums.OrderStatus.Processing,
                 XeonUser = user,
-                DeliveryPrice = DEFAULT_DELIVERY_PRICE
+                DeliveryPrice = deliveryPrice
             };
 
             this.db.Orders.Add(order);
@@ -139,7 +140,7 @@ namespace XeonComputers.Services
 
         public IEnumerable<Order> GetUserOrders(string username)
         {
-            var order = this.db.Orders.Where(x => x.XeonUser.UserName == username).ToList();
+            var order = this.db.Orders.Where(x => x.XeonUser.UserName == username && x.Status != OrderStatus.Processing).ToList();
 
             return order;
         }
@@ -166,7 +167,7 @@ namespace XeonComputers.Services
             }
 
             order.Status = Enums.OrderStatus.Processed;
-            order.DispatchDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            order.DispatchDate = DateTime.UtcNow.AddHours(GlobalConstants.BULGARIAN_HOURS_FROM_UTC_TIME);
             this.db.SaveChanges();
         }
 
@@ -181,7 +182,7 @@ namespace XeonComputers.Services
             }
 
             order.Status = Enums.OrderStatus.Delivered;
-            order.DeliveryDate = DateTime.UtcNow.AddHours(GlobalConstans.BULGARIAN_HOURS_FROM_UTC_TIME);
+            order.DeliveryDate = DateTime.UtcNow.AddHours(GlobalConstants.BULGARIAN_HOURS_FROM_UTC_TIME);
             this.db.SaveChanges();
         }
 

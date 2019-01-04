@@ -1,0 +1,151 @@
+﻿@model List<ShoppingCartProductsViewModel>
+
+<ul class="navbar-nav navbar-right">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-shopping-cart"></i>
+            @if (Model.Count() != 0)
+            {
+                <sup class="font-weight-bold">@Model.Count()</sup>
+            }
+            Моята количка
+        </a>
+        <div class="dropdown-menu xeon-color py-0" aria-labelledby="navbarDropdown">
+            <div class="dropdown-content">
+                @if (Model.Count() == 0)
+                {
+                    <div class="text-center">
+                        <p class="mb-0 py-3 font-weight-bold bg-white">Вашата количка е празна!</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-weight-bold text-white mb-0">За да продължите моля добавете продукти в кошницата!</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="container mobile-fondsize-11 bg-white">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead>
+                                <tr class="row">
+                                    <th scope="col" class="col-4 d-flex justify-content-center">Продукт</th>
+                                    <th scope="col" class="col-2 d-flex justify-content-center"></th>
+                                    <th scope="col" class="col-2 d-flex justify-content-center">Цена</th>
+                                    <th scope="col" class="col-2 d-flex justify-content-center">Брой</th>
+                                    <th scope="col" class="col-2 d-flex justify-content-center">Общо</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr class="row">
+                                        <td class="col-2 d-flex justify-content-center">
+                                            <img src="@product.ImageUrl" width="50" height="50">
+                                        </td>
+                                        <td class="col-4 d-flex justify-content-center">
+                                            <p class="text-dark">@(product.Name.Substring(0, 5))...</p>
+                                        </td>
+                                        <td class="col-2 d-flex justify-content-center">
+                                            @product.Price лв.
+                                        </td>
+                                        <td class="col-1 d-flex justify-content-center">
+                                            @product.Quantity
+                                        </td>
+                                        <td class="col-2 d-flex justify-content-center">
+                                            @product.TotalPrice лв.
+                                        </td>
+                                        <td class="col-1 d-flex justify-content-center">
+                                            <a class="text-danger px-0" asp-area="" asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@product.Id"><i class="fas fa-times-circle"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 pr-0">
+                            <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" class="dropdown-item nav-link text-white ">Виж количка</a>
+                        </div>
+                        <div class="col-6 pl-0 pr-0">
+                            <p class="font-weight-bold text-white mb-0 pr-4 text-right">Общо продукти:</p>
+                            <p class="font-weight-bold text-white mb-0 pr-4 text-right">@(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </li>
+</ul>
+
+
+@*<div class="dropdown mb-1 mt-1">
+    <button class="dropbtn border-none">
+        <i class="fas fa-shopping-cart"></i>
+        @if (Model.Count() != 0)
+        {
+            <sup class="font-weight-bold">@Model.Count()</sup>
+        }
+        Моята количка
+    </button>
+
+    <div class="dropdown-content">
+        @if (Model.Count() == 0)
+        {
+            <div class="text-center">
+                <p class="mb-0 py-3 font-weight-bold bg-white">Вашата количка е празна!</p>
+            </div>
+            <div class="text-center">
+                <p class="font-weight-bold text-white mb-0">За да продължите моля добавете продукти в кошницата!</p>
+            </div>
+        }
+        else
+        {
+            <div class="container mobile-fondsize-11 bg-white">
+                <table class="table table-sm table-hover mb-0">
+                    <thead>
+                        <tr class="row">
+                            <th scope="col" class="col-4 d-flex justify-content-center">Продукт</th>
+                            <th scope="col" class="col-2 d-flex justify-content-center"></th>
+                            <th scope="col" class="col-2 d-flex justify-content-center">Цена</th>
+                            <th scope="col" class="col-2 d-flex justify-content-center">Брой</th>
+                            <th scope="col" class="col-2 d-flex justify-content-center">Общо</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr class="row">
+                                <td class="col-2 d-flex justify-content-center">
+                                    <img src="@product.ImageUrl" width="50" height="50">
+                                </td>
+                                <td class="col-4 d-flex justify-content-center">
+                                    <p class="text-dark">@(product.Name.Substring(0, 5))...</p>
+                                </td>
+                                <td class="col-2 d-flex justify-content-center">
+                                    @product.Price лв.
+                                </td>
+                                <td class="col-1 d-flex justify-content-center">
+                                    @product.Quantity
+                                </td>
+                                <td class="col-2 d-flex justify-content-center">
+                                    @product.TotalPrice лв.
+                                </td>
+                                <td class="col-1 d-flex justify-content-center">
+                                    <a class="text-danger px-0" asp-area="" asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@product.Id"><i class="fas fa-times-circle"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-6 pr-0">
+                    <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" class="dropdown-item nav-link text-white ">Виж количка</a>
+                </div>
+                <div class="col-6 pl-0 pr-0">
+                    <p class="font-weight-bold text-white mb-0 pr-4 text-right">Общо продукти:</p>
+                    <p class="font-weight-bold text-white mb-0 pr-4 text-right">@(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>*@

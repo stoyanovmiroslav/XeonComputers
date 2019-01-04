@@ -27,13 +27,12 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
         public IActionResult Index()
         {
-            var unprocessedОrders = this.ordersService.GetUnprocessedOrders();
-            var processedОrders = this.ordersService.GetProcessedOrders();
+            var unprocessedОrders = this.ordersService.GetUnprocessedOrders().OrderByDescending(x => x.OrderDate);
+            var processedОrders = this.ordersService.GetProcessedOrders().OrderByDescending(x => x.DispatchDate);
 
             var unprocessedОrdersViewModel = mapper.Map<IList<IndexUnprocessedОrdersViewModels>>(unprocessedОrders);
             var processedОrdersViewModel = mapper.Map<IList<IndexProcessedОrdersViewModels>>(processedОrders);
             var partnerRequestsCount = this.partnerRequestService.GetPartnetsRequests().Count();
-
 
             var viewModel = new IndexViewModel
             {

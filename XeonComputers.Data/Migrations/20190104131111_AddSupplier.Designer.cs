@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XeonComputers.Data;
 
 namespace XeonComputers.Data.Migrations
 {
     [DbContext(typeof(XeonDbContext))]
-    partial class XeonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190104131111_AddSupplier")]
+    partial class AddSupplier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -407,25 +409,6 @@ namespace XeonComputers.Data.Migrations
                     b.HasIndex("ShoppingCartId");
 
                     b.ToTable("ShoppingCartProducts");
-                });
-
-            modelBuilder.Entity("XeonComputers.Models.Supplier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDefault");
-
-                    b.Property<string>("Name");
-
-                    b.Property<decimal>("PriceToHome");
-
-                    b.Property<decimal>("PriceToOffice");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("XeonComputers.Models.UserRequest", b =>

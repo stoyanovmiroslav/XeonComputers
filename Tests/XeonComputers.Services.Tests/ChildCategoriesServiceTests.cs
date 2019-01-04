@@ -102,7 +102,7 @@ namespace XeonComputers.Services.Tests
 
             var isImageUrlCreated = childCategoriesService.AddImageUrl(childCategory.Id);
 
-            var childCategoryExpectedImageUrl = string.Format(GlobalConstans.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
+            var childCategoryExpectedImageUrl = string.Format(GlobalConstants.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
 
             Assert.Equal(childCategoryExpectedImageUrl, childCategory.ImageUrl);
             Assert.True(isImageUrlCreated);
@@ -148,7 +148,7 @@ namespace XeonComputers.Services.Tests
             var newChildCategoryDescription = "17''";
             var isChildCategoryEdit = childCategoriesService.EditChildCategory(childCategory.Id, newChildCategoryName, newChildCategoryDescription, parentCategory.Id);
 
-            var childCategoryExpectedImageUrl = string.Format(GlobalConstans.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
+            var childCategoryExpectedImageUrl = string.Format(GlobalConstants.CHILD_CATEGORY_PATH_TEMPLATE, childCategory.Id);
 
             Assert.Equal(newChildCategoryName, childCategory.Name);
             Assert.Equal(newChildCategoryDescription, childCategory.Description);

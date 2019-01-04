@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace XeonComputers.Common
 {
-    public static class GlobalConstans
+    public static class GlobalConstants
     {
         public const string WWWROOT = "wwwroot";
 
@@ -18,5 +18,7 @@ namespace XeonComputers.Common
 
         public const string PRODUCT_PATH_TEMPLATE = "wwwroot/images/Products/image{0}.jpg";
         public const string PRODUCT_SRC_ROOT_TEMPLATE = "/images/Products/image{0}.jpg";
+
+        public const string URL_TEMPLATE_AUTOCOMPLETE = "https://localhost:44374/Products/Details/{0}";
     }
 }

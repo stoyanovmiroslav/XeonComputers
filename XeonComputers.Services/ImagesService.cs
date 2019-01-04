@@ -35,7 +35,7 @@ namespace XeonComputers.Services
                     await formImages[i].CopyToAsync(stream);
                 }
 
-                var imageRoot = imagePath.Replace(GlobalConstans.WWWROOT, "");
+                var imageRoot = imagePath.Replace(GlobalConstants.WWWROOT, "");
                 imageUrls.Add(imageRoot);
             }
 

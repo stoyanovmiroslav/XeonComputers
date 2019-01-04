@@ -64,6 +64,11 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
+            if (this.User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Home/Error");
+            }
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -85,7 +90,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstans.SESSION_SHOPPING_CART_KEY);
+                    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
                     if (cart != null)
                     {
                         foreach (var product in cart)
@@ -93,7 +98,7 @@ namespace XeonComputers.Areas.Identity.Pages.Account
                             _shoppingCartService.AddProductInShoppingCart(product.Id, Input.Email, product.Quantity);
                         }
                         
-                        HttpContext.Session.Remove(GlobalConstans.SESSION_SHOPPING_CART_KEY);
+                        HttpContext.Session.Remove(GlobalConstants.SESSION_SHOPPING_CART_KEY);
                     }
 
                     _logger.LogInformation("User logged in.");

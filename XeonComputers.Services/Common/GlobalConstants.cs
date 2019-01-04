@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace XeonComputers.Services.Common
 {
-    public static class GlobalConstans
+    public static class GlobalConstants
     {
         public const string WWWROOT = "wwwroot";
 

@@ -273,5 +273,61 @@ namespace XeonComputers.Services.Tests
 
             Assert.True(isUserRomeveFromRole);
         }
+
+        [Fact]
+        public void EditFirstNameRequstsShouldEditFirstName()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                  .UseInMemoryDatabase(databaseName: "EditFirstName_Users_Database")
+                  .Options;
+
+            var dbContext = new XeonDbContext(options);
+
+            var user = new XeonUser
+            {
+                UserName = "user@gmail.com",
+                FirstName = "AdminFirstName"
+            };
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
+
+            var store = new Mock<IUserStore<XeonUser>>();
+            var userManager = new Mock<UserManager<XeonUser>>(store.Object, null, null, null, null, null, null, null, null);
+
+            var usersService = new UsersService(dbContext, userManager.Object);
+
+            var firstName = "UserFirstName";
+            usersService.EditFirstName(user, firstName);
+
+            Assert.Equal(firstName, user.FirstName);
+        }
+
+        [Fact]
+        public void EditLastNameRequstsShouldEditLastName()
+        {
+            var options = new DbContextOptionsBuilder<XeonDbContext>()
+                  .UseInMemoryDatabase(databaseName: "EditLastName_Users_Database")
+                  .Options;
+
+            var dbContext = new XeonDbContext(options);
+
+            var user = new XeonUser
+            {
+                UserName = "user@gmail.com",
+                LastName = "AdminLastName"
+            };
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
+
+            var store = new Mock<IUserStore<XeonUser>>();
+            var userManager = new Mock<UserManager<XeonUser>>(store.Object, null, null, null, null, null, null, null, null);
+
+            var usersService = new UsersService(dbContext, userManager.Object);
+
+            var lastName = "UserLastName";
+            usersService.EditLastName(user, lastName);
+
+            Assert.Equal(lastName, user.LastName);
+        }
     }
 }

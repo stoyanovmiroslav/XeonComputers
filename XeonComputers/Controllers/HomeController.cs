@@ -11,6 +11,7 @@ using XeonComputers.ViewModels;
 using XeonComputers.ViewModels.Home;
 using XeonComputers.Models.Enums;
 using AutoMapper;
+using XeonComputers.Common;
 
 namespace XeonComputers.Controllers
 {
@@ -62,11 +63,10 @@ namespace XeonComputers.Controllers
         {
             var products = this.productService.GetProductsBySearch(term);
 
-            //TODO: Url Pass
             var result = products.Select(x => new
             {
                 value = x.Name,
-                url = $"https://localhost:44374/Products/Details/{x.Id}"
+                url = string.Format(GlobalConstants.URL_TEMPLATE_AUTOCOMPLETE, x.Id)
             });
 
             return Json(result);

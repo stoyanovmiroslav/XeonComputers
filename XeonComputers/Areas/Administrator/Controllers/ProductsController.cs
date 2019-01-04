@@ -99,7 +99,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             {
                 int existingImages = 0;
                 var imageUrls = await this.imageService.UploadImages(model.FormImages.ToList(), existingImages,
-                                                                GlobalConstans.PRODUCT_PATH_TEMPLATE, product.Id);
+                                                                GlobalConstants.PRODUCT_PATH_TEMPLATE, product.Id);
 
                 this.productService.AddImageUrls(product.Id, imageUrls);
             }
@@ -153,7 +153,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
             {
                 int existingImages = productService.GetImages(product.Id).Count();
                 var imageUrls = await this.imageService.UploadImages(model.FormImages.ToList(), existingImages,
-                                                                GlobalConstans.PRODUCT_PATH_TEMPLATE, product.Id);
+                                                                GlobalConstants.PRODUCT_PATH_TEMPLATE, product.Id);
 
                 this.productService.AddImageUrls(product.Id, imageUrls);
             }

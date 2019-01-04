@@ -12,16 +12,31 @@
                     }
                     Поръчки
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Administrator" asp-controller="Home" asp-action="Index" class="dropdown-item nav-link">
-                        Моите поръчки
-                        @if (Model.UnprocessedOrdersCount != 0)
-                        {
-                            <sup class="font-weight-bold text-danger">@Model.UnprocessedOrdersCount</sup>
-                        }
-                    </a>
-                    <a asp-area="Administrator" asp-controller="Orders" asp-action="Delivered" class="dropdown-item nav-link">История</a>
-                </div>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item dropdown-submenu px-1 py-0">
+                        <a asp-area="Administrator" asp-controller="Home" asp-action="Index" class="dropdown-item nav-link">
+                            Моите поръчки
+                            @if (Model.UnprocessedOrdersCount != 0)
+                            {
+                                <sup class="font-weight-bold text-danger">@Model.UnprocessedOrdersCount</sup>
+                            }
+                        </a>
+                    </li>
+                    <li class="dropdown-item dropdown-submenu px-1 py-0">
+                        <a asp-area="Administrator" asp-controller="Orders" asp-action="Delivered" class="dropdown-item nav-link">История</a>
+                    </li>
+                    <li class="dropdown-item dropdown-submenu px-1 py-0">
+                        <a asp-controller="ParentCategories" asp-action="All" class="dropdown-item nav-link dropdown-toggle">Доставчици</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item px-1 py-0">
+                                <a asp-controller="Suppliers" asp-action="All" class="dropdown-item nav-link">Виж всички</a>
+                            </li>
+                            <li class="dropdown-item px-1 py-0">
+                                <a asp-controller="Suppliers" asp-action="Create" class="dropdown-item nav-link">Добави нов</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a asp-area="Administrator" asp-controller="UserRequests" asp-action="Index" class="nav-link font-weight-bold">

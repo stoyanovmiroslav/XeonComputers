@@ -32,8 +32,8 @@ namespace XeonComputers.Services.Tests
                         .Returns(user);
 
             var ordersService = new OrdersService(usersService.Object, shoppingCartsService.Object, dbContext);
-
-            ordersService.CreateOrder(username);
+            var deliveryPrice = 5;
+            ordersService.CreateOrder(username, deliveryPrice);
 
             var orders = dbContext.Orders.ToList();
 
@@ -67,7 +67,8 @@ namespace XeonComputers.Services.Tests
 
             var ordersService = new OrdersService(usersService.Object, shoppingCartsService.Object, dbContext);
 
-            var order = ordersService.CreateOrder(user.UserName);
+            var deliveryPrice = 5;
+            var order = ordersService.CreateOrder(user.UserName, deliveryPrice);
 
             Assert.Equal(1, order.Id);
         }
@@ -193,7 +194,7 @@ namespace XeonComputers.Services.Tests
             var user = new XeonUser { UserName = "user@gmail.com" };
             var orders = new List<Order>
             {
-                new Order { Status = OrderStatus.Processing, XeonUser = user },
+                new Order { Status = OrderStatus.Processed, XeonUser = user },
                 new Order { Status = OrderStatus.Delivered, XeonUser = user },
                 new Order { Status = OrderStatus.Unprocessed, XeonUser = new XeonUser {UserName = "admin@gmail.com" } },
             };

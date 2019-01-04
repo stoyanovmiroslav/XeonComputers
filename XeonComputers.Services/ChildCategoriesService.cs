@@ -28,7 +28,7 @@ namespace XeonComputers.Services
                 return false;
             }
 
-            category.ImageUrl = string.Format(GlobalConstans.CHILD_CATEGORY_PATH_TEMPLATE, id);
+            category.ImageUrl = string.Format(GlobalConstants.CHILD_CATEGORY_PATH_TEMPLATE, id);
             this.db.SaveChanges();
 
             return true;
