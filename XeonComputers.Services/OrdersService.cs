@@ -62,6 +62,7 @@ namespace XeonComputers.Services
             order.PaymentStatus = Enums.PaymentStatus.Unpaid;
             order.OrderProducts = orderProducts;
             order.TotalPrice = order.OrderProducts.Sum(x => x.Quantity * x.Price);
+            order.InvoiceNumber = order.Id.ToString().PadLeft(9, '0');
 
             this.db.SaveChanges();
         }
@@ -210,6 +211,27 @@ namespace XeonComputers.Services
                                       .Where(x => x.Status == Enums.OrderStatus.Delivered);
 
             return orders;
+        }
+
+        public void SetEasyPayNumber(Order order, string easyPayNumber)
+        {
+            order.EasyPayNumber = easyPayNumber;
+            this.db.SaveChanges();
+        }
+
+        public bool SetOrderStatusByInvoice(string invoiceNumber, string status)
+        {
+            var isOrderStatus = Enum.TryParse(typeof(OrderStatus), status, true, out object orderStatus);
+            var order = this.db.Orders.FirstOrDefault(x => x.InvoiceNumber == invoiceNumber);
+
+            if (order == null || !isOrderStatus)
+            {
+                return false;
+            }
+
+            order.Status = (OrderStatus)orderStatus;
+            this.db.SaveChanges();
+            return true;
         }
     }
 }

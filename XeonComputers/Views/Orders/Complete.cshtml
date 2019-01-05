@@ -1,13 +1,12 @@
 ﻿@model ConfirmOrderViewModel
 
 @{
-    ViewData["Title"] = "Потвърди поръчката";
+    ViewData["Title"] = "Завършване на поръчката";
     Layout = "Layouts/_LayoutMiddle";
 }
 
-<div class="h3 text-center mb-3">@ViewData["Title"]</div>
-<div class="progress mb-3">
-    <div class="progress-bar" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="66">66%</div>
+<div class="progress pt-1">
+    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
 </div>
 
 <div class="row">
@@ -21,15 +20,15 @@
             <hr />
             <div><span class="font-weight-bold">Адрес:</span> @Model.DeliveryAddressStreet @Model.DeliveryAddressDescription</div>
             <hr />
-            <div><span class="font-weight-bold">Метод на плащане:</span> @Model.PaymentType</div>
+            <div><span class="font-weight-bold">Метод на плащане:</span> @Model.PaymentTypeDisplayName</div>
         </div>
     </div>
     <div class="col-md-6">
-        @await Component.InvokeAsync(typeof(ShoppingCartComponent))
+        @await Component.InvokeAsync(typeof(OrderProductsComponent), new { OrderId = Model.Id })
         <p class="text-danger h6 text-right">Цена за доставка: @Model.DeliveryPrice лв.</p>
         <p class="text-danger h6 text-right">(Цената за доставка ще бъде платена директно на доставчика!)</p>
         <div class="text-center mt-4">
-            <a asp-area="" asp-controller="Orders" asp-action="Complete" class="btn btn-danger btn-lg"><i class="fas fa-clipboard-check"></i> Потвърди поръчката</a>
+            @await Component.InvokeAsync(typeof(PaymentOrderComponent), new { OrderId = Model.Id })
         </div>
     </div>
 </div>

@@ -8,6 +8,8 @@ namespace XeonComputers.Services.Contracts
     {
         string Encoded { get; set; }
 
-        string EPay(decimal sum, string description);
+        string GetEncodedData(decimal amount, string description, string expDate, string invoice);
+
+        string GetDencodedData(string encoded, string checksum);
     }
 }

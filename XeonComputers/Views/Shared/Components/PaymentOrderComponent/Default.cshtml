@@ -1,0 +1,60 @@
+﻿@model PayViewModel
+
+@if (Model.PaymentType == PaymentType.Card)
+{
+    <form action="@Model.SubmitUrl" method=post>
+        <div class="form-group">
+            <input type=hidden name=PAGE value="credit_paydirect">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=LANG value="bg">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=ENCODED value="@Model.Encoded">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=CHECKSUM value="@Model.ChechSum">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=URL_OK value="@Model.UrlOk">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=URL_CANCEL value="@Model.UrlCancel">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Плащане с карта" class="btn btn-success btn-lg" />
+        </div>
+    </form>
+}
+else if (Model.PaymentType == PaymentType.EasyPay)
+{
+    <div class="h4">Вашия номер за плащане в системата на EasyPay e: </div>
+    <div class="h3 font-weight-bold text-danger">@Model.EasyPayNumber</div>
+}
+else if (Model.PaymentType == PaymentType.Epay)
+{
+    <form action="@Model.SubmitUrl" method=POST>
+        <div class="form-group">
+            <input type=hidden name=PAGE value="paylogin">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=ENCODED value="@Model.Encoded">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=CHECKSUM value="@Model.ChechSum">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=URL_OK value="@Model.UrlOk">
+        </div>
+        <div class="form-group">
+            <input type=hidden name=URL_CANCEL value="@Model.UrlCancel">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Плащане през ePay.bg" class="btn-success btn-lg" />
+        </div>
+    </form>
+}
+else if (Model.PaymentType == PaymentType.CashОnDelivery)
+{
+
+}

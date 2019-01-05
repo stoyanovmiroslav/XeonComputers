@@ -1,0 +1,48 @@
+﻿@model IList<OrderProductsViewModel>
+
+<div class="container mobile-fondsize-11 shadow pl-4 pb-4 pr-4 mb-4 bg-white">
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th scope="col" class="col-1 d-flex justify-content-center"><strong>ID</strong></th>
+                <th scope="col" class="col-2 d-flex justify-content-center"><strong>Продукт</strong></th>
+                <th scope="col" class="col-4 d-flex justify-content-center"></th>
+                <th scope="col" class="col-2 d-flex justify-content-center"><strong>Цена</strong></th>
+                <th scope="col" class="col-1 d-flex justify-content-center"><strong>Брой</strong></th>
+                <th scope="col" class="col-2 d-flex justify-content-center"><strong>Общо</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr class="row">
+                    <td class="col-1 d-flex justify-content-center">
+                        @product.ProductId
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                            <img src=" @product.ImageUrl" width="50" height="50">
+                        </a>
+                    </td>
+                    <td class="col-4 d-flex justify-content-center">
+                        <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                            @product.ProductName
+                        </a>
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @product.Price лв.
+                    </td>
+                    <td class="col-1 d-flex justify-content-center">
+                        @product.Quantity
+                    </td>
+                    <td class="col-2 d-flex justify-content-around">
+                        @(product.Quantity * product.Price) лв.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <p class="font-weight-bold text-danger h5 text-right">Обща сума за продуктите: @(Model.Sum(x => x.Price * x.Quantity)) лв.</p>
+    </div>
+</div>

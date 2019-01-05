@@ -29,6 +29,10 @@ namespace XeonComputers.Models
 
         public string RecipientPhoneNumber { get; set; }
 
+        public string InvoiceNumber { get; set; }
+
+        public string EasyPayNumber { get; set; }
+
         public PaymentType PaymentType { get; set; }
 
         public string XeonUserId { get; set; }

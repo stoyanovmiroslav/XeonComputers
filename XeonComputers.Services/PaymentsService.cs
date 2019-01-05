@@ -5,6 +5,7 @@ using System.Text;
 using XeonComputers.Services.Contracts;
 using Microsoft.Extensions;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace XeonComputers.Services
 {
@@ -22,18 +23,35 @@ namespace XeonComputers.Services
 
         public string Encoded { get; set; }
 
-        public string Invoice { get; set; } = "123456778"; // TODO:
-
-        public string ExpDate { get; set; } = "30.12.2018"; // TODO:
-
-
-        public string EPay(decimal sum, string description)
+        public string GetEncodedData(decimal amount, string description, string expDate, string invoice)
         {
-            string data = $"MIN={Min}\nINVOICE={this.Invoice}\nAMOUNT={sum}\nEXP_TIME={this.ExpDate}\nDESCR={description}";
+            string data = $"MIN={Min}\nINVOICE={invoice}\nAMOUNT={amount}\nEXP_TIME={expDate}\nDESCR={description}";
 
             this.Encoded = Base64Encode(data);
 
             return this.HmacSha1(this.Encoded, SecretKey);
+        }
+
+        public string EasyPay(decimal amount, string description, string expDate, string invoice)
+        {
+            string data = $"MIN={Min}\nINVOICE={invoice}\nAMOUNT={amount}\nEXP_TIME={expDate}\nDESCR={description}";
+
+            this.Encoded = Base64Encode(data);
+
+            return this.HmacSha1(this.Encoded, SecretKey);
+        }
+
+        public string GetDencodedData(string encoded, string checksum)
+        {
+            var checkSumCalc = HmacSha1(encoded, SecretKey);
+
+            if (checkSumCalc == checksum)
+            {
+                var data = Base64Decode(encoded);
+                return data;
+            }
+
+            return null;
         }
 
         private string HmacSha1(string encoded, string secret)
@@ -57,5 +75,6 @@ namespace XeonComputers.Services
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
+
     }
 }

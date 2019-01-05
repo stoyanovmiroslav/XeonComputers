@@ -20,23 +20,23 @@ namespace XeonComputers.Controllers
     {
         private const string ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS = "За да продължите добавете продукти в кошницата!";
         private const string ERROR_MESSAGE_INVALID_ORDER_NUMBER = "Невалиден номер на поръчка, моля опитайте отново!";
-        private const string PATH_CONFIRMATION_ORDER_EMAIL = "Views/EmailTemplates/ConfirmOrder.cshtml";
-        private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
         private const string YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED = "Вашата поръчка беше получена успешно!";
+        private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
+        private const string PATH_CONFIRMATION_ORDER_EMAIL = "Views/EmailTemplates/ConfirmOrder.cshtml";
 
         private readonly IAdressesService adressesService;
-        private readonly IUsersService userService;
+        private readonly IUsersService usersService;
         private readonly IOrdersService orderService;
         private readonly IShoppingCartsService shoppingCartService;
         private readonly ISuppliersService suppliersService;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
-        public OrdersController(IAdressesService adressesService, IUsersService userService,
+        public OrdersController(IAdressesService adressesService, IUsersService usersService,
                                 IOrdersService orderService, IShoppingCartsService shoppingCartService,
                                 ISuppliersService suppliersService, IMapper mapper, IEmailSender emailSender)
         {
-            this.userService = userService;
+            this.usersService = usersService;
             this.adressesService = adressesService;
             this.orderService = orderService;
             this.shoppingCartService = shoppingCartService;
@@ -60,10 +60,9 @@ namespace XeonComputers.Controllers
             }
 
             var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
-
             var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
 
-            var user = this.userService.GetUserByUsername(this.User.Identity.Name);
+            var user = this.usersService.GetUserByUsername(this.User.Identity.Name);
             var fullName = $"{user.FirstName} {user.LastName}";
 
             var createOrderViewModel = new CreateOrderViewModel
@@ -88,11 +87,11 @@ namespace XeonComputers.Controllers
 
             decimal deliveryPrice = this.suppliersService.GetDiliveryPrice(supplierId, deliveryType);
             var order = this.orderService.CreateOrder(this.User.Identity.Name, deliveryPrice);
-            var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
 
+            var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
             var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
 
-            var user = this.userService.GetUserByUsername(this.User.Identity.Name);
+            var user = this.usersService.GetUserByUsername(this.User.Identity.Name);
             var fullName = $"{user.FirstName} {user.LastName}";
 
             var createOrderViewModel = new CreateOrderViewModel
@@ -117,11 +116,7 @@ namespace XeonComputers.Controllers
 
             if (!ModelState.IsValid)
             {
-                var addresses = this.adressesService.GetAllUserAddresses(this.User.Identity.Name);
-                var addressesViewModel = mapper.Map<IList<OrderAdressViewModel>>(addresses);
-
-                model.OrderAddressesViewModel = addressesViewModel.ToList();
-                return this.View(nameof(Create), model);
+                return RedirectToAction(nameof(Create));
             }
 
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
@@ -132,10 +127,10 @@ namespace XeonComputers.Controllers
 
             this.orderService.SetOrderDetails(order, model.FullName, model.PhoneNumber, model.PaymentType, model.DeliveryAddressId.Value);
 
-            return this.RedirectToAction(nameof(Confirm));
+            return this.RedirectToAction(nameof(Complete));
         }
 
-        public IActionResult Confirm()
+        public async Task<IActionResult> Complete()
         {
             if (!this.shoppingCartService.AnyProducts(this.User.Identity.Name))
             {
@@ -146,36 +141,25 @@ namespace XeonComputers.Controllers
             var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             var orderViewModel = mapper.Map<ConfirmOrderViewModel>(order);
 
-            return this.View(orderViewModel);
-        }
-
-        public async Task<IActionResult> Complete(int id)
-        {
-            if (!this.shoppingCartService.AnyProducts(this.User.Identity.Name))
-            {
-                this.TempData["error"] = ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS;
-                return RedirectToAction("Index", "Home");
-            }
-
             bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
-
-            var order = this.orderService.GetProcessingOrder(this.User.Identity.Name);
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
 
-            var email = this.userService.GetUserByUsername(this.User.Identity.Name).Email;
+            if (order.PaymentType == PaymentType.CashОnDelivery || order.PaymentType == PaymentType.CashОnDelivery)
+            {
+                var email = this.usersService.GetUserByUsername(this.User.Identity.Name).Email;
 
-            var orderModel = mapper.Map<CompleteOrderViewModel>(order);
-            var emailMessageTempate = System.IO.File.ReadAllText(PATH_CONFIRMATION_ORDER_EMAIL);
-            var message = string.Format(emailMessageTempate, orderModel.Recipient, orderModel.RecipientPhoneNumber, orderModel.DeliveryAddressCityName, orderModel.DeliveryAddressCityPostCode,
-                                                             orderModel.DeliveryAddressStreet, orderModel.DeliveryAddressDescription, orderModel.TotalPrice);
+                var emailMessageTempate = System.IO.File.ReadAllText(PATH_CONFIRMATION_ORDER_EMAIL);
+                var message = string.Format(emailMessageTempate, orderViewModel.Recipient, orderViewModel.RecipientPhoneNumber, orderViewModel.DeliveryAddressCityName, orderViewModel.DeliveryAddressCityPostCode,
+                                                                 orderViewModel.DeliveryAddressStreet, orderViewModel.DeliveryAddressDescription, orderViewModel.TotalPrice);
 
-            var subject = string.Format(REGISTERED_ORDER, order.Id);
+                var subject = string.Format(REGISTERED_ORDER, order.Id);
 
-            await this.emailSender.SendEmailAsync(email, subject, message);
+                await this.emailSender.SendEmailAsync(email, subject, message);
 
-            this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
+                this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
+            }
 
-            return this.RedirectToAction("Pay", "Payments", new { orderId = order.Id });
+            return this.View(orderViewModel);
         }
 
         public IActionResult My(int id)

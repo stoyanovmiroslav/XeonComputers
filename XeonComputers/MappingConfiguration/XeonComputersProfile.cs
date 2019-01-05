@@ -45,7 +45,7 @@ namespace XeonComputers.MappingConfiguration
                             .ForMember(x => x.RequestDate, y => y.MapFrom(src => src.RequestDate.ToLongTimeString()));
 
             this.CreateMap<Order, ConfirmOrderViewModel>()
-                            .ForMember(x => x.PaymentType, y => y.MapFrom(src => src.PaymentType.GetDisplayName()));
+                            .ForMember(x => x.PaymentTypeDisplayName, y => y.MapFrom(src => src.PaymentType.GetDisplayName()));
 
             this.CreateMap<Order, ViewModels.Orders.OrderDetailsViewModel>()
                           .ForMember(x => x.Status, y => y.MapFrom(src => src.Status.GetDisplayName()))

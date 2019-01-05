@@ -39,6 +39,14 @@ namespace XeonComputers.Controllers
 
         public IActionResult Index()
         {
+            var suppliers = this.suppliersService.All();
+            var supplierViewModels = mapper.Map<IList<SupplierViewModel>>(suppliers);
+
+            var indexViewModel = new IndexShoppingCartProductsViewModel
+            {
+                Suppliers = supplierViewModels
+            };
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
@@ -48,8 +56,6 @@ namespace XeonComputers.Controllers
                 }
 
                 bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
-
-                //TODO: AutoMapping
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
                     Id = x.ProductId,
@@ -60,25 +66,19 @@ namespace XeonComputers.Controllers
                     TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
-                var suppliers = this.suppliersService.All();
-                var supplierViewModels = mapper.Map<IList<SupplierViewModel>>(suppliers);
-
-                var indexViewModel = new IndexShoppingCartProductsViewModel
-                {
-                    ShoppingCartProducts = shoppingCartProductsViewModel,
-                    Suppliers = supplierViewModels
-                };
-
+                indexViewModel.ShoppingCartProducts = shoppingCartProductsViewModel;
                 return this.View(indexViewModel);
             }
 
             var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
+            if (cart == null || cart.Count == 0)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return this.View(cart);
+            indexViewModel.ShoppingCartProducts = cart;
+
+            return this.View(indexViewModel);
         }
 
         public IActionResult Add(int id, bool direct)

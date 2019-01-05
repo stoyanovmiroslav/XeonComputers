@@ -63,14 +63,6 @@ namespace XeonComputers
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<XeonDbContext>();
 
-            //services.AddDistributedMemoryCache();
-            //services.AddDistributedSqlServerCache(options =>
-            //{
-            //    options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
-            //    options.SchemaName = "dbo";
-            //    options.TableName = "CacheData";
-            //});
-
             services.AddSession(options =>
             {
                 options.Cookie.HttpOnly = true;

@@ -8,6 +8,8 @@ namespace XeonComputers.ViewModels.Orders
 {
     public class ConfirmOrderViewModel
     {
+        public int Id { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public decimal DeliveryPrice { get; set; }
@@ -16,7 +18,9 @@ namespace XeonComputers.ViewModels.Orders
 
         public string RecipientPhoneNumber { get; set; }
 
-        public string PaymentType { get; set; }
+        public PaymentType PaymentType { get; set; }
+
+        public string PaymentTypeDisplayName { get; set; }
 
         public string DeliveryAddressDescription { get; set; }
 

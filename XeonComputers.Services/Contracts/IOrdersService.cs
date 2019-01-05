@@ -33,5 +33,9 @@ namespace XeonComputers.Services.Contracts
         Order GetUserOrderById(int orderId, string username);
 
         IEnumerable<Order> GetDeliveredOrders();
+
+        void SetEasyPayNumber(Order order, string easyPayNumber);
+
+        bool SetOrderStatusByInvoice(string invoice, string status);
     }
 }

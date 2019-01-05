@@ -37,6 +37,10 @@ namespace XeonComputers.ViewModels.Orders
 
         public string DeliveryAddressStreet { get; set; }
 
+        public string EasyPayNumber { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
         public IList<OrderProductsViewModel> OrderProductsViewModel { get; set; }
 
         public decimal DeliveryPrice { get; set; }

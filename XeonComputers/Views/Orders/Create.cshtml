@@ -7,18 +7,16 @@
     Layout = "Layouts/_LayoutMiddle";
 }
 
-<div class="h3 text-center mb-3">@ViewData["Title"]</div>
-<div class="progress">
-    <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">33%</div>
+<div class="progress pt-1">
+    <div class="progress-bar" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100">66%</div>
 </div>
-<div class="h3 mt-3 mb-2">Адрес за доставка</div>
-
 <div class="row">
     <div class="col-md-6">
         @if (Model.OrderAddressesViewModel.Count == 0)
         {
             <p>Все още нямате добавени адреси във вашия профил.</p>
         }
+        <div class="h5 font-weight-bold mt-3 text-center">Адрес за доставка:</div>
         <form method="post" asp-controller="Orders" asp-action="SetOrderDetails">
             <ul class="list-group">
                 @foreach (var address in Model.OrderAddressesViewModel)
@@ -35,8 +33,9 @@
             </ul>
             <span asp-validation-for="DeliveryAddressId" class="text-danger"></span>
             <div class="text-right mt-3">
-                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Добави нов адрес</a>
+                <a class="btn btn-sm btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Нов адрес</a>
             </div>
+            <div class="h5 font-weight-bold text-center">Данни на получателя:</div>
             <div class="form-group">
                 <label asp-for="FullName"></label>
                 <input asp-for="FullName" class="form-control" placeholder="Име и фамилия" />
@@ -48,30 +47,31 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="h6 font-weight-bold">Метод на плащане:</div>
+                <div class="h5 font-weight-bold text-center">Метод на плащане:</div>
                 <div>
-                    <input asp-for="PaymentType" type="radio" id="EasyPay" value="EasyPay" checked>
-                    <label for="EasyPay">В брой (Изипей)</label>
-                </div>
-                <div>
-                    <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
-                    <label for="CashОnDelivery">Наложен платеж</label>
+                    <input asp-for="PaymentType" type="radio" id="Epay" value="Epay" checked>
+                    <label for="Epay">ePay.bg</label>
                 </div>
                 <div>
                     <input asp-for="PaymentType" type="radio" id="Card" value="Card">
                     <label for="Card">Visa, MasterCard и др.</label>
                 </div>
                 <div>
-                    <input asp-for="PaymentType" type="radio" id="Epay" value="Epay">
-                    <label for="Epay">ePay.bg</label>
+                    <input asp-for="PaymentType" type="radio" id="EasyPay" value="EasyPay">
+                    <label for="EasyPay">В брой (Изипей)</label>
+                </div>
+                <div>
+                    <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
+                    <label for="CashОnDelivery">Наложен платеж</label>
                 </div>
             </div>
-            <div class="text-right mt-3 mb-3">
+            <div class="text-center mt-3 mb-3">
                 <button type="submit" class="form-group btn btn-success btn-lg mb-0">Продължи с поръчката</button>
             </div>
         </form>
     </div>
     <div class="col-md-6">
+        <div class="h5 mt-3 text-center text-white">Друга информация:</div>
         <div class="collapse multi-collapse" id="multiCollapseExample1">
             <div class="card card-body py-0">
                 <form method="post" asp-controller="Addresses" asp-action="Add">
