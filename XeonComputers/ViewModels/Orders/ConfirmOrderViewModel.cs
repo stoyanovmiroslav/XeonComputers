@@ -16,7 +16,7 @@ namespace XeonComputers.ViewModels.Orders
 
         public string RecipientPhoneNumber { get; set; }
 
-        public PaymentType PaymentType { get; set; }
+        public string PaymentType { get; set; }
 
         public string DeliveryAddressDescription { get; set; }
 

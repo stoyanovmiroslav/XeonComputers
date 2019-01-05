@@ -33,7 +33,6 @@ namespace XeonComputers.MappingConfiguration
             this.CreateMap<ParentCategory, ParentCategoryViewModel>();
             this.CreateMap<ChildCategory, EditChildCategoryViewModel>();
             this.CreateMap<ChildCategory, AllChildCategoryViewModel>();
-            this.CreateMap<Order, ConfirmOrderViewModel>();
             this.CreateMap<Order, CompleteOrderViewModel>();
             this.CreateMap<CompanyViewModel, Company>();
             this.CreateMap<XeonUser, RequestUserCompanyViewModel>();
@@ -44,6 +43,9 @@ namespace XeonComputers.MappingConfiguration
 
             this.CreateMap<UserRequest, UserRequestViewModel>()
                             .ForMember(x => x.RequestDate, y => y.MapFrom(src => src.RequestDate.ToLongTimeString()));
+
+            this.CreateMap<Order, ConfirmOrderViewModel>()
+                            .ForMember(x => x.PaymentType, y => y.MapFrom(src => src.PaymentType.GetDisplayName()));
 
             this.CreateMap<Order, ViewModels.Orders.OrderDetailsViewModel>()
                           .ForMember(x => x.Status, y => y.MapFrom(src => src.Status.GetDisplayName()))
