@@ -144,7 +144,7 @@ namespace XeonComputers.Controllers
             bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
             this.orderService.CompleteProcessingOrder(this.User.Identity.Name, isPartnerOrAdmin);
 
-            if (order.PaymentType == PaymentType.CashОnDelivery || order.PaymentType == PaymentType.CashОnDelivery)
+            if (order.PaymentType == PaymentType.EasyPay || order.PaymentType == PaymentType.CashОnDelivery)
             {
                 var email = this.usersService.GetUserByUsername(this.User.Identity.Name).Email;
 

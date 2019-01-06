@@ -62,7 +62,7 @@ namespace XeonComputers.Services
             order.PaymentStatus = Enums.PaymentStatus.Unpaid;
             order.OrderProducts = orderProducts;
             order.TotalPrice = order.OrderProducts.Sum(x => x.Quantity * x.Price);
-            order.InvoiceNumber = order.Id.ToString().PadLeft(9, '0');
+            order.InvoiceNumber = order.Id.ToString().PadLeft(10, '0');
 
             this.db.SaveChanges();
         }
