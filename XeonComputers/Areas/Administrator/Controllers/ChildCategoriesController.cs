@@ -17,6 +17,8 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ChildCategoriesController : AdministratorController
     {
+        private const string CANNOT_DELETE_CATEGORY_IF_ANY_PRODUCTS = "Може да изтриете категория само ако не съдържа продукти!";
+
         private readonly IChildCategoriesService childCategoryService;
         private readonly IParentCategoriesService parentCategoryService;
         private readonly IImagesService imageService;
@@ -136,7 +138,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!this.childCategoryService.DeleteChildCategory(id))
             {
-                this.TempData["error"] = "Може да изтриете категория само ако не съдържа продукти!";
+                this.TempData["error"] = CANNOT_DELETE_CATEGORY_IF_ANY_PRODUCTS;
             }
 
             return RedirectToAction(nameof(All));

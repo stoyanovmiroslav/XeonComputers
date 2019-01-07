@@ -27,7 +27,6 @@ namespace XeonComputers.Components
 
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
 
-                //TODO: AutoMapping
                 var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
                 {
                     Id = x.ProductId,
@@ -41,13 +40,13 @@ namespace XeonComputers.Components
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
+            var shoppingCartSession = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
+            if (shoppingCartSession == null)
             {
-                cart = new List<ShoppingCartProductsViewModel>();
+                shoppingCartSession = new List<ShoppingCartProductsViewModel>();
             }
 
-            return this.View(cart);
+            return this.View(shoppingCartSession);
         }
     }
 }

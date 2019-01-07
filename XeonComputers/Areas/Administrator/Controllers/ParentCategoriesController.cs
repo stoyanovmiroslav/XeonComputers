@@ -13,6 +13,8 @@ namespace XeonComputers.Areas.Administrator.Controllers
 {
     public class ParentCategoriesController : AdministratorController
     {
+        private const string CANNOT_DELETE_CATEGORY_IF_ANY_CHILD_CATEGORY = "Може да изтриете основна категория само ако не съдържа други категории!";
+
         private readonly IParentCategoriesService parentCategoryService;
         private readonly IMapper mapper;
 
@@ -80,7 +82,7 @@ namespace XeonComputers.Areas.Administrator.Controllers
         {
             if (!this.parentCategoryService.DeleteParentCategory(id))
             {
-                this.TempData["error"] = "Може да изтриете основна категория само ако не съдържа други категории!";
+                this.TempData["error"] = CANNOT_DELETE_CATEGORY_IF_ANY_CHILD_CATEGORY;
             }
 
             return RedirectToAction(nameof(All));

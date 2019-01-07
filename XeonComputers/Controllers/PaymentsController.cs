@@ -15,14 +15,13 @@ namespace XeonComputers.Controllers
     {
         private const string PATH_CONFIRMATION_ORDER_EMAIL = "Views/EmailTemplates/ConfirmOrder.cshtml";
         private const string PAYMENT_STATUS_ERROR = "INVOICE={0}:STATUS=ERR\n";
-        //if error for this invoice
         private const string PAYMENT_STATUS_OK = "INVOICE={0}:STATUS=OK\n";
-        //if not recognise this invoice
         private const string PAYMENT_STATUS_NO = "INVOICE={0}:STATUS=NO\n";
         private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
         private const string YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED = "Вашата поръчка беше получена успешно!";
         private const string YOUR_ORDER_WAS_UNSUCCESSFULLY_PAID = "Вашата поръчка не беше платена успешно!";
         private const string INVALID_ORDER = "Невалидна поръчка!";
+
         private const string SUBMIT_URL_DEMO = "https://devep2.datamax.bg/ep2/epay2_demo/";
         private const string SUBMIT_URL = "https://www.epay.bg/";
 

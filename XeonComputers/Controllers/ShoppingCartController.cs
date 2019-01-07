@@ -61,13 +61,13 @@ namespace XeonComputers.Controllers
                 return this.View(shoppingCartProductsViewModel);
             }
 
-            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null || cart.Count == 0)
+            var shoppingCartSession = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
+            if (shoppingCartSession == null || shoppingCartSession.Count == 0)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return this.View(cart);
+            return this.View(shoppingCartSession);
         }
 
         public IActionResult Add(int id, bool direct)
@@ -75,37 +75,32 @@ namespace XeonComputers.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 this.shoppingCartService.AddProductInShoppingCart(id, this.User.Identity.Name);
-
-                if (direct == true)
+            }
+            else
+            {
+                List<ShoppingCartProductsViewModel> shoppingCartSession = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
+                if (shoppingCartSession == null)
                 {
-                    return this.RedirectToAction("Create", "Orders", new { defaultDeliveryPrice = true });
+                    shoppingCartSession = new List<ShoppingCartProductsViewModel>();
                 }
 
-                return this.RedirectToAction(nameof(Index));
-            }
+                if (!shoppingCartSession.Any(x => x.Id == id))
+                {
+                    var product = this.productSevice.GetProductById(id);
 
-            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
-            {
-                cart = new List<ShoppingCartProductsViewModel>();
-            }
+                    var shoppingCart = mapper.Map<ShoppingCartProductsViewModel>(product);
+                    shoppingCart.Quantity = DEFAULT_PRODUCT_QUANTITY;
+                    shoppingCart.TotalPrice = shoppingCart.Quantity * shoppingCart.Price;
 
-            if (!cart.Any(x => x.Id == id))
-            {
-                var product = this.productSevice.GetProductById(id);
+                    shoppingCartSession.Add(shoppingCart);
 
-                var shoppingCart = mapper.Map<ShoppingCartProductsViewModel>(product);
-                shoppingCart.Quantity = DEFAULT_PRODUCT_QUANTITY;
-                shoppingCart.TotalPrice = shoppingCart.Quantity * shoppingCart.Price;
-
-                cart.Add(shoppingCart);
-
-                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, cart);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, shoppingCartSession);
+                }
             }
 
             if (direct == true)
             {
-                return this.RedirectToAction("Create", "Orders", new { defaultDeliveryPrice = true });
+                return this.RedirectToAction("Create", "Orders");
             }
 
             return this.RedirectToAction(nameof(Index));
@@ -120,18 +115,18 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction(nameof(Index));
             }
 
-            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
+            List<ShoppingCartProductsViewModel> shoppingCartSession = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
+            if (shoppingCartSession == null)
             {
-                cart = new List<ShoppingCartProductsViewModel>();
+                return this.RedirectToAction(nameof(Index));
             }
 
-            if (cart.Any(x => x.Id == id))
+            if (shoppingCartSession.Any(x => x.Id == id))
             {
-                var product = cart.First(x => x.Id == id);
-                cart.Remove(product);
+                var product = shoppingCartSession.First(x => x.Id == id);
+                shoppingCartSession.Remove(product);
 
-                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, shoppingCartSession);
             }
 
             return this.RedirectToAction(nameof(Index));
@@ -146,19 +141,19 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction(nameof(Index));
             }
 
-            List<ShoppingCartProductsViewModel> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
-            if (cart == null)
+            List<ShoppingCartProductsViewModel> shoppingCartSession = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
+            if (shoppingCartSession == null)
             {
-                cart = new List<ShoppingCartProductsViewModel>();
+                return this.RedirectToAction(nameof(Index));
             }
 
-            if (cart.Any(x => x.Id == id) && quantity > 0)
+            if (shoppingCartSession.Any(x => x.Id == id) && quantity > 0)
             {
-                var product = cart.First(x => x.Id == id);
+                var product = shoppingCartSession.First(x => x.Id == id);
                 product.Quantity = quantity;
                 product.TotalPrice = quantity * product.Price;
 
-                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY, shoppingCartSession);
             }
 
             return this.RedirectToAction(nameof(Index));

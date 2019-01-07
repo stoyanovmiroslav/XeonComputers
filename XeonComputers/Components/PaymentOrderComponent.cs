@@ -23,6 +23,7 @@ namespace XeonComputers.Components
         private const string URL_PAYMENT_Cancel = "https://xeoncomputers.azurewebsites.net/Payments/UnsuccessfulPayment/{0}";
 
         private const string EASYPAY_URL_DEMO = "https://demo.epay.bg/ezp/reg_bill.cgi?ENCODED={0}&CHECKSUM={1}";
+
         private const string SUBMIT_PAYMENT_URL_DEMO = "https://demo.epay.bg/";
         private const string SUBMIT_PAYMENT_URL = "https://www.epay.bg/";
 

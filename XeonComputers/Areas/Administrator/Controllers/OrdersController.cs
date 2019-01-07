@@ -44,11 +44,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
                 this.TempData["error"] = ERROR_MESSAGE_INVALID_ORDER_NUMBER;
                 return RedirectToAction("Index", "Home");
             }
-            var orderProducts = this.ordersService.OrderProductsByOrderId(id);
 
-            var orderViewModel = mapper.Map<OrderDetailsViewModel>(order);
+            var orderProducts = this.ordersService.OrderProductsByOrderId(id);
             var orderProductsViewModel = mapper.Map<IList<OrderProductsViewModel>>(orderProducts);
 
+            var orderViewModel = mapper.Map<OrderDetailsViewModel>(order);
             orderViewModel.OrderProductsViewModel = orderProductsViewModel;
 
             return this.View(orderViewModel);

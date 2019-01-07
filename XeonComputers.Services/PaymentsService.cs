@@ -32,15 +32,6 @@ namespace XeonComputers.Services
             return this.HmacSha1(this.Encoded, SecretKey);
         }
 
-        public string EasyPay(decimal amount, string description, string expDate, string invoice)
-        {
-            string data = $"MIN={Min}\nINVOICE={invoice}\nAMOUNT={amount}\nEXP_TIME={expDate}\nDESCR={description}";
-
-            this.Encoded = Base64Encode(data);
-
-            return this.HmacSha1(this.Encoded, SecretKey);
-        }
-
         public string GetDencodedData(string encoded, string checksum)
         {
             var checkSumCalc = HmacSha1(encoded, SecretKey);

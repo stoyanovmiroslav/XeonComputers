@@ -20,27 +20,21 @@ namespace XeonComputers.Components
 
         public IViewComponentResult Invoke()
         {
-            if (this.User.Identity.IsAuthenticated)
+            bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
+
+            var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
+
+            var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
             {
-                bool isPartnerOrAdmin = this.User.IsInRole(Role.Admin.ToString()) || this.User.IsInRole(Role.Partner.ToString());
+                Id = x.ProductId,
+                ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
+                Name = x.Product.Name,
+                Price = isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price,
+                Quantity = x.Quantity,
+                TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
+            }).ToList();
 
-                var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
-               
-                //TODO: AutoMapping
-                var shoppingCartProductsViewModel = shoppingCartProducts.Select(x => new ShoppingCartProductsViewModel
-                {
-                    Id = x.ProductId,
-                    ImageUrl = x.Product.Images.FirstOrDefault()?.ImageUrl,
-                    Name = x.Product.Name,
-                    Price = isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price,
-                    Quantity = x.Quantity,
-                    TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
-                }).ToList();
-
-                return this.View(shoppingCartProductsViewModel);
-            }
-
-            return this.View(new List<ShoppingCartProductsViewModel>());
+            return this.View(shoppingCartProductsViewModel);
         }
     }
 }

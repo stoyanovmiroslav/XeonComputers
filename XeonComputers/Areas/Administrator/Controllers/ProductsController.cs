@@ -82,11 +82,11 @@ namespace XeonComputers.Areas.Administrator.Controllers
             {
                 var childCategories = this.childCategoriesService.GetChildCategories();
 
-                ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
-                                                             {
-                                                                 Value = x.Id.ToString(),
-                                                                 Text = x.Name
-                                                             }).ToList();
+                model.ChildCategories = childCategories.Select(x => new SelectListItem
+                                                        {
+                                                            Value = x.Id.ToString(),
+                                                            Text = $"{x.Name} ({x.ParentCategory.Name})"
+                                                        }).ToList();
 
                 return View(model);
             }
@@ -118,13 +118,13 @@ namespace XeonComputers.Areas.Administrator.Controllers
 
             var childCategories = this.childCategoriesService.GetChildCategories();
 
-            ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
-                                                         {
-                                                             Value = x.Id.ToString(),
-                                                             Text = $"{x.Name} ({x.ParentCategory.Name})"
-                                                         }).ToList();
-
             var model = this.mapper.Map<EditProductViewModel>(product);
+
+            model.ChildCategories = childCategories.Select(x => new SelectListItem
+                                    {
+                                        Value = x.Id.ToString(),
+                                        Text = $"{x.Name} ({x.ParentCategory.Name})"
+                                    }).ToList();
 
             return View(model);
         }
@@ -136,11 +136,12 @@ namespace XeonComputers.Areas.Administrator.Controllers
             {
                 var childCategories = this.childCategoriesService.GetChildCategories();
 
-                ViewData["ChildCategoryId"] = childCategories.Select(x => new SelectListItem
-                {
-                    Value = x.Id.ToString(),
-                    Text = x.Name
-                }).ToList();
+                 model.ChildCategories = childCategories.Select(x => new SelectListItem
+                 {
+                     Value = x.Id.ToString(),
+                     Text = $"{x.Name} ({x.ParentCategory.Name})"
+                 }).ToList();
+
 
                 return View(model);
             }
