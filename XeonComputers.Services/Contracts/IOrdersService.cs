@@ -8,7 +8,7 @@ namespace XeonComputers.Services.Contracts
 {
     public interface IOrdersService
     {
-        Order CreateOrder(string username, decimal deliveryPrice);
+        Order CreateOrder(string username);
 
         Order GetProcessingOrder(string username);
 
@@ -16,7 +16,7 @@ namespace XeonComputers.Services.Contracts
 
         Order GetOrderById(int orderId);
 
-        void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId);
+        void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId, decimal deliveryPrice);
 
         void ProcessOrder(int id);
 

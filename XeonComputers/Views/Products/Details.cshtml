@@ -15,7 +15,7 @@
         <div class="zoom">
             <img src="@Model.ImageUrls.FirstOrDefault()" alt="@Model.Name">
         </div>
-        <div class="fb-like mb-3" data-href="https://www.diffchecker.com" data-layout="button_count" data-action="recommend" data-size="large" data-show-faces="true" data-share="true"></div>
+        <div class="fb-like mb-3" data-href="https://xeoncomputers.azurewebsites.net/Products/Details/@Model.Id" data-layout="button_count" data-action="recommend" data-size="large" data-show-faces="true" data-share="true"></div>
         @if (this.User.IsInRole(Role.Admin.ToString()))
         {
             <div class="pb-2">
@@ -90,7 +90,7 @@
                 <p>Успешно оценихте продукта!</p>
             </div>
         </div>
-        <div class="fb-comments" data-href="https://localhost:5001/Products/Details/@Model.Id" data-numposts="5" data-width="100%"></div>
+        <div class="fb-comments" data-href="https://xeoncomputers.azurewebsites.net/Products/Details/@Model.Id" data-numposts="5" data-width="100%"></div>
     </div>
 </div>
 

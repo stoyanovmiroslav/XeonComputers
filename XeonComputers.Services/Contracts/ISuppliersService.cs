@@ -21,5 +21,7 @@ namespace XeonComputers.Services.Contracts
         void Edit(int id, string name, decimal priceToHome, decimal priceToOffice);
 
         Supplier GetSupplierById(int id);
+
+        Supplier GetDefaultSupplier();
     }
 }

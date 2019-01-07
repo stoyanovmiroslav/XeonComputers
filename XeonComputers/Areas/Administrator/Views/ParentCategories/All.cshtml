@@ -6,16 +6,16 @@
     ViewData["Title"] = "Основни категории";
 }
 
-<div class="container shadow">
+<div class="container mobile-fondsize-11">
     <div class="mobile-fondsize-20 h3 text-muted">@ViewData["Title"]</div>
     <table class="table table-hover">
         <thead>
             <tr class="row">
-                <th scope="col" class="col-lg-1 d-flex justify-content-center">#</th>
-                <th scope="col" class="col-lg-2 d-flex justify-content-center">Номер</th>
-                <th scope="col" class="col-lg-3 d-flex justify-content-center">Име</th>
-                <th scope="col" class="col-lg-3 d-flex justify-content-center">Брой категории</th>
-                <th scope="col" class="col-lg-3 d-flex justify-content-center">Действие</th>
+                <th scope="col" class="col-1 d-flex justify-content-center">#</th>
+                <th scope="col" class="col-2 d-flex justify-content-center">Номер</th>
+                <th scope="col" class="col-3 d-flex justify-content-center">Име</th>
+                <th scope="col" class="col-3 d-flex justify-content-center">Брой категории</th>
+                <th scope="col" class="col-3 d-flex justify-content-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -24,13 +24,25 @@
             {
                 count++;
                 <tr class="row">
-                    <td class="col-lg-1 d-flex justify-content-center">@count</td>
-                    <td class="col-lg-2 d-flex justify-content-center">@category.Id</td>
-                    <td class="col-lg-3 d-flex justify-content-center">@category.Name</td>
-                    <td class="col-lg-3 d-flex justify-content-center">@category.ChildCategoriesCount</td>
-                    <td class="col-lg-3 d-flex justify-content-around">
-                        <a asp-controller="ParentCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary btn-sm">Промени</a>
-                        <a asp-controller="ParentCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-danger btn-sm">Изтрий</a>
+                    <td class="col-1 d-flex justify-content-center">
+                        @count
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @category.Id
+                    </td>
+                    <td class="col-3 d-flex justify-content-center">
+                        @category.Name
+                    </td>
+                    <td class="col-3 d-flex justify-content-center">
+                        @category.ChildCategoriesCount
+                    </td>
+                    <td class="col-md-3 d-flex justify-content-around">
+                        <div class="mr-2">
+                            <a asp-controller="ParentCategories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary btn-sm">Промени</a>
+                        </div>
+                        <div class="mr-2">
+                            <a asp-controller="ParentCategories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-danger btn-sm">Изтрий</a>
+                        </div>
                     </td>
                 </tr>
             }

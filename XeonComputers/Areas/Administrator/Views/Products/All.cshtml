@@ -8,11 +8,11 @@
     ViewData["Title"] = "Всички продукти";
 }
 
-<div class="container mobile-fondsize-11 shadow">
+<div class="container mobile-fondsize-11">
     <div class="mobile-fondsize-20 h3 text-muted text-center pb-2">@ViewData["Title"]</div>
     <table class="table table-hover">
         <thead>
-            <tr class="row">
+            <tr class="row d-flex justify-content-around">
                 <th scope="col" class="col-1 d-flex justify-content-center"></th>
                 <th scope="col" class="col-3 d-flex justify-content-center">Име</th>
                 <th scope="col" class="col-1 d-flex justify-content-center">Цена</th>
@@ -24,7 +24,7 @@
         <tbody>
             @foreach (var product in Model)
             {
-                <tr class="row">
+                <tr class="row d-flex justify-content-around">
                     <td class="col-1 d-flex justify-content-center">
                         <img src="@product.Images.FirstOrDefault()?.ImageUrl" width="50" height="50">
                     </td>

@@ -16,6 +16,7 @@
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
     <WebStackScaffolding_DbContextTypeFullName>XeonComputers.Data.XeonDbContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
+    <NameOfLastUsedPublishProfile>xeoncomputers - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

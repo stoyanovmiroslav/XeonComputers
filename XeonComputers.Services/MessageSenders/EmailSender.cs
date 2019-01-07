@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace XeonComputers.Services
 {
@@ -14,16 +15,18 @@ namespace XeonComputers.Services
         private const string SENDER_EMAIL = "no-reply@xeoncomputers.com";
         private const string NAME_OF_THE_SENDER = "Xeon Computers";
 
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        public EmailSender(IConfiguration Configuration)
         {
-            Options = optionsAccessor.Value;
+            this.SendGridKey = Configuration["Authentication:SendGridKey"];
         }
 
-        public AuthMessageSenderOptions Options { get; }
+        public string SendGridUser { get; set; }
+
+        public string SendGridKey { get; set; }
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(Options.SendGridKey, subject, message, email);
+            return Execute(this.SendGridKey, subject, message, email);
         }
 
         public Task Execute(string apiKey, string subject, string message, string email)

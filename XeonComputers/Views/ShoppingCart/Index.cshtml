@@ -3,10 +3,10 @@
     Layout = "Layouts/_LayoutMiddle";
 }
 
-@model IndexShoppingCartProductsViewModel
+@model IList<ShoppingCartProductsViewModel>
 
 <div class="mobile-fondsize-20 h2">@ViewData["Title"]</div>
-<div class="row">
+<div class="row height-300">
     <div class="col-lg-8">
         <div class="container mobile-fondsize-11">
             <table class="table table-hover">
@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in Model.ShoppingCartProducts)
+                    @foreach (var product in Model)
                     {
                         <tr class="row">
                             <td class="col-2 d-flex justify-content-center">
@@ -51,55 +51,17 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="mobile-fondsize-20 h4">Информация за поръчката:</div>
+        <div class="mobile-fondsize-20 text-center h4">Информация за поръчката:</div>
+
         <div class="mt-4">
-            <p class="font-weight-bold text-danger h5 mt-3">Обща сума за продуктите: @(Model.ShoppingCartProducts.Sum(x => x.TotalPrice)) лв.</p>
-            <div class="mb-2 ">
-                <form asp-controller="Orders" asp-action="Create" method="post">
-                    @foreach (var supplier in Model.Suppliers)
-                    {
-                        <div class="form-group mb-0">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>
-                                        @if (supplier.IsDefault)
-                                        {
-                                            <input asp-for="SupplierId" type="radio" value="@supplier.Id" checked />
-                                        }
-                                        else
-                                        {
-                                            <input asp-for="SupplierId" type="radio" value="@supplier.Id" />
-                                        }
-                                        <span class="font-weight-bold">@supplier.Name</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    Aдрес: @supplier.PriceToHome лв. / Oфис: @supplier.PriceToOffice лв.
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <hr class="my-1" />
-                    <span asp-validation-for="SupplierId" class="text-danger"></span>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input asp-for="DeliveryType" type="radio" id="Home" value="Home" checked>
-                                <label for="Home">Доставка до адрес</label>
-                            </div>
-                            <div class="col-md-6">
-                                <input asp-for="DeliveryType" type="radio" id="Office" value="Office">
-                                <label for="Office">Доставка до офис</label>
-                            </div>
-                        </div>
-                    </div>
-                    <span asp-validation-for="DeliveryType" class="text-danger"></span>
-                    <div class="text-right mt-3 mb-3">
-                        <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</button>
-                    </div>
-                </form>
-            </div>
+            <p class="font-weight-bold text-danger h5 mt-3">Обща сума за продуктите: @(Model.Sum(x => x.TotalPrice)) лв.</p>
         </div>
+
+        <div class="text-right mt-3 mb-3">
+            <a asp-controller="Orders" asp-action="Create" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</a>
+        </div>
+        <p class="text-danger h6 text-right">В цената не е влючена доставка.</p>
+        <p class="text-danger h6 text-right">В процеса на поръчка може да изберете предпочитания от вас доставчик.</p>
     </div>
 </div>
 

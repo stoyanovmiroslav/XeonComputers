@@ -86,9 +86,9 @@ namespace XeonComputers
             services.AddScoped<IPartnerRequestsService, PartnerRequestsService>();
             services.AddScoped<IUserRequestsService, UserRequestsService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {

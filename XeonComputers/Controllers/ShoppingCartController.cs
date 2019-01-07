@@ -39,14 +39,6 @@ namespace XeonComputers.Controllers
 
         public IActionResult Index()
         {
-            var suppliers = this.suppliersService.All();
-            var supplierViewModels = mapper.Map<IList<SupplierViewModel>>(suppliers);
-
-            var indexViewModel = new IndexShoppingCartProductsViewModel
-            {
-                Suppliers = supplierViewModels
-            };
-
             if (this.User.Identity.IsAuthenticated)
             {
                 var shoppingCartProducts = this.shoppingCartService.GetAllShoppingCartProducts(this.User.Identity.Name);
@@ -66,8 +58,8 @@ namespace XeonComputers.Controllers
                     TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
 
-                indexViewModel.ShoppingCartProducts = shoppingCartProductsViewModel;
-                return this.View(indexViewModel);
+               // indexViewModel.ShoppingCartProducts = shoppingCartProductsViewModel;
+                return this.View(shoppingCartProductsViewModel);
             }
 
             var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartProductsViewModel>>(HttpContext.Session, GlobalConstants.SESSION_SHOPPING_CART_KEY);
@@ -76,9 +68,7 @@ namespace XeonComputers.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            indexViewModel.ShoppingCartProducts = cart;
-
-            return this.View(indexViewModel);
+            return this.View(cart);
         }
 
         public IActionResult Add(int id, bool direct)
@@ -89,7 +79,7 @@ namespace XeonComputers.Controllers
 
                 if (direct == true)
                 {
-                    return this.RedirectToAction("Create", "Orders");
+                    return this.RedirectToAction("Create", "Orders", new { defaultDeliveryPrice = true });
                 }
 
                 return this.RedirectToAction(nameof(Index));
@@ -116,7 +106,7 @@ namespace XeonComputers.Controllers
 
             if (direct == true)
             {
-                return this.RedirectToAction("Create", "Orders");
+                return this.RedirectToAction("Create", "Orders", new { defaultDeliveryPrice = true });
             }
 
             return this.RedirectToAction(nameof(Index));
@@ -163,7 +153,7 @@ namespace XeonComputers.Controllers
                 cart = new List<ShoppingCartProductsViewModel>();
             }
 
-            if (cart.Any(x => x.Id == id) && quantity >= 0)
+            if (cart.Any(x => x.Id == id) && quantity > 0)
             {
                 var product = cart.First(x => x.Id == id);
                 product.Quantity = quantity;

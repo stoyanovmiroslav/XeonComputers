@@ -67,24 +67,14 @@ namespace XeonComputers.Services
             this.db.SaveChanges();
         }
 
-        public Order CreateOrder(string username, decimal deliveryPrice)
+        public Order CreateOrder(string username)
         {
             var user = this.userService.GetUserByUsername(username);
-
-            var processingOrder = this.GetProcessingOrder(username);
-            if (processingOrder != null)
-            {
-                processingOrder.DeliveryPrice = deliveryPrice;
-                this.db.SaveChanges();
-
-                return processingOrder;
-            }
 
             var order = new Order
             {
                 Status = Enums.OrderStatus.Processing,
                 XeonUser = user,
-                DeliveryPrice = deliveryPrice
             };
 
             this.db.Orders.Add(order);
@@ -146,12 +136,13 @@ namespace XeonComputers.Services
             return order;
         }
 
-        public void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId)
+        public void SetOrderDetails(Order order, string fullName, string phoneNumber, PaymentType paymentType, int deliveryAddressId, decimal deliveryPrice)
         {
             order.Recipient = fullName;
             order.RecipientPhoneNumber = phoneNumber;
             order.PaymentType = paymentType;
             order.DeliveryAddressId = deliveryAddressId;
+            order.DeliveryPrice = deliveryPrice;
 
             this.db.Update(order);
             this.db.SaveChanges();

@@ -32,8 +32,7 @@ namespace XeonComputers.Services.Tests
                         .Returns(user);
 
             var ordersService = new OrdersService(usersService.Object, shoppingCartsService.Object, dbContext);
-            var deliveryPrice = 5;
-            ordersService.CreateOrder(username, deliveryPrice);
+            ordersService.CreateOrder(username);
 
             var orders = dbContext.Orders.ToList();
 
@@ -67,8 +66,7 @@ namespace XeonComputers.Services.Tests
 
             var ordersService = new OrdersService(usersService.Object, shoppingCartsService.Object, dbContext);
 
-            var deliveryPrice = 5;
-            var order = ordersService.CreateOrder(user.UserName, deliveryPrice);
+            var order = ordersService.CreateOrder(user.UserName);
 
             Assert.Equal(1, order.Id);
         }
@@ -402,7 +400,8 @@ namespace XeonComputers.Services.Tests
 
             var recipient = "Ivan Ivanov";
             var recipientPhoneNumber = "09823222112";
-            ordersService.SetOrderDetails(order, recipient, recipientPhoneNumber, PaymentType.CashОnDelivery, address.Id);
+            var deliveryPrice = 4.50M;
+            ordersService.SetOrderDetails(order, recipient, recipientPhoneNumber, PaymentType.CashОnDelivery, address.Id, deliveryPrice);
 
             Assert.Equal(recipient, order.Recipient);
             Assert.Equal(recipientPhoneNumber, order.RecipientPhoneNumber);

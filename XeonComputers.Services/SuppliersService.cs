@@ -11,8 +11,6 @@ namespace XeonComputers.Services
 {
     public class SuppliersService : ISuppliersService
     {
-        private const decimal DEFAULT_SUPPLIER_PRICE = 5.00M;
-
         private readonly XeonDbContext db;
 
         public SuppliersService(XeonDbContext db)
@@ -69,7 +67,7 @@ namespace XeonComputers.Services
 
             if (supplier == null)
             {
-                return DEFAULT_SUPPLIER_PRICE;
+                return this.GetDefaultSupplier().PriceToHome;
             }
 
             if (deliveryType == DeliveryType.Home)
@@ -81,7 +79,7 @@ namespace XeonComputers.Services
                 return supplier.PriceToOffice;
             }
 
-            return DEFAULT_SUPPLIER_PRICE;
+            return this.GetDefaultSupplier().PriceToHome;
         }
 
         public bool Delete(int id)
@@ -118,6 +116,11 @@ namespace XeonComputers.Services
         public Supplier GetSupplierById(int id)
         {
             return this.db.Suppliers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Supplier GetDefaultSupplier()
+        {
+            return this.db.Suppliers.FirstOrDefault(x => x.IsDefault == true);
         }
     }
 }

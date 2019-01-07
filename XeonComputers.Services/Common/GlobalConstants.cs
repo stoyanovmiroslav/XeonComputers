@@ -16,5 +16,8 @@ namespace XeonComputers.Services.Common
 
         public const string PRODUCT_PATH_TEMPLATE = "wwwroot/images/Products/image{0}.jpg";
         public const string PRODUCT_SRC_ROOT_TEMPLATE = "/images/Products/image{0}.jpg";
+
+        public const string CONFIRM_ORDER_EMAIL_TEMPLATE = "<p>Здравей,</p><p> Благодарим ти за направената поръчка!</p><div><div class=\"card card-body\"><div><strong>Име:</strong> {0}</div><div><strong>Телефонен номер:</strong> {1}</div><div><strong>Град:</strong> {2}, {3}</div><div><strong>Адрес:</strong> {4} {5}</div><div><strong>Цена:</strong> {6}лв. (В цената не е включена доставката.)</div></div></div>";
+
     }
 }

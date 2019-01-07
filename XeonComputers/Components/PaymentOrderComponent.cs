@@ -16,9 +16,13 @@ namespace XeonComputers.Components
     public class PaymentOrderComponent : ViewComponent
     {
         private const string DESCRIPTION = "Xeon Computers поръчка номер {0}";
-        private const string URL_PAYMENT_OK = "https://localhost:44374/Payments/SuccessfulPayment/{0}";
-        private const string URL_PAYMENT_Cancel = "https://localhost:44374/Payments/UnsuccessfulPayment/{0}";
+        private const string ERROR_INVALID_ORDER_TRY_AGAIN = "Невалидна поръчка, моля опитайте отново!";
+        private const int ORDER_EXPIRE_DAYS = 2;
 
+        private const string URL_PAYMENT_OK = "https://xeoncomputers.azurewebsites.net/Payments/SuccessfulPayment/{0}";
+        private const string URL_PAYMENT_Cancel = "https://xeoncomputers.azurewebsites.net/Payments/UnsuccessfulPayment/{0}";
+
+        private const string EASYPAY_URL_DEMO = "https://demo.epay.bg/ezp/reg_bill.cgi?ENCODED={0}&CHECKSUM={1}";
         private const string SUBMIT_PAYMENT_URL_DEMO = "https://demo.epay.bg/";
         private const string SUBMIT_PAYMENT_URL = "https://www.epay.bg/";
 
@@ -36,13 +40,13 @@ namespace XeonComputers.Components
             var order = this.ordersService.GetOrderById(orderId);
             if (order == null)
             {
-                TempData["error"] = "Невалидна поръчка, моля опитайте отново!";
+                TempData["error"] = ERROR_INVALID_ORDER_TRY_AGAIN;
                 return this.View(new PayViewModel());
             }
 
             var description = string.Format(DESCRIPTION, orderId);
             var invoce = order.InvoiceNumber;
-            var expDate = DateTime.UtcNow.AddDays(2).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+            var expDate = DateTime.UtcNow.AddDays(ORDER_EXPIRE_DAYS).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             var checkSum = this.paymentsService.GetEncodedData(order.TotalPrice, description, expDate, invoce);
 
@@ -51,8 +55,7 @@ namespace XeonComputers.Components
             {
                 using (var client = new HttpClient())
                 {
-                    var uri = new Uri($"https://demo.epay.bg/ezp/reg_bill.cgi?ENCODED={this.paymentsService.Encoded}&CHECKSUM={checkSum}");
-
+                    var uri = new Uri(string.Format(EASYPAY_URL_DEMO, this.paymentsService.Encoded, checkSum));
                     var response = client.GetAsync(uri).GetAwaiter().GetResult();
 
                     easyPayNumber = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();

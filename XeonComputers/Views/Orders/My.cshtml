@@ -10,8 +10,8 @@
     <table class="table table-hover">
         <thead>
             <tr class="row">
-                <th scope="col" class="col-2 d-flex justify-content-center">Номер</th>
-                <th scope="col" class="col-2 d-flex justify-content-center">Статус</th>
+                <th scope="col" class="col-1 d-flex justify-content-center">#</th>
+                <th scope="col" class="col-3 d-flex justify-content-center">Статус</th>
                 <th scope="col" class="col-2 d-flex justify-content-center">Тип на плащане</th>
                 <th scope="col" class="col-2 d-flex justify-content-center">Цена</th>
                 <th scope="col" class="col-2 d-flex justify-content-center"></th>
@@ -22,10 +22,10 @@
             @foreach (var order in Model)
             {
                 <tr class="row">
-                    <td class="col-2 d-flex justify-content-center">
+                    <td class="col-1 d-flex justify-content-center">
                         @order.Id
                     </td>
-                    <td class="col-2 d-flex justify-content-center">
+                    <td class="col-3 d-flex justify-content-center">
                         @order.Status
                     </td>
                     <td class="col-2 d-flex justify-content-center">

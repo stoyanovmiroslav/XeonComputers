@@ -16,59 +16,99 @@
         {
             <p>Все още нямате добавени адреси във вашия профил.</p>
         }
-        <div class="h5 font-weight-bold mt-3 text-center">Адрес за доставка:</div>
-        <form method="post" asp-controller="Orders" asp-action="SetOrderDetails">
-            <ul class="list-group">
-                @foreach (var address in Model.OrderAddressesViewModel)
+            <form method="post" asp-controller="Orders" asp-action="Create">
+                <div class="h5 font-weight-bold mt-3 text-center">Адрес за доставка:</div>
+                <div class="form-group border-primary mb-0">
+                    <ul class="list-group">
+                        @foreach (var address in Model.OrderAddressesViewModel)
+                        {
+                            <li class="list-group-item">
+                                <label>
+                                    <input asp-for="DeliveryAddressId" type="radio" value="@address.Id" checked />
+                                    @address.Street @address.Description, @address.CityName,  @address.CityPostcode
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <span asp-validation-for="DeliveryAddressId" class="text-danger"></span>
+                </div>
+                <div class="text-right mt-3">
+                    <a class="btn btn-sm btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Нов адрес</a>
+                </div>
+                <div class="h5 font-weight-bold text-center">Данни на получателя:</div>
+                <div class="form-group">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" class="form-control" placeholder="Име и фамилия" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Телефонен номер" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="h5 font-weight-bold text-center">Данни за доставката:</div>
+                @foreach (var supplier in Model.SuppliersViewModel)
                 {
-                    <li class="list-group-item">
-                        <div class="form-group border-primary mb-0">
-                            <label>
-                                <input asp-for="DeliveryAddressId" type="radio" value="@address.Id" checked />
-                                @address.Street @address.Description, @address.CityName,  @address.CityPostcode
-                            </label>
+                    <div class="form-group mb-0">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>
+                                    @if (supplier.IsDefault)
+                                    {
+                                        <input asp-for="SupplierId" type="radio" value="@supplier.Id" checked />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="SupplierId" type="radio" value="@supplier.Id" />
+                                    }
+                                    <span class="font-weight-bold">@supplier.Name</span>
+                                </label>
+                            </div>
+                            <div class="col-md-8">
+                                Aдрес: @supplier.PriceToHome лв. / Oфис: @supplier.PriceToOffice лв.
+                            </div>
                         </div>
-                    </li>
+                    </div>
                 }
-            </ul>
-            <span asp-validation-for="DeliveryAddressId" class="text-danger"></span>
-            <div class="text-right mt-3">
-                <a class="btn btn-sm btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Нов адрес</a>
-            </div>
-            <div class="h5 font-weight-bold text-center">Данни на получателя:</div>
-            <div class="form-group">
-                <label asp-for="FullName"></label>
-                <input asp-for="FullName" class="form-control" placeholder="Име и фамилия" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Телефонен номер" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                <hr class="my-1" />
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input asp-for="DeliveryType" type="radio" id="Home" value="Home" checked>
+                            <label for="Home">Доставка до адрес</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input asp-for="DeliveryType" type="radio" id="Office" value="Office">
+                            <label for="Office">Доставка до офис</label>
+                        </div>
+                    </div>
+                </div>
+                <span asp-validation-for="DeliveryType" class="text-danger"></span>
                 <div class="h5 font-weight-bold text-center">Метод на плащане:</div>
-                <div>
-                    <input asp-for="PaymentType" type="radio" id="Epay" value="Epay" checked>
-                    <label for="Epay">ePay.bg</label>
+                <div class="form-group">
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="Epay" value="Epay" checked>
+                        <label for="Epay">ePay.bg</label>
+                    </div>
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="Card" value="Card">
+                        <label for="Card">Visa, MasterCard и др.</label>
+                    </div>
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="EasyPay" value="EasyPay">
+                        <label for="EasyPay">В брой (Изипей)</label>
+                    </div>
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
+                        <label for="CashОnDelivery">Наложен платеж</label>
+                    </div>
                 </div>
-                <div>
-                    <input asp-for="PaymentType" type="radio" id="Card" value="Card">
-                    <label for="Card">Visa, MasterCard и др.</label>
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+                <div class="text-right mt-3 mb-3">
+                    <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</button>
                 </div>
-                <div>
-                    <input asp-for="PaymentType" type="radio" id="EasyPay" value="EasyPay">
-                    <label for="EasyPay">В брой (Изипей)</label>
-                </div>
-                <div>
-                    <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
-                    <label for="CashОnDelivery">Наложен платеж</label>
-                </div>
-            </div>
-            <div class="text-center mt-3 mb-3">
-                <button type="submit" class="form-group btn btn-success btn-lg mb-0">Продължи с поръчката</button>
-            </div>
-        </form>
+            </form>
     </div>
     <div class="col-md-6">
         <div class="h5 mt-3 text-center text-white">Друга информация:</div>
@@ -103,8 +143,6 @@
             </div>
         </div>
         @await Component.InvokeAsync(typeof(ShoppingCartComponent))
-        <p class="text-danger h6 text-right">Цена за доставка: @Model.DeliveryPrice лв.</p>
-        <p class="text-danger h6 text-right">(Цената за доставка ще бъде платена директно на доставчика!)</p>
     </div>
 </div>
 

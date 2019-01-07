@@ -19,6 +19,7 @@ namespace XeonComputers.Common
         public const string PRODUCT_PATH_TEMPLATE = "wwwroot/images/Products/image{0}.jpg";
         public const string PRODUCT_SRC_ROOT_TEMPLATE = "/images/Products/image{0}.jpg";
 
-        public const string URL_TEMPLATE_AUTOCOMPLETE = "https://localhost:44374/Products/Details/{0}";
+        public const string URL_TEMPLATE_AUTOCOMPLETE = "https://xeoncomputers.azurewebsites.net/Products/Details/{0}";
+
     }
 }

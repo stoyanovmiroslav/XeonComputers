@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using XeonComputers.Areas.Administrator.ViewModels.Suppliers;
 using XeonComputers.Models.Enums;
 
 namespace XeonComputers.ViewModels.Orders
 {
     public class CreateOrderViewModel
     {
-        public List<OrderAdressViewModel> OrderAddressesViewModel { get; set; }
+        public IList<OrderAdressViewModel> OrderAddressesViewModel { get; set; }
 
         public OrderAdressViewModel OrderAdressViewModel { get; set; }
+
+        public IList<SupplierViewModel> SuppliersViewModel { get; set; }
+
+        [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
+        public DeliveryType DeliveryType { get; set; }
+
+        [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
+        public int SupplierId { get; set; }
 
         [Display(Name = "Адрес на получаване")]
         [Required(ErrorMessage = "Моля изберете \"{0}\".")]
@@ -28,7 +37,5 @@ namespace XeonComputers.ViewModels.Orders
         [Display(Name = "Начин на плащане")]
         [Required(ErrorMessage = "Моля изберете \"{0}\".")]
         public PaymentType PaymentType { get; set; }
-
-        public decimal DeliveryPrice { get; set; }
     }
 }
