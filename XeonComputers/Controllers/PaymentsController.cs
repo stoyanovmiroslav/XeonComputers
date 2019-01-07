@@ -82,16 +82,17 @@ namespace XeonComputers.Controllers
             }
 
             var data = encodedData.Split(":");
+
             var invoiceKeyValue = data.FirstOrDefault(x => x.Contains("INVOICE"));
-            var invoice = invoiceKeyValue.Split("=").Last();
-
             var paymentStatusKeyValue = data.FirstOrDefault(x => x.Contains("STATUS"));
-            var status = paymentStatusKeyValue.Split("=").Last();
 
-            if (invoice == null || status == null)
+            if (invoiceKeyValue == null || paymentStatusKeyValue == null)
             {
                 return Content(string.Format(PAYMENT_STATUS_ERROR, null));
             }
+
+            var invoice = invoiceKeyValue.Split("=").Last();
+            var status = paymentStatusKeyValue.Split("=").Last();
 
             bool isStatusSet = ordersService.SetOrderStatusByInvoice(invoice, status);
             if (!isStatusSet)
