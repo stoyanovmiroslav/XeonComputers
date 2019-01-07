@@ -212,7 +212,7 @@ namespace XeonComputers.Services
 
         public bool SetOrderStatusByInvoice(string invoiceNumber, string status)
         {
-            var isOrderStatus = Enum.TryParse(typeof(OrderStatus), status, true, out object orderStatus);
+            var isOrderStatus = Enum.TryParse(typeof(PaymentStatus), status, true, out object paymentStatus);
             var order = this.db.Orders.FirstOrDefault(x => x.InvoiceNumber == invoiceNumber);
 
             if (order == null || !isOrderStatus)
@@ -220,7 +220,7 @@ namespace XeonComputers.Services
                 return false;
             }
 
-            order.Status = (OrderStatus)orderStatus;
+            order.PaymentStatus = (PaymentStatus)paymentStatus;
             this.db.SaveChanges();
             return true;
         }

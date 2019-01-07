@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using XeonComputers.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
+using XeonComputers.Data;
 
 namespace XeonComputers.Controllers
 {
-    [Authorize]
     public class PaymentsController : BaseController
     {
         private const string PATH_CONFIRMATION_ORDER_EMAIL = "Views/EmailTemplates/ConfirmOrder.cshtml";
         private const string PAYMENT_STATUS_ERROR = "INVOICE={0}:STATUS=ERR\n";
         //if error for this invoice
-        private const string PAYMENT_STATUS_OK = "INVOICE={invoice}:STATUS=OK\n";
+        private const string PAYMENT_STATUS_OK = "INVOICE={0}:STATUS=OK\n";
         //if not recognise this invoice
-        private const string PAYMENT_STATUS_NO = "INVOICE=$invoice:STATUS=NO\n";
+        private const string PAYMENT_STATUS_NO = "INVOICE={0}:STATUS=NO\n";
         private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
         private const string YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED = "Вашата поръчка беше получена успешно!";
         private const string YOUR_ORDER_WAS_UNSUCCESSFULLY_PAID = "Вашата поръчка не беше платена успешно!";
@@ -31,17 +31,21 @@ namespace XeonComputers.Controllers
         private readonly IUsersService usersService;
         private readonly IEmailService emailService;
         private readonly IMapper mapper;
+        private readonly XeonDbContext dbContext;
 
         public PaymentsController(IPaymentsService paymentService, IOrdersService ordersService,
-                                  IUsersService usersService, IEmailService emailService, IMapper mapper)
+                                  IUsersService usersService, IEmailService emailService, IMapper mapper,
+                                  XeonDbContext dbContext)
         {
             this.paymentService = paymentService;
             this.ordersService = ordersService;
             this.usersService = usersService;
             this.emailService = emailService;
             this.mapper = mapper;
+            this.dbContext = dbContext;
         }
 
+        [Authorize]
         public async Task<IActionResult> SuccessfulPayment(int id)
         {
             var order = this.ordersService.GetOrderById(id);
@@ -59,6 +63,7 @@ namespace XeonComputers.Controllers
             return this.RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public IActionResult UnsuccessfulPayment(int id)
         {
             this.TempData["info"] = YOUR_ORDER_WAS_UNSUCCESSFULLY_PAID;
@@ -76,12 +81,12 @@ namespace XeonComputers.Controllers
                 return Content(string.Format(PAYMENT_STATUS_ERROR, null));
             }
 
-            var data = encoded.Split("\n");
+            var data = encodedData.Split(":");
             var invoiceKeyValue = data.FirstOrDefault(x => x.Contains("INVOICE"));
             var invoice = invoiceKeyValue.Split("=").Last();
 
             var paymentStatusKeyValue = data.FirstOrDefault(x => x.Contains("STATUS"));
-            var status = invoiceKeyValue.Split("=").Last();
+            var status = paymentStatusKeyValue.Split("=").Last();
 
             if (invoice == null || status == null)
             {
