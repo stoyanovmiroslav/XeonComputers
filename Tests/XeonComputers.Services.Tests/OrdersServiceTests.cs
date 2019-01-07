@@ -40,38 +40,6 @@ namespace XeonComputers.Services.Tests
         }
 
         [Fact]
-        public void CreateOrderWithProcessingOrderShouldReturnProcessingOrder()
-        {
-            var options = new DbContextOptionsBuilder<XeonDbContext>()
-                    .UseInMemoryDatabase(databaseName: "CreateOrderProcessingOrder_Orders_Database")
-                    .Options;
-            var dbContext = new XeonDbContext(options);
-
-            var shoppingCartsService = new Mock<IShoppingCartsService>();
-
-            var user = new XeonUser
-            {
-                UserName = "user@gmail.com",
-                Orders = new List<Order>
-                {
-                    new Order { Id = 1, Status = OrderStatus.Processing }
-                }
-            };
-            dbContext.Users.Add(user);
-            dbContext.SaveChanges();
-
-            var usersService = new Mock<IUsersService>();
-            usersService.Setup(u => u.GetUserByUsername(user.UserName))
-                            .Returns(dbContext.Users.FirstOrDefault(x => x.UserName == user.UserName));
-
-            var ordersService = new OrdersService(usersService.Object, shoppingCartsService.Object, dbContext);
-
-            var order = ordersService.CreateOrder(user.UserName);
-
-            Assert.Equal(1, order.Id);
-        }
-
-        [Fact]
         public void GetProcessingOrderShouldReturnProcessingOrder()
         {
             var options = new DbContextOptionsBuilder<XeonDbContext>()

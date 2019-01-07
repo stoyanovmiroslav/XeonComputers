@@ -57,8 +57,7 @@ namespace XeonComputers.Controllers
                     Quantity = x.Quantity,
                     TotalPrice = x.Quantity * (isPartnerOrAdmin ? x.Product.ParnersPrice : x.Product.Price)
                 }).ToList();
-
-               // indexViewModel.ShoppingCartProducts = shoppingCartProductsViewModel;
+                
                 return this.View(shoppingCartProductsViewModel);
             }
 
