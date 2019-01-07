@@ -31,18 +31,15 @@ namespace XeonComputers.Controllers
         private readonly IUsersService usersService;
         private readonly IEmailService emailService;
         private readonly IMapper mapper;
-        private readonly XeonDbContext dbContext;
 
         public PaymentsController(IPaymentsService paymentService, IOrdersService ordersService,
-                                  IUsersService usersService, IEmailService emailService, IMapper mapper,
-                                  XeonDbContext dbContext)
+                                  IUsersService usersService, IEmailService emailService, IMapper mapper)
         {
             this.paymentService = paymentService;
             this.ordersService = ordersService;
             this.usersService = usersService;
             this.emailService = emailService;
             this.mapper = mapper;
-            this.dbContext = dbContext;
         }
 
         [Authorize]
@@ -78,7 +75,7 @@ namespace XeonComputers.Controllers
 
             if (encodedData == null)
             {
-                return Content(string.Format(PAYMENT_STATUS_ERROR, null));
+                return Content(string.Format(PAYMENT_STATUS_ERROR, string.Empty));
             }
 
             var data = encodedData.Split(":");
@@ -88,7 +85,7 @@ namespace XeonComputers.Controllers
 
             if (invoiceKeyValue == null || paymentStatusKeyValue == null)
             {
-                return Content(string.Format(PAYMENT_STATUS_ERROR, null));
+                return Content(string.Format(PAYMENT_STATUS_ERROR, string.Empty));
             }
 
             var invoice = invoiceKeyValue.Split("=").Last();
