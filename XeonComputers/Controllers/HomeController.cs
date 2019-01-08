@@ -20,6 +20,7 @@ namespace XeonComputers.Controllers
         private const int DEFAULT_PAGE_SIZE = 8;
         private const int DEFAULT_PAGE_NUMBER = 1;
         private const string YOUR_REQUEST_WAS_ACCEPTED = "Благодарим ви! Вашето запитване беше приета успешно!";
+        private const string NO_RESULTS_FOUND = "Няма намерени резултати";
 
         private readonly IChildCategoriesService childCategoryService;
         private readonly IParentCategoriesService parentCategoryService;
@@ -55,7 +56,7 @@ namespace XeonComputers.Controllers
 
             model.ProductsViewModel = pageProductsViewMode;
             model.CategoriesViewModel = categoriesViewModel;
- 
+
             return View(model);
         }
 
@@ -63,10 +64,18 @@ namespace XeonComputers.Controllers
         {
             var products = this.productService.GetProductsBySearch(term);
 
-            var result = products.Select(x => new
+            if (products.Count() == 0)
             {
-                value = x.Name,
-                url = string.Format(GlobalConstants.URL_TEMPLATE_AUTOCOMPLETE, x.Id)
+                return Json(new List<SearchViewModel>
+                {
+                    new SearchResult {Value = NO_RESULTS_FOUND, Url = string.Empty }
+                });
+            }
+
+            var result = products.Select(x => new SearchViewModel
+            {
+                Value = x.Name,
+                Url = string.Format(GlobalConstants.URL_TEMPLATE_AUTOCOMPLETE, x.Id)
             });
 
             return Json(result);
@@ -126,4 +135,6 @@ namespace XeonComputers.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+
 }

@@ -147,11 +147,6 @@ namespace XeonComputers.Services
             {
                 return null;
             }
-
-            //if (product.Images == null)
-            //{
-            //    product.Images = new List<Image>();
-            //}
             
             return product.Images.ToList();
         }
