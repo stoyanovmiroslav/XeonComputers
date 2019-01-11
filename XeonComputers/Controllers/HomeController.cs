@@ -68,7 +68,7 @@ namespace XeonComputers.Controllers
             {
                 return Json(new List<SearchViewModel>
                 {
-                    new SearchResult {Value = NO_RESULTS_FOUND, Url = string.Empty }
+                    new SearchViewModel {Value = NO_RESULTS_FOUND, Url = string.Empty }
                 });
             }
 
@@ -135,6 +135,4 @@ namespace XeonComputers.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
-
 }
