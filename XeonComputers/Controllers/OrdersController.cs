@@ -12,6 +12,7 @@ using XeonComputers.Common;
 using XeonComputers.Enums;
 using XeonComputers.Models;
 using XeonComputers.Models.Enums;
+using XeonComputers.Services;
 using XeonComputers.Services.Contracts;
 using XeonComputers.ViewModels.Orders;
 
@@ -23,6 +24,7 @@ namespace XeonComputers.Controllers
         private const string ERROR_MESSAGE_TO_CONTINUE_ADD_PRODUCTS = "За да продължите добавете продукти в кошницата!";
         private const string ERROR_MESSAGE_INVALID_ORDER_NUMBER = "Невалиден номер на поръчка, моля опитайте отново!";
         private const string YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED = "Вашата поръчка беше получена успешно!";
+        private const string REGISTERED_ORDER = "Регистрирана поръчка #{0}";
 
         private readonly IAdressesService adressesService;
         private readonly IUsersService usersService;
@@ -30,11 +32,12 @@ namespace XeonComputers.Controllers
         private readonly IShoppingCartsService shoppingCartService;
         private readonly ISuppliersService suppliersService;
         private readonly IMapper mapper;
-        private readonly IEmailService emailService;
+        private readonly IEmailSender emailSender;
+        private readonly IViewRender viewRender;
 
         public OrdersController(IAdressesService adressesService, IUsersService usersService,
                                 IOrdersService orderService, IShoppingCartsService shoppingCartService,
-                                ISuppliersService suppliersService, IMapper mapper, IEmailService emailService)
+                                ISuppliersService suppliersService, IMapper mapper, IEmailSender emailSender, IViewRender viewRender)
         {
             this.usersService = usersService;
             this.adressesService = adressesService;
@@ -42,7 +45,8 @@ namespace XeonComputers.Controllers
             this.shoppingCartService = shoppingCartService;
             this.suppliersService = suppliersService;
             this.mapper = mapper;
-            this.emailService = emailService;
+            this.emailSender = emailSender;
+            this.viewRender = viewRender;
         }
 
         public IActionResult Create()
@@ -115,7 +119,8 @@ namespace XeonComputers.Controllers
 
             if (order.PaymentType == PaymentType.EasyPay || order.PaymentType == PaymentType.CashОnDelivery)
             {
-                await this.emailService.SentConfirmationOrderEmail(order);
+                var message = this.viewRender.Render("EmailTemplates/ConfirmOrder", order);
+                await this.emailSender.SendEmailAsync(order.XeonUser.Email, string.Format(REGISTERED_ORDER, order.Id), message);
 
                 this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
             }

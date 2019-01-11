@@ -1,11 +1,27 @@
-﻿<p>Здравей,</p>
+﻿@{
+    Layout = null;
+}
+
+@model Order
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+<p>Здравей,</p>
 <p>Благодарим ти за направената поръчка!</p>
 <div>
     <div class="card card-body">
-        <div><strong>Име:</strong> {0}</div>
-        <div><strong>Телефонен номер:</strong> {1}</div>
-        <div><strong>Град:</strong> {2}, {3}</div>
-        <div><strong>Адрес:</strong> {4} {5}</div>
-        <div><strong>Цена:</strong> {6}лв. (В цената не е включена доставката.)</div>
+        <div><strong>Име:</strong> @Model.Recipient</div>
+        <div><strong>Телефонен номер:</strong> @Model.XeonUser.PhoneNumber</div>
+        <div><strong>Град:</strong> @Model.DeliveryAddress.City.Name, @Model.DeliveryAddress.City.Postcode</div>
+        <div><strong>Адрес:</strong>  @Model.DeliveryAddress.Street, @Model.DeliveryAddress.Description</div>
+        <div><strong>Цена:</strong> @Model.TotalPrice лв. (В цената не е включена доставката.)</div>
     </div>
 </div>
+</body>
+</html>

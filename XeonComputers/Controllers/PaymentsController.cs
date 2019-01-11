@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using XeonComputers.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using XeonComputers.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace XeonComputers.Controllers
 {
@@ -28,17 +28,19 @@ namespace XeonComputers.Controllers
         private readonly IOrdersService ordersService;
         private readonly IPaymentsService paymentService;
         private readonly IUsersService usersService;
-        private readonly IEmailService emailService;
+        private readonly IEmailSender emailSender;
         private readonly IMapper mapper;
+        private readonly IViewRender view;
 
         public PaymentsController(IPaymentsService paymentService, IOrdersService ordersService,
-                                  IUsersService usersService, IEmailService emailService, IMapper mapper)
+                                  IUsersService usersService, IEmailSender emailSender, IMapper mapper, IViewRender view)
         {
             this.paymentService = paymentService;
             this.ordersService = ordersService;
             this.usersService = usersService;
-            this.emailService = emailService;
+            this.emailSender = emailSender;
             this.mapper = mapper;
+            this.view = view;
         }
 
         [Authorize]
@@ -52,7 +54,8 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            await emailService.SentConfirmationOrderEmail(order);
+            var message = this.view.Render("EmailTemplates/ConfirmOrder", order);
+            await this.emailSender.SendEmailAsync(order.XeonUser.Email, string.Format(REGISTERED_ORDER, order.Id), message);
 
             this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
 

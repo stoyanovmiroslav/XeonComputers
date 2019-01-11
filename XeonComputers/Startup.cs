@@ -86,7 +86,7 @@ namespace XeonComputers
             services.AddScoped<IPartnerRequestsService, PartnerRequestsService>();
             services.AddScoped<IUserRequestsService, UserRequestsService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IViewRender, ViewRender>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
 
