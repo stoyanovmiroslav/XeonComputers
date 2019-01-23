@@ -7,5 +7,4 @@ https://xeoncomputers.azurewebsites.net
 Test account:
 
 username: admin@gmail.com
-
 password: 123456
