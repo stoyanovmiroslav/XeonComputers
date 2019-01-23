@@ -30,17 +30,17 @@ namespace XeonComputers.Controllers
         private readonly IUsersService usersService;
         private readonly IEmailSender emailSender;
         private readonly IMapper mapper;
-        private readonly IViewRender view;
+        private readonly IViewRender viewRender;
 
         public PaymentsController(IPaymentsService paymentService, IOrdersService ordersService,
-                                  IUsersService usersService, IEmailSender emailSender, IMapper mapper, IViewRender view)
+                                  IUsersService usersService, IEmailSender emailSender, IMapper mapper, IViewRender viewRender)
         {
             this.paymentService = paymentService;
             this.ordersService = ordersService;
             this.usersService = usersService;
             this.emailSender = emailSender;
             this.mapper = mapper;
-            this.view = view;
+            this.viewRender = viewRender;
         }
 
         [Authorize]
@@ -54,7 +54,7 @@ namespace XeonComputers.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            var message = this.view.Render("EmailTemplates/ConfirmOrder", order);
+            var message = this.viewRender.Render("EmailTemplates/ConfirmOrder", order);
             await this.emailSender.SendEmailAsync(order.XeonUser.Email, string.Format(REGISTERED_ORDER, order.Id), message);
 
             this.TempData["info"] = YOUR_ORDER_WAS_SUCCESSFULLY_RECEIVED;
